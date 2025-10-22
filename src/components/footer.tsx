@@ -295,7 +295,7 @@ const Footer = () => {
                   href="#"
                   className="text-muted-foreground hover:text-white transition"
                 >
-                  Today's Paper
+                  Today&apos;s Paper
                 </a>
               </li>
               <li>

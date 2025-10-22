@@ -1,4 +1,3 @@
-import { IMAGES } from "@/lib/constants";
 import Image from "next/image";
 
 const Article = () => {

@@ -1,10 +1,8 @@
 import Article from "@/components/article";
 import Footer from "@/components/footer";
-import Header from "@/components/header";
 import { Separator } from "@/components/ui/separator";
 import { CATEGORIES, IMAGES } from "@/lib/constants";
 import Image from "next/image";
-import Link from "next/link";
 
 const Home = () => {
   return (
