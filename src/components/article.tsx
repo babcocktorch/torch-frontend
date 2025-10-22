@@ -2,8 +2,8 @@ import Image from "next/image";
 
 const Article = () => {
   return (
-    <div className="w-full flex items-start justify-between gap-6    ">
-      <div className="flex flex-col gap-4 w-2/5">
+    <div className="w-full flex flex-col md:flex-row items-start justify-between gap-6">
+      <div className="flex flex-col gap-4 w-full md:w-2/5">
         <p className="text-2xl font-semibold font-miller">
           This is the topic of the article, says Victor
         </p>
@@ -16,7 +16,7 @@ const Article = () => {
         </p>
       </div>
 
-      <div className="w-3/5">
+      <div className="w-full md:w-3/5">
         <Image
           src="/logos/E9sN5jzVUAUgYHn.png"
           alt="article"
