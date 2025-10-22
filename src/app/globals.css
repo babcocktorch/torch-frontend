@@ -1,5 +1,8 @@
 @import "tailwindcss";
+
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
+
 @import "tw-animate-css";
 
 /* Franklin Gothic Font */
@@ -104,9 +107,11 @@
   --radius-xl: calc(var(--radius) + 4px);
 
   /* CUSTOM FONTS */
-  --font-franklin: "Franklin Gothic", sans-serif;
-  --font-georgia: "Georgia", serif;
+  /* --font-franklin: "Franklin Gothic", sans-serif;
+    --font-georgia: "Georgia", serif; */
   --font-miller: "Miller Banner", serif;
+  /* --font-geist: "Geist", sans-serif; */
+  --font-inter: "Inter", sans-serif;
 }
 
 * {
