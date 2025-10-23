@@ -1,3 +1,5 @@
+export const THEME_KEY = "the-babcock-torch-theme";
+
 export const IMAGES = {
   logos: {
     big_moore_white: {
@@ -5,29 +7,40 @@ export const IMAGES = {
       width: 100,
       height: 100,
     },
+    engravers_old_eng_white: {
+      src: "/logos/torch_logotype_engravers_old_eng_white.svg",
+      width: 100,
+      height: 100,
+    },
+    engravers_old_eng_gold: {
+      src: "/logos/torch_logotype_engravers_old_eng_gold.svg",
+      width: 100,
+      height: 100,
+    },
+    big_moore_gold: {
+      src: "/logos/torch_logotype_big_moore_gold.svg",
+      width: 100,
+      height: 100,
+    },
   },
 };
 
-export const CATEGORIES = [
-  "Politics",
+export const MAJOR_CATEGORIES = [
+  "News",
+  "Breaking",
+  "Opinions",
+  "Blogs",
+  "Communities",
   "Business",
-  "Technology",
-  "Science",
-  "Health",
-  "Entertainment",
-  "Sports",
-  "Weather",
-  "Travel",
-  "Food",
-  "Fashion",
-  "Art",
-  "Music",
-  "Movies",
-  "TV",
-  "Books",
-  "Gaming",
-  "Animals",
-  "Environment",
-  "History",
-  "Geography",
+  "Vendors",
+  "Alumni",
+  "Calendar",
+  "Masthead",
+];
+
+export const MINOR_CATEGORIES = [
+  "Top Stories",
+  "Breaking",
+  "Blogs",
+  "Ask the Torch AI",
 ];

@@ -1,50 +1,105 @@
+"use client";
+
 import Article from "@/components/article";
-import Footer from "@/components/footer";
 import { Separator } from "@/components/ui/separator";
-import { CATEGORIES, IMAGES } from "@/lib/constants";
+import { app_theme, is_categories_at_viewport_edge } from "@/lib/atoms";
+import { MAJOR_CATEGORIES, MINOR_CATEGORIES, IMAGES } from "@/lib/constants";
+import { useAtomValue, useSetAtom } from "jotai";
 import Image from "next/image";
+import { useRef, useEffect, useState } from "react";
 
 const Home = () => {
-  return (
-    <main className="w-full max-w-7xl flex flex-col items-center justify-start py-20 gap-16 px-6">
-      {/* <Header />; */}
-      <Image
-        src={IMAGES.logos.big_moore_white.src}
-        alt="The Babcock Torch"
-        width={IMAGES.logos.big_moore_white.width}
-        height={IMAGES.logos.big_moore_white.height}
-        className="w-96 h-auto"
-      />
+  const theme = useAtomValue(app_theme);
+  const setIsCategoriesAtViewportEdge = useSetAtom(
+    is_categories_at_viewport_edge
+  );
 
-      <div className="border-b border-white w-full px-4 py-2 flex items-center justify-start overflow-x-auto">
-        {CATEGORIES.map((c, i) => (
+  const [isBelowThreshold, setIsBelowThreshold] = useState(false);
+  const categoriesRef = useRef<HTMLDivElement | null>(null);
+
+  const THRESHOLD = 640;
+
+  const logo =
+    theme === "dark"
+      ? IMAGES.logos.engravers_old_eng_white
+      : IMAGES.logos.engravers_old_eng_gold;
+
+  const categories = isBelowThreshold ? MINOR_CATEGORIES : MAJOR_CATEGORIES;
+
+  useEffect(() => {
+    if (!categoriesRef.current) return;
+
+    const observer = new window.IntersectionObserver(
+      ([entry]) => {
+        setIsCategoriesAtViewportEdge(!entry.isIntersecting);
+      },
+      {
+        root: null,
+        threshold: 0,
+        rootMargin: "0px",
+      }
+    );
+
+    observer.observe(categoriesRef.current);
+
+    return () => {
+      if (categoriesRef.current) observer.unobserve(categoriesRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      setIsBelowThreshold(width < THRESHOLD);
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [THRESHOLD]);
+
+  return (
+    <main className="w-full max-w-7xl flex flex-col items-center justify-start lg:pt-12 pb-12 gap-6 px-6">
+      <div className="w-full items-center justify-center flex-col hidden lg:flex gap-1">
+        <Image
+          src={logo.src}
+          alt="The Babcock Torch"
+          width={logo.width}
+          height={logo.height}
+          className="w-96 h-auto"
+        />
+
+        <p className="font-miller">
+          The University Daily, Est. {new Date().getFullYear()}
+        </p>
+      </div>
+
+      <div
+        ref={categoriesRef}
+        className="border-b border-muted w-full px-4 py-2 flex items-center justify-start lg:justify-center overflow-x-scroll"
+      >
+        {categories.map((c, i) => (
           <div
             key={i}
-            className="text-white text-sm font-medium bg-transparent rounded-full px-4 py-2 hover:bg-muted cursor-pointer"
+            className="dark:text-white text-black text-sm font-medium bg-transparent rounded-full px-4 py-2 hover:bg-muted cursor-pointer whitespace-nowrap"
           >
             {c}
           </div>
         ))}
       </div>
 
-      <section className="w-full flex flex-col lg:flex-row items-center justify-center gap-4">
-        <div className="w-full lg:w-3/4 flex flex-col gap-6 lg:border-r lg:pr-6">
-          <Article />
-          <Separator />
-          <Article />
-          <Separator />
-          <Article />
-          <Separator />
+      <section className="w-full flex flex-col lg:flex-row items-center justify-center">
+        <div className="w-full lg:w-4/5 flex flex-col gap-6 lg:border-r lg:pr-6 self-stretch">
           <Article />
           <Separator />
         </div>
 
-        <Separator orientation="vertical" className="h-full hidden lg:block" />
-
-        <div className="border-r-2 border-white w-full lg:w-1/4"></div>
+        <div className="w-full lg:w-1/5 self-stretch"></div>
       </section>
-
-      <Footer />
     </main>
   );
 };

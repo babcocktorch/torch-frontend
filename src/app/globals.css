@@ -6,15 +6,15 @@
 @import "tw-animate-css";
 
 /* Franklin Gothic Font */
-@font-face {
+/* @font-face {
   font-family: "Franklin Gothic";
   src: url("/fonts/franklin-gothic/franklin-gothic.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
-}
+} */
 
 /* Georgia Fonts */
-@font-face {
+/* @font-face {
   font-family: "Georgia";
   src: url("/fonts/georgia/georgia-regular.ttf") format("truetype");
   font-weight: normal;
@@ -26,7 +26,7 @@
   src: url("/fonts/georgia/georgia-bold.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
-}
+} */
 
 /* Miller Banner Fonts */
 @font-face {
