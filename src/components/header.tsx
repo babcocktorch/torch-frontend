@@ -39,7 +39,7 @@ const Header = () => {
         />
 
         <p className="font-miller text-xs text-muted-foreground hidden lg:block">
-          The University Daily, Est. {new Date().getFullYear()}
+          The University Daily, Est. 2025
         </p>
       </div>
 

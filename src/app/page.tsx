@@ -73,9 +73,7 @@ const Home = () => {
           className="w-96 h-auto"
         />
 
-        <p className="font-miller">
-          The University Daily, Est. {new Date().getFullYear()}
-        </p>
+        <p className="font-miller">The University Daily, Est. 2025</p>
       </div>
 
       <div
@@ -94,6 +92,13 @@ const Home = () => {
 
       <section className="w-full flex flex-col lg:flex-row items-center justify-center">
         <div className="w-full lg:w-4/5 flex flex-col gap-6 lg:border-r lg:pr-6 self-stretch">
+          <Article />
+          <Article />
+          <Article />
+          <Article />
+          <Article />
+          <Article />
+          <Article />
           <Article />
           <Separator />
         </div>
