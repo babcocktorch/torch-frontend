@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import { cn } from "@/lib/utils";
+import { geist } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   title: "The Babcock Torch",
@@ -15,7 +17,12 @@ const RootLayout = ({
 }>) => {
   return (
     <html lang="en">
-      <body className="antialiased relative dark flex flex-col min-h-screen items-center justify-start font-inter">
+      <body
+        className={cn(
+          "antialiased relative dark flex flex-col min-h-screen items-center justify-start",
+          geist.className
+        )}
+      >
         <Header />
         {children}
         <Footer />

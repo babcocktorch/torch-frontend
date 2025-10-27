@@ -4,6 +4,7 @@ import Article from "@/components/article";
 import { Separator } from "@/components/ui/separator";
 import { app_theme, is_categories_at_viewport_edge } from "@/lib/atoms";
 import { MAJOR_CATEGORIES, MINOR_CATEGORIES, IMAGES } from "@/lib/constants";
+import { playfair } from "@/lib/fonts";
 import { useAtomValue, useSetAtom } from "jotai";
 import Image from "next/image";
 import { useRef, useEffect, useState } from "react";
@@ -73,7 +74,7 @@ const Home = () => {
           className="w-96 h-auto"
         />
 
-        <p className="font-miller">The University Daily, Est. 2025</p>
+        <p className={playfair.className}>The University Daily, Est. 2025</p>
       </div>
 
       <div

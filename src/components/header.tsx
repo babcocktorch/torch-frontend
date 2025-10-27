@@ -8,12 +8,18 @@ import ThemeToggle from "./general/theme-toggle";
 import { Button } from "./ui/button";
 import Sidebar from "./general/sidebar";
 import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
+import { playfair } from "@/lib/fonts";
 
 const Header = () => {
   const theme = useAtomValue(app_theme);
   const isCategoriesAtViewportEdge = useAtomValue(
     is_categories_at_viewport_edge
   );
+
+  const pathname = usePathname();
+
+  const isPostPage = pathname.includes("/post/");
 
   const logo =
     theme === "dark"
@@ -27,7 +33,7 @@ const Header = () => {
       <div
         className={cn(
           "flex items-center justify-center flex-col gap-1 transition-all",
-          isCategoriesAtViewportEdge ? "" : "lg:opacity-0"
+          isPostPage || isCategoriesAtViewportEdge ? "" : "lg:opacity-0"
         )}
       >
         <Image
@@ -38,7 +44,12 @@ const Header = () => {
           className="w-40 sm:w-48 h-auto"
         />
 
-        <p className="font-miller text-xs text-muted-foreground hidden lg:block">
+        <p
+          className={cn(
+            "text-xs text-muted-foreground hidden lg:block",
+            playfair.className
+          )}
+        >
           The University Daily, Est. 2025
         </p>
       </div>

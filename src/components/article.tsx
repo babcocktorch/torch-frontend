@@ -1,10 +1,12 @@
+import { playfair } from "@/lib/fonts";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 const Article = () => {
   return (
     <div className="w-full flex flex-col md:flex-row items-start justify-between gap-6">
       <div className="flex flex-col gap-4 w-full md:w-2/5">
-        <p className="text-2xl font-semibold font-miller">
+        <p className={cn("text-2xl font-semibold", playfair.className)}>
           This is the topic of the article, says Victor
         </p>
         <p className="text-sm text-muted-foreground">

@@ -1,3 +1,4 @@
+export const BASE_URL = "https://the-babcock-torch.vercel.app";
 export const THEME_KEY = "the-babcock-torch-theme";
 
 export const IMAGES = {
@@ -23,6 +24,11 @@ export const IMAGES = {
       height: 100,
     },
   },
+};
+
+export const CREDENTIALS = {
+  sanity_project_id: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "",
+  sanity_dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "",
 };
 
 export const MAJOR_CATEGORIES = [
