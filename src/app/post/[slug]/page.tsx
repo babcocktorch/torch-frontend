@@ -39,6 +39,7 @@ export const generateMetadata = async ({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> => {
   const { slug } = await params;
+
   const post = await sanityClient.fetch(postQuery, { slug });
 
   if (!post) return notFound();

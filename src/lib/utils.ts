@@ -12,3 +12,11 @@ export const readTime = (text: string) => {
   const readTime = Math.ceil(minutes);
   return `${readTime} minute read`;
 };
+
+export const formatDate = (dateString: string) => {
+  return new Date(dateString).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};

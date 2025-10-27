@@ -26,6 +26,11 @@ export const IMAGES = {
   },
 };
 
+export const PAGES = {
+  home: "/",
+  post: (slug: string) => `/post/${slug}`,
+};
+
 export const CREDENTIALS = {
   sanity_project_id: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "",
   sanity_dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "",

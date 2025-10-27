@@ -8,6 +8,23 @@ import { playfair } from "@/lib/fonts";
 import { useAtomValue, useSetAtom } from "jotai";
 import Image from "next/image";
 import { useRef, useEffect, useState } from "react";
+import { sanityClient } from "@/lib/sanity.client";
+import { groq } from "next-sanity";
+import { PostPreview } from "@/lib/types";
+
+const postsQuery = groq`
+  *[_type == "post"] | order(publishedAt desc) {
+    _id,
+    title,
+    "slug": slug.current,
+    mainImage,
+    description,
+    publishedAt,
+    author->{
+      name
+    }
+  }
+`;
 
 const Home = () => {
   const theme = useAtomValue(app_theme);
@@ -16,6 +33,7 @@ const Home = () => {
   );
 
   const [isBelowThreshold, setIsBelowThreshold] = useState(false);
+  const [posts, setPosts] = useState<PostPreview[]>([]);
   const categoriesRef = useRef<HTMLDivElement | null>(null);
 
   const THRESHOLD = 640;
@@ -26,6 +44,18 @@ const Home = () => {
       : IMAGES.logos.engravers_old_eng_gold;
 
   const categories = isBelowThreshold ? MINOR_CATEGORIES : MAJOR_CATEGORIES;
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const postsData = await sanityClient.fetch(postsQuery);
+        setPosts(postsData);
+      } catch (error) {
+        console.error("Failed to fetch posts:", error);
+      }
+    };
+    fetchPosts();
+  }, []);
 
   useEffect(() => {
     if (!categoriesRef.current) return;
@@ -93,14 +123,11 @@ const Home = () => {
 
       <section className="w-full flex flex-col lg:flex-row items-center justify-center">
         <div className="w-full lg:w-4/5 flex flex-col gap-6 lg:border-r lg:pr-6 self-stretch">
-          <Article />
-          <Article />
-          <Article />
-          <Article />
-          <Article />
-          <Article />
-          <Article />
-          <Article />
+          {posts.length > 0 ? (
+            posts.map((post) => <Article key={post._id} post={post} />)
+          ) : (
+            <p>Loading articles...</p>
+          )}
           <Separator />
         </div>
 
