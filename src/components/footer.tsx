@@ -1,7 +1,7 @@
 "use client";
 
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
-import { IMAGES } from "@/lib/constants";
+import { IMAGES, PAGES } from "@/lib/constants";
 import Image from "next/image";
 import Link from "next/link";
 import { app_theme } from "@/lib/atoms";
@@ -19,27 +19,29 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Logo and Socials */}
           <div className="flex flex-col items-start gap-4">
-            <Image
-              src={logo.src}
-              alt="The Babcock Torch"
-              width={logo.width}
-              height={logo.height}
-              className="w-32 h-auto"
-            />
+            <Link href={PAGES.home}>
+              <Image
+                src={logo.src}
+                alt="The Babcock Torch"
+                width={logo.width}
+                height={logo.height}
+                className="w-32 h-auto"
+              />
+            </Link>
             <p className="text-sm text-muted-foreground italic font-miller">
               To Illuminate is To Imagine
             </p>
             <div className="flex items-center gap-4 mt-2">
-              <a href="#" aria-label="YouTube">
+              <a href="#">
                 <FaYoutube size={20} />
               </a>
-              <a href="#" aria-label="Twitter">
+              <a href="#">
                 <FaTwitter size={20} />
               </a>
-              <a href="#" aria-label="Instagram">
+              <a href="#">
                 <FaInstagram size={20} />
               </a>
-              <a href="#" aria-label="Facebook">
+              <a href="#">
                 <FaFacebook size={20} />
               </a>
             </div>
@@ -64,7 +66,7 @@ const Footer = () => {
           {/* Sections */}
           <div>
             <h3 className="font-semibold text-lg mb-4">Sections</h3>
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-3 text-sm">
               {[
                 "News",
                 "Breaking",
@@ -85,7 +87,7 @@ const Footer = () => {
 
           {/* Other Links */}
           <div>
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-3 text-sm">
               {[
                 "Ask The Torch AI",
                 "Masthead",
