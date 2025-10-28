@@ -1,91 +1,115 @@
+"use client";
+
+import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import { IMAGES } from "@/lib/constants";
+import Image from "next/image";
+import Link from "next/link";
+import { app_theme } from "@/lib/atoms";
+import { useAtomValue } from "jotai";
+
 const Footer = () => {
+  const theme = useAtomValue(app_theme);
+
+  const logo =
+    theme === "dark" ? IMAGES.logos.logo_white : IMAGES.logos.logo_gold;
+
   return (
-    <footer className="w-full max-w-7xl pb-16 px-6">
-      <div className="w-full">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 mb-12">
+    <footer className="w-full py-16 px-6 md:px-16">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+          {/* Logo and Socials */}
+          <div className="flex flex-col items-start gap-4">
+            <Image
+              src={logo.src}
+              alt="The Babcock Torch"
+              width={logo.width}
+              height={logo.height}
+              className="w-32 h-auto"
+            />
+            <p className="text-sm text-muted-foreground italic font-miller">
+              To Illuminate is To Imagine
+            </p>
+            <div className="flex items-center gap-4 mt-2">
+              <a href="#" aria-label="YouTube">
+                <FaYoutube size={20} />
+              </a>
+              <a href="#" aria-label="Twitter">
+                <FaTwitter size={20} />
+              </a>
+              <a href="#" aria-label="Instagram">
+                <FaInstagram size={20} />
+              </a>
+              <a href="#" aria-label="Facebook">
+                <FaFacebook size={20} />
+              </a>
+            </div>
+          </div>
+
+          {/* Contact Details */}
           <div>
-            <h3 className="font-bold dark:text-white text-black mb-4">
-              Company
-            </h3>
-            <ul className="space-y-2 text-sm">
+            <h3 className="font-semibold text-lg mb-4">Contact Details</h3>
+            <ul className="space-y-3 text-sm text-muted-foreground">
+              <li>Babcock University, Ilishan-Remo, Ogun State.</li>
               <li>
-                <a
-                  href="#"
-                  className="text-muted-foreground hover:text-black hover:dark:text-white transition"
-                >
-                  About The Post
+                <a href="mailto:editor@babcocktorch.com">
+                  editor@babcocktorch.com
                 </a>
+              </li>
+              <li>
+                <a href="tel:+2349164554748">+234 916 455 4748</a>
               </li>
             </ul>
           </div>
 
+          {/* Sections */}
           <div>
-            <h3 className="font-bold dark:text-white text-black mb-4">
-              Company
-            </h3>
+            <h3 className="font-semibold text-lg mb-4">Sections</h3>
             <ul className="space-y-2 text-sm">
-              <li>
-                <a
-                  href="#"
-                  className="text-muted-foreground hover:text-black hover:dark:text-white transition"
-                >
-                  About The Post
-                </a>
-              </li>
+              {[
+                "News",
+                "Breaking",
+                "Opinions",
+                "Blogs",
+                "Communities",
+                "Business",
+                "Vendors",
+                "Alumni",
+                "Calendar",
+              ].map((item) => (
+                <li key={item}>
+                  <Link href={`/${item.toLowerCase()}`}>{item}</Link>
+                </li>
+              ))}
             </ul>
           </div>
 
+          {/* Other Links */}
           <div>
-            <h3 className="font-bold dark:text-white text-black mb-4">
-              Company
-            </h3>
             <ul className="space-y-2 text-sm">
-              <li>
-                <a
-                  href="#"
-                  className="text-muted-foreground hover:text-black hover:dark:text-white transition"
-                >
-                  About The Post
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="font-bold dark:text-white text-black mb-4">
-              Company
-            </h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <a
-                  href="#"
-                  className="text-muted-foreground hover:text-black hover:dark:text-white transition"
-                >
-                  About The Post
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="font-bold dark:text-white text-black mb-4">
-              Company
-            </h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <a
-                  href="#"
-                  className="text-muted-foreground hover:text-black hover:dark:text-white transition"
-                >
-                  About The Post
-                </a>
-              </li>
+              {[
+                "Ask The Torch AI",
+                "Masthead",
+                "Contact Us",
+                "Advertise",
+                "Donate to The Torch",
+                "Send a News Tip",
+                "Contact the Newsroom",
+                "Contact the Opinions Team",
+                "Request a Correction",
+                "Report a Vulnerability",
+              ].map((item) => (
+                <li key={item}>
+                  <Link href="#">{item}</Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
-        <div className="border-t pt-8 text-center text-sm text-muted-foreground">
-          <p>babcocktorch.com © 2025 The Babcock Torch</p>
+        <div className="border-t border-muted pt-8 text-center text-sm text-muted-foreground">
+          <p>
+            babcocktorch.com © {new Date().getFullYear()} The Babcock Torch
+          </p>
         </div>
       </div>
     </footer>

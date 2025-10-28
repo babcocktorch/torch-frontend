@@ -23,6 +23,16 @@ export const IMAGES = {
       width: 100,
       height: 100,
     },
+    logo_white: {
+      src: "/logos/torch_white.svg",
+      width: 100,
+      height: 100,
+    },
+    logo_gold: {
+      src: "/logos/torch_gold.svg",
+      width: 100,
+      height: 100,
+    },
   },
 };
 
