@@ -38,7 +38,8 @@ export const IMAGES = {
 
 export const PAGES = {
   home: "/",
-  post: (slug: string) => `/post/${slug}`,
+  post: (year: string, month: string, day: string, slug: string) =>
+    `/post/${year}/${month}/${day}/${slug}`,
 };
 
 export const CREDENTIALS = {

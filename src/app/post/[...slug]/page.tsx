@@ -36,9 +36,11 @@ const postQuery = groq`
 export const generateMetadata = async ({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string[] }>;
 }): Promise<Metadata> => {
-  const { slug } = await params;
+  const slug = (await params).slug.pop();
+
+  if (!slug) return notFound();
 
   const post = await sanityClient.fetch(postQuery, { slug });
 
@@ -123,8 +125,14 @@ const ptComponents = {
   },
 };
 
-const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
-  const { slug } = await params;
+const PostPage = async ({
+  params,
+}: {
+  params: Promise<{ slug: string[] }>;
+}) => {
+  const slug = (await params).slug.pop();
+
+  if (!slug) return notFound();
 
   const post = await sanityClient.fetch(postQuery, { slug });
 
