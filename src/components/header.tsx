@@ -1,7 +1,7 @@
 "use client";
 
 import { app_theme, is_categories_at_viewport_edge } from "@/lib/atoms";
-import { IMAGES } from "@/lib/constants";
+import { IMAGES, PAGES } from "@/lib/constants";
 import { useAtomValue } from "jotai";
 import Image from "next/image";
 import ThemeToggle from "./general/theme-toggle";
@@ -10,6 +10,7 @@ import Sidebar from "./general/sidebar";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { playfair } from "@/lib/fonts";
+import Link from "next/link";
 
 const Header = () => {
   const theme = useAtomValue(app_theme);
@@ -36,13 +37,15 @@ const Header = () => {
           isPostPage || isCategoriesAtViewportEdge ? "" : "lg:opacity-0"
         )}
       >
-        <Image
-          src={logo.src}
-          alt="The Babcock Torch"
-          width={logo.width}
-          height={logo.height}
-          className="w-40 sm:w-48 h-auto"
-        />
+        <Link href={PAGES.home}>
+          <Image
+            src={logo.src}
+            alt="The Babcock Torch"
+            width={logo.width}
+            height={logo.height}
+            className="w-40 sm:w-48 h-auto"
+          />
+        </Link>
 
         <p
           className={cn(
