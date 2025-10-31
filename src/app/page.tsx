@@ -11,6 +11,9 @@ import { useRef, useEffect, useState } from "react";
 import { sanityClient } from "@/lib/sanity.client";
 import { groq } from "next-sanity";
 import { PostPreview } from "@/lib/types";
+import { ArrowBigRight, ArrowRight } from "lucide-react";
+import { IoIosArrowForward } from "react-icons/io";
+import { cn } from "@/lib/utils";
 
 const postsQuery = groq`
   *[_type == "post"] | order(publishedAt desc) {
@@ -131,7 +134,65 @@ const Home = () => {
           <Separator />
         </div>
 
-        <div className="w-full lg:w-1/4 self-stretch"></div>
+        <div className="w-full lg:w-1/4 self-stretch lg:pl-6 flex flex-col gap-6">
+          <h6 className="flex items-center justify-start gap-1 font-medium hover:gap-1.5 cursor-pointer transition-all">
+            Opinions <IoIosArrowForward />
+          </h6>
+
+          <div className="pb-6 border-b">
+            <p className="text-muted-foreground text-sm mb-1">
+              Victor Ibironke
+            </p>
+            <h4 className={cn("font-medium text-lg", playfair.className)}>
+              This is Victor's Opinion: I think racism is cool
+            </h4>
+          </div>
+
+          <div className="pb-6 border-b">
+            <p className="text-muted-foreground text-sm mb-1">
+              Victor Ibironke
+            </p>
+            <h4 className={cn("font-medium text-lg", playfair.className)}>
+              This is Victor's Opinion: I think racism is cool
+            </h4>
+          </div>
+
+          <div className="pb-6 border-b">
+            <p className="text-muted-foreground text-sm mb-1">
+              Victor Ibironke
+            </p>
+            <h4 className={cn("font-medium text-lg", playfair.className)}>
+              This is Victor's Opinion: I think racism is cool
+            </h4>
+          </div>
+
+          <div className="pb-6 border-b">
+            <p className="text-muted-foreground text-sm mb-1">
+              Victor Ibironke
+            </p>
+            <h4 className={cn("font-medium text-lg", playfair.className)}>
+              This is Victor's Opinion: I think racism is cool
+            </h4>
+          </div>
+
+          <div className="pb-6 border-b">
+            <p className="text-muted-foreground text-sm mb-1">
+              Victor Ibironke
+            </p>
+            <h4 className={cn("font-medium text-lg", playfair.className)}>
+              This is Victor's Opinion: I think racism is cool
+            </h4>
+          </div>
+
+          <div className="pb-6 border-b">
+            <p className="text-muted-foreground text-sm mb-1">
+              Victor Ibironke
+            </p>
+            <h4 className={cn("font-medium text-lg", playfair.className)}>
+              This is Victor's Opinion: I think racism is cool
+            </h4>
+          </div>
+        </div>
       </section>
     </main>
   );

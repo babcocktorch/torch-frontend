@@ -69,7 +69,7 @@ export const generateMetadata = async ({
     twitter: {
       title: post.title,
       description: post.description,
-      images: urlFor(post.mainImage).width(680).height(340).url() || "",
+      images: urlFor(post.mainImage).width(1200).height(630).url() || "",
       // creator: post.author.twitterUrl
       //   ? `@${post.author.twitterUrl.split("twitter.com/")[1]}`
       //   : "@ibikunle_ibk",
@@ -204,13 +204,13 @@ const PostPage = async ({
           {post.body && (
             <div
               className={cn(
-                "prose prose-lg max-w-none",
-                "prose-headings:font-serif prose-headings:text-foreground",
-                "prose-p:text-foreground prose-p:leading-7",
-                "prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline",
-                "prose-strong:text-foreground prose-strong:font-semibold",
-                "prose-blockquote:border-l-4 prose-blockquote:border-border prose-blockquote:pl-6 prose-blockquote:italic",
-                "prose-ul:text-foreground prose-ol:text-foreground",
+                // "prose prose-lg max-w-none",
+                // "prose-headings:font-serif prose-headings:text-foreground",
+                // "prose-p:text-foreground prose-p:leading-7",
+                // "prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline",
+                // "prose-strong:text-foreground prose-strong:font-semibold",
+                // "prose-blockquote:border-l-4 prose-blockquote:border-border prose-blockquote:pl-6 prose-blockquote:italic",
+                // "prose-ul:text-foreground prose-ol:text-foreground",
                 playfair.className
               )}
             >
