@@ -1,4 +1,3 @@
-import { playfair } from "@/lib/fonts";
 import { cn, formatDate } from "@/lib/utils";
 import Image from "next/image";
 import { urlFor } from "@/lib/sanity.client";

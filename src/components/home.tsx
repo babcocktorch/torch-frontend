@@ -3,22 +3,15 @@
 import Article from "@/components/article";
 import { Separator } from "@/components/ui/separator";
 import { app_theme, is_categories_at_viewport_edge } from "@/lib/atoms";
-import {
-  MAJOR_CATEGORIES,
-  MINOR_CATEGORIES,
-  IMAGES,
-  BASE_URL,
-} from "@/lib/constants";
+import { MAJOR_CATEGORIES, MINOR_CATEGORIES, IMAGES } from "@/lib/constants";
 import { playfair } from "@/lib/fonts";
 import { useAtomValue, useSetAtom } from "jotai";
 import Image from "next/image";
 import { useRef, useEffect, useState } from "react";
-import { sanityClient, urlFor } from "@/lib/sanity.client";
+import { sanityClient } from "@/lib/sanity.client";
 import { groq } from "next-sanity";
 import { PostPreview } from "@/lib/types";
-import { ArrowBigRight, ArrowRight } from "lucide-react";
 import { IoIosArrowForward } from "react-icons/io";
-import { cn } from "@/lib/utils";
 
 const postsQuery = groq`
   *[_type == "post"] | order(publishedAt desc) {
@@ -149,7 +142,7 @@ const Home = () => {
               Victor Ibironke
             </p>
             <h4 className="font-medium text-lg font-miller">
-              This is Victor's Opinion: I think racism is cool
+              This is Victor&apos;s Opinion: I think racism is cool
             </h4>
           </div>
 
@@ -158,7 +151,7 @@ const Home = () => {
               Victor Ibironke
             </p>
             <h4 className="font-medium text-lg font-miller">
-              This is Victor's Opinion: I think racism is cool
+              This is Victor&apos;s Opinion: I think racism is cool
             </h4>
           </div>
 
@@ -167,7 +160,7 @@ const Home = () => {
               Victor Ibironke
             </p>
             <h4 className="font-medium text-lg font-miller">
-              This is Victor's Opinion: I think racism is cool
+              This is Victor&apos;s Opinion: I think racism is cool
             </h4>
           </div>
 
@@ -176,7 +169,7 @@ const Home = () => {
               Victor Ibironke
             </p>
             <h4 className="font-medium text-lg font-miller">
-              This is Victor's Opinion: I think racism is cool
+              This is Victor&apos;s Opinion: I think racism is cool
             </h4>
           </div>
 
@@ -185,7 +178,7 @@ const Home = () => {
               Victor Ibironke
             </p>
             <h4 className="font-medium text-lg font-miller">
-              This is Victor's Opinion: I think racism is cool
+              This is Victor&apos;s Opinion: I think racism is cool
             </h4>
           </div>
 
@@ -194,7 +187,7 @@ const Home = () => {
               Victor Ibironke
             </p>
             <h4 className="font-medium text-lg font-miller">
-              This is Victor's Opinion: I think racism is cool
+              This is Victor&apos;s Opinion: I think racism is cool
             </h4>
           </div>
         </div>
