@@ -148,7 +148,7 @@ const Home = () => {
             <p className="text-muted-foreground text-sm mb-1">
               Victor Ibironke
             </p>
-            <h4 className={cn("font-medium text-lg", playfair.className)}>
+            <h4 className="font-medium text-lg font-miller">
               This is Victor's Opinion: I think racism is cool
             </h4>
           </div>
@@ -157,7 +157,7 @@ const Home = () => {
             <p className="text-muted-foreground text-sm mb-1">
               Victor Ibironke
             </p>
-            <h4 className={cn("font-medium text-lg", playfair.className)}>
+            <h4 className="font-medium text-lg font-miller">
               This is Victor's Opinion: I think racism is cool
             </h4>
           </div>
@@ -166,7 +166,7 @@ const Home = () => {
             <p className="text-muted-foreground text-sm mb-1">
               Victor Ibironke
             </p>
-            <h4 className={cn("font-medium text-lg", playfair.className)}>
+            <h4 className="font-medium text-lg font-miller">
               This is Victor's Opinion: I think racism is cool
             </h4>
           </div>
@@ -175,7 +175,7 @@ const Home = () => {
             <p className="text-muted-foreground text-sm mb-1">
               Victor Ibironke
             </p>
-            <h4 className={cn("font-medium text-lg", playfair.className)}>
+            <h4 className="font-medium text-lg font-miller">
               This is Victor's Opinion: I think racism is cool
             </h4>
           </div>
@@ -184,7 +184,7 @@ const Home = () => {
             <p className="text-muted-foreground text-sm mb-1">
               Victor Ibironke
             </p>
-            <h4 className={cn("font-medium text-lg", playfair.className)}>
+            <h4 className="font-medium text-lg font-miller">
               This is Victor's Opinion: I think racism is cool
             </h4>
           </div>
@@ -193,7 +193,7 @@ const Home = () => {
             <p className="text-muted-foreground text-sm mb-1">
               Victor Ibironke
             </p>
-            <h4 className={cn("font-medium text-lg", playfair.className)}>
+            <h4 className="font-medium text-lg font-miller">
               This is Victor's Opinion: I think racism is cool
             </h4>
           </div>

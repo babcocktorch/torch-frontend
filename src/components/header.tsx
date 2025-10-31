@@ -20,7 +20,8 @@ const Header = () => {
 
   const pathname = usePathname();
 
-  const isPostPage = pathname.includes("/post/");
+  const shouldShowLogo =
+    pathname.includes("/post") || pathname.includes("/search");
 
   const logo =
     theme === "dark"
@@ -34,7 +35,7 @@ const Header = () => {
       <div
         className={cn(
           "flex items-center justify-center flex-col gap-1 transition-all",
-          isPostPage || isCategoriesAtViewportEdge ? "" : "lg:opacity-0"
+          shouldShowLogo || isCategoriesAtViewportEdge ? "" : "lg:opacity-0"
         )}
       >
         <Link href={PAGES.home}>

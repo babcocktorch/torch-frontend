@@ -17,7 +17,7 @@ const Article = ({ post }: ArticleProps) => {
     <Link href={postUrl}>
       <div className="w-full flex flex-col md:flex-row items-start justify-between gap-6 cursor-pointer group">
         <div className="flex flex-col gap-4 w-full md:w-2/5">
-          <p className={cn("text-2xl font-semibold", playfair.className)}>
+          <p className={cn("text-2xl font-semibold font-miller")}>
             {post.title}
           </p>
           <p className="text-muted-foreground">{post.description}</p>

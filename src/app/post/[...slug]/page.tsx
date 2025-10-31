@@ -32,7 +32,6 @@ const postQuery = groq`
   }
 `;
 
-// Dynamic metadata for SEO
 export const generateMetadata = async ({
   params,
 }: {
@@ -149,8 +148,8 @@ const PostPage = async ({
   };
 
   return (
-    <main className="max-w-4xl mx-auto md:px-16 px-6 my-8">
-      <div className="grid lg:grid-cols-[75%,25%] grid-cols-1 gap-8">
+    <main className="max-w-4xl mx-auto px-6 my-8">
+      <div className="grid grid-cols-1 gap-8">
         <article>
           {/* Post meta */}
           <div className="flex items-center flex-wrap gap-4 text-md mb-8 text-muted-foreground">
@@ -168,13 +167,7 @@ const PostPage = async ({
             </div>
           </div>
 
-          {/* Title and Description */}
-          <h1
-            className={cn(
-              "text-2xl sm:text-3xl lg:text-4xl font-medium leading-tight mb-6 text-foreground",
-              playfair.className
-            )}
-          >
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-medium leading-tight mb-6 text-foreground font-miller">
             {post.title}
           </h1>
 
@@ -200,7 +193,6 @@ const PostPage = async ({
           )} */}
           </div>
 
-          {/* Article Body */}
           {post.body && (
             <div
               className={cn(
