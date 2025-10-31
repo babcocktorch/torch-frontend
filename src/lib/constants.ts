@@ -19,7 +19,7 @@ export const IMAGES = {
       height: 100,
     },
     engravers_old_eng_black: {
-      src: "/logos/torch_logotype_engravers_old_eng_black.svg",
+      src: "/logos/torch_logotype_engravers_old_eng_black`.svg",
       width: 100,
       height: 100,
     },
@@ -37,6 +37,11 @@ export const IMAGES = {
       src: "/logos/torch_gold.svg",
       width: 100,
       height: 100,
+    },
+    logo: {
+      src: "/logos/logo.png",
+      width: 3290,
+      height: 3290,
     },
   },
 };
