@@ -20,3 +20,6 @@ export const formatDate = (dateString: string) => {
     day: "numeric",
   });
 };
+
+export const isValidEmail = (email: string) =>
+  /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/.test(email);

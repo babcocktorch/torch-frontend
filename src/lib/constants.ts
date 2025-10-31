@@ -1,4 +1,8 @@
-export const BASE_URL = "https://the-babcock-torch.vercel.app";
+export const BASE_URL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3000"
+    : "https://torch-frontend.vercel.app";
+
 export const THEME_KEY = "the-babcock-torch-theme";
 
 export const IMAGES = {
@@ -19,7 +23,7 @@ export const IMAGES = {
       height: 100,
     },
     engravers_old_eng_black: {
-      src: "/logos/torch_logotype_engravers_old_eng_black`.svg",
+      src: "/logos/torch_logotype_engravers_old_eng_black.svg",
       width: 100,
       height: 100,
     },
@@ -48,6 +52,7 @@ export const IMAGES = {
 
 export const PAGES = {
   home: "/",
+  search: (query?: string) => "/search" + (query ? `?query=${query}` : ""),
   post: (year: string, month: string, day: string, slug: string) =>
     `/post/${year}/${month}/${day}/${slug}`,
 };
@@ -55,6 +60,9 @@ export const PAGES = {
 export const CREDENTIALS = {
   sanity_project_id: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "",
   sanity_dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "",
+
+  clickup_api_token: process.env.CLICKUP_API_TOKEN || "",
+  clickup_list_id: process.env.CLICKUP_LIST_ID || "",
 };
 
 export const MAJOR_CATEGORIES = [
@@ -76,3 +84,7 @@ export const MINOR_CATEGORIES = [
   "Blogs",
   "Ask the Torch AI",
 ];
+
+export const API_ROUTES = {
+  submit_idea: "/api/submit-idea",
+};

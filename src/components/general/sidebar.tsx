@@ -8,6 +8,7 @@ import {
 import { MAJOR_CATEGORIES } from "@/lib/constants";
 import { Menu } from "lucide-react";
 import { Input } from "../ui/input";
+import IdeaSubmission from "./idea-submission";
 
 const Sidebar = () => {
   return (
@@ -32,9 +33,7 @@ const Sidebar = () => {
             </Button>
           ))}
 
-          <Button className="mt-4 block lg:hidden w-full justify-start dark:bg-white dark:text-black text-white bg-black rounded-full">
-            Talk to the Torch
-          </Button>
+          <IdeaSubmission />
         </div>
         {/* <SheetFooter>
           <Button type="submit">Save changes</Button>

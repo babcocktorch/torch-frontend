@@ -4,6 +4,7 @@ import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { cn } from "@/lib/utils";
 import { geist } from "@/lib/fonts";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "The Babcock Torch",
@@ -23,6 +24,7 @@ const RootLayout = ({
           geist.className
         )}
       >
+        <Toaster position="top-center" />
         <Header />
         {children}
         <Footer />

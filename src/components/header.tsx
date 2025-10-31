@@ -5,7 +5,6 @@ import { IMAGES, PAGES } from "@/lib/constants";
 import { useAtomValue } from "jotai";
 import Image from "next/image";
 import ThemeToggle from "./general/theme-toggle";
-import { Button } from "./ui/button";
 import Sidebar from "./general/sidebar";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
@@ -59,9 +58,7 @@ const Header = () => {
       </div>
 
       <div className="flex items-center justify-center gap-4">
-        <Button className="hidden lg:block dark:bg-white dark:text-black text-white bg-black rounded-full">
-          Talk to the Torch
-        </Button>
+        {/* <IdeaSubmission /> */}
 
         <ThemeToggle />
       </div>
