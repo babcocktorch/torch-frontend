@@ -25,7 +25,7 @@ const Header = () => {
   const logo =
     theme === "dark"
       ? IMAGES.logos.engravers_old_eng_white
-      : IMAGES.logos.engravers_old_eng_gold;
+      : IMAGES.logos.engravers_old_eng_black;
 
   return (
     <header className="sticky top-0 z-50 w-full dark:bg-black bg-white border flex items-center justify-between py-4 px-6 gap-4">

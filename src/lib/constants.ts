@@ -18,6 +18,11 @@ export const IMAGES = {
       width: 100,
       height: 100,
     },
+    engravers_old_eng_black: {
+      src: "/logos/torch_logotype_engravers_old_eng_black.svg",
+      width: 100,
+      height: 100,
+    },
     big_moore_gold: {
       src: "/logos/torch_logotype_big_moore_gold.svg",
       width: 100,
