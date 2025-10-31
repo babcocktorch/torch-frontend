@@ -132,7 +132,7 @@ const Home = () => {
           <Separator />
         </div>
 
-        <div className="w-full lg:w-1/4 self-stretch lg:pl-6 flex flex-col gap-6">
+        <div className="w-full lg:w-1/4 self-stretch lg:pl-6 flex flex-col gap-6 mt-6 lg:mt-0">
           <h6 className="flex items-center justify-start gap-1 font-medium hover:gap-1.5 cursor-pointer transition-all">
             Opinions <IoIosArrowForward />
           </h6>
