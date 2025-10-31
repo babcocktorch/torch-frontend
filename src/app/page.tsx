@@ -41,7 +41,7 @@ const Home = () => {
   const logo =
     theme === "dark"
       ? IMAGES.logos.engravers_old_eng_white
-      : IMAGES.logos.engravers_old_eng_gold;
+      : IMAGES.logos.engravers_old_eng_black;
 
   const categories = isBelowThreshold ? MINOR_CATEGORIES : MAJOR_CATEGORIES;
 
@@ -122,7 +122,7 @@ const Home = () => {
       </div>
 
       <section className="w-full flex flex-col lg:flex-row items-center justify-center">
-        <div className="w-full lg:w-4/5 flex flex-col gap-6 lg:border-r lg:pr-6 self-stretch">
+        <div className="w-full lg:w-3/4 flex flex-col gap-6 lg:border-r lg:pr-6 self-stretch">
           {posts.length > 0 ? (
             posts.map((post) => <Article key={post._id} post={post} />)
           ) : (
@@ -131,7 +131,7 @@ const Home = () => {
           <Separator />
         </div>
 
-        <div className="w-full lg:w-1/5 self-stretch"></div>
+        <div className="w-full lg:w-1/4 self-stretch"></div>
       </section>
     </main>
   );
