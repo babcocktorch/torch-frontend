@@ -59,7 +59,7 @@ const Header = () => {
       </div>
 
       <div className="flex items-center justify-center gap-4">
-        <Button className="hidden lg:block dark:bg-white dark:text-black text-white bg-black">
+        <Button className="hidden lg:block dark:bg-white dark:text-black text-white bg-black rounded-full">
           Talk to the Torch
         </Button>
 

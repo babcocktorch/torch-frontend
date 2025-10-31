@@ -32,7 +32,7 @@ const Sidebar = () => {
             </Button>
           ))}
 
-          <Button className="mt-4 block lg:hidden w-full justify-start dark:bg-white dark:text-black text-white bg-black">
+          <Button className="mt-4 block lg:hidden w-full justify-start dark:bg-white dark:text-black text-white bg-black rounded-full">
             Talk to the Torch
           </Button>
         </div>
