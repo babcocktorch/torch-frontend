@@ -68,7 +68,7 @@ const IdeaSubmission = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="mt-4 w-full justify-start bg-gold text-white hover:bg-gold/90 rounded-full">
+        <Button className="mt-4 w-full bg-gold text-white hover:bg-gold/90 rounded-full">
           Talk to the Torch
         </Button>
       </DialogTrigger>

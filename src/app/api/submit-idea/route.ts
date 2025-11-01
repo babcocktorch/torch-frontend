@@ -12,9 +12,8 @@ export const POST = async (request: NextRequest) => {
     const url = `https://api.clickup.com/api/v2/list/${clickUpListId}/task`;
 
     const taskData = {
-      name: `New Article Idea: ${idea.substring(0, 50)}...`,
+      name: "New Article Idea",
       description: `Submitted by: ${name} (${email})\n\n--- IDEA ---\n${idea}`,
-      status: "Needs Review",
     };
 
     const response = await fetch(url, {
