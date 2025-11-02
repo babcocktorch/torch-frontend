@@ -86,10 +86,8 @@ const Home = ({
     <main className="w-full max-w-7xl flex flex-col items-center justify-start lg:pt-12 pb-12 gap-6 px-6">
       <div className="w-full flex items-center justify-between">
         <div className="flex flex-col gap-1.5">
-          <p className={cn(domine.className, "whitespace-nowrap text-sm")}>
-            {date}
-          </p>
-          <p className={cn(domine.className, "whitespace-nowrap text-sm")}>
+          <p className="whitespace-nowrap text-sm">{date}</p>
+          <p className="whitespace-nowrap text-sm">
             {Math.floor(weather.temp)} °C | {weather.condition}
           </p>
         </div>
