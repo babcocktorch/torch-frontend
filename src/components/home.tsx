@@ -125,11 +125,18 @@ const Home = () => {
       <section className="w-full flex flex-col lg:flex-row items-center justify-center">
         <div className="w-full lg:w-3/4 flex flex-col gap-6 lg:border-r lg:pr-6 self-stretch">
           {posts.length > 0 ? (
-            posts.map((post) => <Article key={post._id} post={post} />)
+            posts.map((post) => (
+              <>
+                <Article key={post._id} post={post} />
+                <Separator />
+              </>
+            ))
           ) : (
-            <p>Loading articles...</p>
+            <>
+              <p>Loading articles...</p>
+              <Separator />
+            </>
           )}
-          <Separator />
         </div>
 
         <div className="w-full lg:w-1/4 self-stretch lg:pl-6 flex flex-col gap-6 mt-6 lg:mt-0">
@@ -142,7 +149,7 @@ const Home = () => {
               Victor Ibironke
             </p>
             <h4 className="font-medium text-lg font-miller">
-              This is Victor&apos;s Opinion: I think racism is cool
+              This is Victor&apos;s Opinion: I think racism is not cool
             </h4>
           </div>
 
@@ -151,7 +158,7 @@ const Home = () => {
               Victor Ibironke
             </p>
             <h4 className="font-medium text-lg font-miller">
-              This is Victor&apos;s Opinion: I think racism is cool
+              This is Victor&apos;s Opinion: I think racism is not cool
             </h4>
           </div>
 
@@ -160,7 +167,7 @@ const Home = () => {
               Victor Ibironke
             </p>
             <h4 className="font-medium text-lg font-miller">
-              This is Victor&apos;s Opinion: I think racism is cool
+              This is Victor&apos;s Opinion: I think racism is not cool
             </h4>
           </div>
 
@@ -169,7 +176,7 @@ const Home = () => {
               Victor Ibironke
             </p>
             <h4 className="font-medium text-lg font-miller">
-              This is Victor&apos;s Opinion: I think racism is cool
+              This is Victor&apos;s Opinion: I think racism is not cool
             </h4>
           </div>
 
@@ -178,7 +185,7 @@ const Home = () => {
               Victor Ibironke
             </p>
             <h4 className="font-medium text-lg font-miller">
-              This is Victor&apos;s Opinion: I think racism is cool
+              This is Victor&apos;s Opinion: I think racism is not cool
             </h4>
           </div>
 
@@ -187,7 +194,7 @@ const Home = () => {
               Victor Ibironke
             </p>
             <h4 className="font-medium text-lg font-miller">
-              This is Victor&apos;s Opinion: I think racism is cool
+              This is Victor&apos;s Opinion: I think racism is not cool
             </h4>
           </div>
         </div>
