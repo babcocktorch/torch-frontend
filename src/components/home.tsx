@@ -14,28 +14,13 @@ import { PostPreview } from "@/lib/types";
 import { IoIosArrowForward } from "react-icons/io";
 import { cn } from "@/lib/utils";
 
-const postsQuery = groq`
-  *[_type == "post"] | order(publishedAt desc) {
-    _id,
-    title,
-    "slug": slug.current,
-    mainImage,
-    description,
-    publishedAt,
-    author->{
-      name
-    }
-  }
-`;
-
-const Home = () => {
+const Home = ({ posts }: { posts: PostPreview[] }) => {
   const theme = useAtomValue(app_theme);
   const setIsCategoriesAtViewportEdge = useSetAtom(
     is_categories_at_viewport_edge
   );
 
   const [isBelowThreshold, setIsBelowThreshold] = useState(false);
-  const [posts, setPosts] = useState<PostPreview[]>([]);
   const categoriesRef = useRef<HTMLDivElement | null>(null);
 
   const THRESHOLD = 640;
@@ -46,18 +31,6 @@ const Home = () => {
       : IMAGES.logos.engravers_old_eng_black;
 
   const categories = isBelowThreshold ? MINOR_CATEGORIES : MAJOR_CATEGORIES;
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const postsData = await sanityClient.fetch(postsQuery);
-        setPosts(postsData);
-      } catch (error) {
-        console.error("Failed to fetch posts:", error);
-      }
-    };
-    fetchPosts();
-  }, []);
 
   useEffect(() => {
     if (!categoriesRef.current) return;
@@ -111,7 +84,7 @@ const Home = () => {
 
       <div
         ref={categoriesRef}
-        className="border-b border-muted w-full px-4 py-2 flex items-center justify-start lg:justify-center overflow-x-scroll"
+        className="border-b w-full px-4 py-2 flex items-center justify-start lg:justify-center overflow-x-scroll"
       >
         {categories.map((c, i) => (
           <div

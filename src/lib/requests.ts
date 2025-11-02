@@ -1,4 +1,7 @@
+import { groq } from "next-sanity";
 import { API_ROUTES, BASE_URL } from "./constants";
+import { sanityClient } from "./sanity.client";
+import { PostPreview } from "./types";
 
 export const submitIdea = async (details: {
   name: string;
@@ -19,5 +22,31 @@ export const submitIdea = async (details: {
   } catch (error) {
     console.error(error);
     return { error: "Failed to submit idea. Please try again." };
+  }
+};
+
+export const getPosts = async () => {
+  const postsQuery = groq`
+  *[_type == "post"] | order(publishedAt desc) {
+    _id,
+    title,
+    "slug": slug.current,
+    mainImage,
+    description,
+    publishedAt,
+    author->{
+      name
+    }
+  }
+`;
+
+  try {
+    const postsData = await sanityClient.fetch(postsQuery);
+
+    return postsData as PostPreview[];
+  } catch (error) {
+    console.error("Failed to fetch posts:", error);
+
+    return [];
   }
 };
