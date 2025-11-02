@@ -1,11 +1,11 @@
-import { Geist, Playfair_Display } from "next/font/google";
+import { Domine, Geist } from "next/font/google";
 
 export const geist = Geist({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-export const playfair = Playfair_Display({
+export const domine = Domine({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["400", "500", "600", "700"],
 });

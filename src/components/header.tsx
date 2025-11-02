@@ -8,7 +8,7 @@ import ThemeToggle from "./general/theme-toggle";
 import Sidebar from "./general/sidebar";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
-import { playfair } from "@/lib/fonts";
+import { domine } from "@/lib/fonts";
 import Link from "next/link";
 
 const Header = () => {
@@ -50,7 +50,7 @@ const Header = () => {
         <p
           className={cn(
             "text-xs text-muted-foreground hidden lg:block",
-            playfair.className
+            domine.className
           )}
         >
           The University Daily, Est. 2025

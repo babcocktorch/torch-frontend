@@ -4,6 +4,7 @@ import { urlFor } from "@/lib/sanity.client";
 import Link from "next/link";
 import { ArticleProps } from "@/lib/types";
 import { PAGES } from "@/lib/constants";
+import { domine } from "@/lib/fonts";
 
 const Article = ({ post }: ArticleProps) => {
   const date = new Date(post.publishedAt);
@@ -16,7 +17,7 @@ const Article = ({ post }: ArticleProps) => {
     <Link href={postUrl}>
       <div className="w-full flex flex-col md:flex-row items-start justify-between gap-6 cursor-pointer group">
         <div className="flex flex-col gap-4 w-full md:w-2/5">
-          <p className={cn("text-2xl font-semibold font-miller")}>
+          <p className={cn("text-2xl font-semibold", domine.className)}>
             {post.title}
           </p>
           <p className="text-muted-foreground">{post.description}</p>

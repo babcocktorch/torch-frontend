@@ -4,7 +4,7 @@ import Article from "@/components/article";
 import { Separator } from "@/components/ui/separator";
 import { app_theme, is_categories_at_viewport_edge } from "@/lib/atoms";
 import { MAJOR_CATEGORIES, MINOR_CATEGORIES, IMAGES } from "@/lib/constants";
-import { playfair } from "@/lib/fonts";
+import { domine } from "@/lib/fonts";
 import { useAtomValue, useSetAtom } from "jotai";
 import Image from "next/image";
 import { useRef, useEffect, useState } from "react";
@@ -12,6 +12,7 @@ import { sanityClient } from "@/lib/sanity.client";
 import { groq } from "next-sanity";
 import { PostPreview } from "@/lib/types";
 import { IoIosArrowForward } from "react-icons/io";
+import { cn } from "@/lib/utils";
 
 const postsQuery = groq`
   *[_type == "post"] | order(publishedAt desc) {
@@ -105,7 +106,7 @@ const Home = () => {
           className="w-96 h-auto"
         />
 
-        <p className={playfair.className}>The University Daily, Est. 2025</p>
+        <p className={domine.className}>The University Daily, Est. 2025</p>
       </div>
 
       <div
@@ -145,55 +146,10 @@ const Home = () => {
           </h6>
 
           <div className="pb-6 border-b">
-            <p className="text-muted-foreground text-sm mb-1">
+            <p className="text-muted-foreground text-sm mb-2">
               Victor Ibironke
             </p>
-            <h4 className="font-medium text-lg font-miller">
-              This is Victor&apos;s Opinion: I think racism is not cool
-            </h4>
-          </div>
-
-          <div className="pb-6 border-b">
-            <p className="text-muted-foreground text-sm mb-1">
-              Victor Ibironke
-            </p>
-            <h4 className="font-medium text-lg font-miller">
-              This is Victor&apos;s Opinion: I think racism is not cool
-            </h4>
-          </div>
-
-          <div className="pb-6 border-b">
-            <p className="text-muted-foreground text-sm mb-1">
-              Victor Ibironke
-            </p>
-            <h4 className="font-medium text-lg font-miller">
-              This is Victor&apos;s Opinion: I think racism is not cool
-            </h4>
-          </div>
-
-          <div className="pb-6 border-b">
-            <p className="text-muted-foreground text-sm mb-1">
-              Victor Ibironke
-            </p>
-            <h4 className="font-medium text-lg font-miller">
-              This is Victor&apos;s Opinion: I think racism is not cool
-            </h4>
-          </div>
-
-          <div className="pb-6 border-b">
-            <p className="text-muted-foreground text-sm mb-1">
-              Victor Ibironke
-            </p>
-            <h4 className="font-medium text-lg font-miller">
-              This is Victor&apos;s Opinion: I think racism is not cool
-            </h4>
-          </div>
-
-          <div className="pb-6 border-b">
-            <p className="text-muted-foreground text-sm mb-1">
-              Victor Ibironke
-            </p>
-            <h4 className="font-medium text-lg font-miller">
+            <h4 className={cn(domine.className, "text-lg")}>
               This is Victor&apos;s Opinion: I think racism is not cool
             </h4>
           </div>

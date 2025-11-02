@@ -2,7 +2,7 @@ import { sanityClient, urlFor } from "@/lib/sanity.client";
 import { groq } from "next-sanity";
 import { PortableText, toPlainText } from "@portabletext/react";
 import { cn, readTime } from "@/lib/utils";
-import { playfair } from "@/lib/fonts";
+import { domine } from "@/lib/fonts";
 import React from "react";
 import { notFound } from "next/navigation";
 import { HiCalendar } from "react-icons/hi";
@@ -203,7 +203,8 @@ const PostPage = async ({
                 // "prose-strong:text-foreground prose-strong:font-semibold",
                 // "prose-blockquote:border-l-4 prose-blockquote:border-border prose-blockquote:pl-6 prose-blockquote:italic",
                 // "prose-ul:text-foreground prose-ol:text-foreground",
-                playfair.className
+                domine.className
+                // "text-sm"
               )}
             >
               <PortableText value={post.body} components={ptComponents} />
