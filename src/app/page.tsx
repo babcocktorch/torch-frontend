@@ -1,6 +1,6 @@
 import Home from "@/components/home";
 import { BASE_URL, IMAGES } from "@/lib/constants";
-import { getPosts } from "@/lib/requests";
+import { getPosts, getWeather } from "@/lib/requests";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -31,8 +31,9 @@ export const metadata: Metadata = {
 
 const HomePage = async () => {
   const posts = await getPosts();
+  const weather = await getWeather();
 
-  return <Home posts={posts} />;
+  return <Home posts={posts} weather={weather} />;
 };
 
 export default HomePage;

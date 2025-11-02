@@ -1,5 +1,5 @@
 import { groq } from "next-sanity";
-import { API_ROUTES, BASE_URL } from "./constants";
+import { API_ROUTES, BASE_URL, CREDENTIALS } from "./constants";
 import { sanityClient } from "./sanity.client";
 import { PostPreview } from "./types";
 
@@ -49,4 +49,18 @@ export const getPosts = async () => {
 
     return [];
   }
+};
+
+export const getWeather = async () => {
+  const response = await fetch(
+    `http://api.weatherapi.com/v1/current.json?key=${CREDENTIALS.weather_api_key}&q=Ilishan`
+  );
+
+  if (!response.ok) {
+    return { temp: 0, condition: "" };
+  }
+
+  const data = await response.json();
+
+  return { temp: data.current.temp_c, condition: data.current.condition.text };
 };

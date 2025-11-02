@@ -13,8 +13,15 @@ import { groq } from "next-sanity";
 import { PostPreview } from "@/lib/types";
 import { IoIosArrowForward } from "react-icons/io";
 import { cn } from "@/lib/utils";
+import IdeaSubmission from "./general/idea-submission";
 
-const Home = ({ posts }: { posts: PostPreview[] }) => {
+const Home = ({
+  posts,
+  weather,
+}: {
+  posts: PostPreview[];
+  weather: { temp: number; condition: string };
+}) => {
   const theme = useAtomValue(app_theme);
   const setIsCategoriesAtViewportEdge = useSetAtom(
     is_categories_at_viewport_edge
@@ -31,6 +38,13 @@ const Home = ({ posts }: { posts: PostPreview[] }) => {
       : IMAGES.logos.engravers_old_eng_black;
 
   const categories = isBelowThreshold ? MINOR_CATEGORIES : MAJOR_CATEGORIES;
+
+  const date = new Date().toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    weekday: "long",
+  });
 
   useEffect(() => {
     if (!categoriesRef.current) return;
@@ -70,16 +84,29 @@ const Home = ({ posts }: { posts: PostPreview[] }) => {
 
   return (
     <main className="w-full max-w-7xl flex flex-col items-center justify-start lg:pt-12 pb-12 gap-6 px-6">
-      <div className="w-full items-center justify-center flex-col hidden lg:flex gap-1">
-        <Image
-          src={logo.src}
-          alt="The Babcock Torch"
-          width={logo.width}
-          height={logo.height}
-          className="w-96 h-auto"
-        />
+      <div className="w-full flex items-center justify-between">
+        <div className="flex flex-col gap-1.5">
+          <p className={cn(domine.className, "whitespace-nowrap text-sm")}>
+            {date}
+          </p>
+          <p className={cn(domine.className, "whitespace-nowrap text-sm")}>
+            {Math.floor(weather.temp)} °C | {weather.condition}
+          </p>
+        </div>
 
-        <p className={domine.className}>The University Daily, Est. 2025</p>
+        <div className="w-full items-center justify-center flex-col hidden lg:flex gap-1">
+          <Image
+            src={logo.src}
+            alt="The Babcock Torch"
+            width={logo.width}
+            height={logo.height}
+            className="w-96 h-auto"
+          />
+
+          <p className={domine.className}>The University Daily, Est. 2025</p>
+        </div>
+
+        <IdeaSubmission />
       </div>
 
       <div

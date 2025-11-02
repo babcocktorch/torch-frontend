@@ -63,6 +63,8 @@ export const CREDENTIALS = {
 
   clickup_api_token: process.env.CLICKUP_API_TOKEN || "",
   clickup_list_id: process.env.CLICKUP_LIST_ID || "",
+
+  weather_api_key: process.env.WEATHER_API_KEY || "",
 };
 
 export const MAJOR_CATEGORIES = [
