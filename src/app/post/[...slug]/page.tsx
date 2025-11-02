@@ -167,7 +167,12 @@ const PostPage = async ({
             </div>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-medium leading-tight mb-6 text-foreground font-miller">
+          <h1
+            className={cn(
+              domine.className,
+              "text-2xl sm:text-3xl lg:text-4xl leading-tight mb-6 text-foreground font-semibold"
+            )}
+          >
             {post.title}
           </h1>
 
@@ -204,7 +209,6 @@ const PostPage = async ({
                 // "prose-blockquote:border-l-4 prose-blockquote:border-border prose-blockquote:pl-6 prose-blockquote:italic",
                 // "prose-ul:text-foreground prose-ol:text-foreground",
                 domine.className
-                // "text-sm"
               )}
             >
               <PortableText value={post.body} components={ptComponents} />
