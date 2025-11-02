@@ -8,8 +8,6 @@ import { domine } from "@/lib/fonts";
 import { useAtomValue, useSetAtom } from "jotai";
 import Image from "next/image";
 import { useRef, useEffect, useState } from "react";
-import { sanityClient } from "@/lib/sanity.client";
-import { groq } from "next-sanity";
 import { PostPreview } from "@/lib/types";
 import { IoIosArrowForward } from "react-icons/io";
 import { cn } from "@/lib/utils";
