@@ -77,6 +77,7 @@ const Footer = () => {
                 "Vendors",
                 "Alumni",
                 "Calendar",
+                "Maps",
               ].map((item) => (
                 <li key={item}>
                   <Link href={`/${item.toLowerCase()}`}>{item}</Link>
@@ -87,11 +88,12 @@ const Footer = () => {
 
           {/* Other Links */}
           <div>
+            <h3 className="font-semibold text-lg mb-4">Contact Us</h3>
+
             <ul className="space-y-3 text-sm">
               {[
                 "Ask The Torch AI",
                 "Masthead",
-                "Contact Us",
                 "Advertise",
                 "Donate to The Torch",
                 "Send a News Tip",
@@ -101,7 +103,16 @@ const Footer = () => {
                 "Report a Vulnerability",
               ].map((item) => (
                 <li key={item}>
-                  <Link href="#">{item}</Link>
+                  <Link
+                    href="#"
+                    className={
+                      item === "Ask The Torch AI" || item === "Masthead"
+                        ? "font-medium"
+                        : ""
+                    }
+                  >
+                    {item}
+                  </Link>
                 </li>
               ))}
             </ul>
