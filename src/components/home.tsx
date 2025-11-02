@@ -82,7 +82,7 @@ const Home = ({
 
   return (
     <main className="w-full max-w-7xl flex flex-col items-center justify-start lg:pt-12 pb-12 gap-6 px-6">
-      <div className="w-full flex items-center justify-between">
+      <div className="w-full hidden lg:flex items-center justify-between">
         <div className="flex flex-col gap-1.5">
           <p className="whitespace-nowrap text-sm">{date}</p>
           <p className="whitespace-nowrap text-sm">
@@ -90,7 +90,7 @@ const Home = ({
           </p>
         </div>
 
-        <div className="w-full items-center justify-center flex-col hidden lg:flex gap-1">
+        <div className="w-full items-center justify-center flex flex-col gap-1">
           <Image
             src={logo.src}
             alt="The Babcock Torch"
