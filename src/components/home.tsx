@@ -33,7 +33,8 @@ const Home = ({
   const logo =
     theme === "dark"
       ? IMAGES.logos.engravers_old_eng_white
-      : IMAGES.logos.engravers_old_eng_black;
+      : IMAGES.logos.big_moore_gold;
+  // : IMAGES.logos.engravers_old_eng_black;
 
   const categories = isBelowThreshold ? MINOR_CATEGORIES : MAJOR_CATEGORIES;
 
@@ -96,7 +97,7 @@ const Home = ({
             alt="The Babcock Torch"
             width={logo.width}
             height={logo.height}
-            className="w-96 h-auto"
+            className="w-96 h-auto mb-1"
           />
 
           <p className={domine.className}>The University Daily, Est. 2025</p>

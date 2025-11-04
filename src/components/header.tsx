@@ -25,7 +25,8 @@ const Header = () => {
   const logo =
     theme === "dark"
       ? IMAGES.logos.engravers_old_eng_white
-      : IMAGES.logos.engravers_old_eng_black;
+      : IMAGES.logos.big_moore_gold;
+  // : IMAGES.logos.engravers_old_eng_black;
 
   return (
     <header className="sticky top-0 z-50 w-full dark:bg-black bg-white border flex items-center justify-between py-4 px-6 gap-4">
@@ -43,7 +44,7 @@ const Header = () => {
             alt="The Babcock Torch"
             width={logo.width}
             height={logo.height}
-            className="w-40 sm:w-48 h-auto"
+            className="w-40 sm:w-48 h-auto mb-0.5"
           />
         </Link>
 
