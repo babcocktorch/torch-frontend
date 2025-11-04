@@ -23,3 +23,13 @@ export const formatDate = (dateString: string) => {
 
 export const isValidEmail = (email: string) =>
   /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/.test(email);
+
+export const getDayMonthYear = (datePublished: string) => {
+  const date = new Date(datePublished);
+
+  const year = date.getFullYear().toString();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+
+  return { day, month, year };
+};

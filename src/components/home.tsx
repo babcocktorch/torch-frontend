@@ -12,6 +12,7 @@ import { OpinionPreview, PostPreview } from "@/lib/types";
 import { IoIosArrowForward } from "react-icons/io";
 import { cn } from "@/lib/utils";
 import IdeaSubmission from "./general/idea-submission";
+import Opinion from "./opinion";
 
 const Home = ({
   posts,
@@ -117,7 +118,7 @@ const Home = ({
         {categories.map((c, i) => (
           <div
             key={i}
-            className="dark:text-white text-black text-sm lg:text-base font-medium bg-transparent px-4 py-2 border-b border-transparent hover:border-white cursor-pointer whitespace-nowrap"
+            className="dark:text-white text-black text-sm lg:text-base font-medium bg-transparent px-4 py-2 border-b border-transparent hover:border-primary cursor-pointer whitespace-nowrap"
           >
             {c}
           </div>
@@ -141,12 +142,7 @@ const Home = ({
           </h6>
 
           {opinions.map((opinion) => (
-            <div key={opinion._id} className="pb-6 border-b">
-              <p className="text-muted-foreground text-sm mb-2">
-                {opinion.author.name}
-              </p>
-              <h4 className={domine.className}>{opinion.title}</h4>
-            </div>
+            <Opinion key={opinion._id} opinion={opinion} />
           ))}
         </div>
       </section>

@@ -19,6 +19,7 @@ export type OpinionPreview = {
   title: string;
   slug: string;
   mainImage: any;
+  description: string;
   publishedAt: string;
   author: {
     name: string;

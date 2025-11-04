@@ -20,7 +20,9 @@ const Header = () => {
   const pathname = usePathname();
 
   const shouldShowLogo =
-    pathname.includes("/post") || pathname.includes("/search");
+    pathname.includes("/post") ||
+    pathname.includes("/search") ||
+    pathname.includes("/opinion");
 
   const logo =
     theme === "dark"
