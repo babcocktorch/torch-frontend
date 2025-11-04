@@ -3,6 +3,8 @@ import { BASE_URL, IMAGES } from "@/lib/constants";
 import { getOpinions, getPosts, getWeather } from "@/lib/requests";
 import { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "The Babcock Torch",
   metadataBase: new URL(BASE_URL),
