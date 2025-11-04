@@ -77,8 +77,8 @@ export const MAJOR_CATEGORIES = [
   "Vendors",
   "Alumni",
   "Calendar",
-  "Masthead",
   "Maps",
+  "Masthead",
 ];
 
 export const MINOR_CATEGORIES = [

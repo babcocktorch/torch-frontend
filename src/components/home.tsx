@@ -27,8 +27,6 @@ const Home = ({
     is_categories_at_viewport_edge
   );
 
-  console.log(opinions);
-
   const [isBelowThreshold, setIsBelowThreshold] = useState(false);
   const categoriesRef = useRef<HTMLDivElement | null>(null);
 
