@@ -77,15 +77,24 @@ export const getOpinions = async () => {
 };
 
 export const getWeather = async () => {
-  const response = await fetch(
-    `http://api.weatherapi.com/v1/current.json?key=${CREDENTIALS.weather_api_key}&q=Ilishan`
-  );
+  try {
+    const response = await fetch(
+      `http://api.weatherapi.com/v1/current.json?key=${CREDENTIALS.weather_api_key}&q=Ilishan`
+    );
 
-  if (!response.ok) {
+    if (!response.ok) {
+      return { temp: 0, condition: "" };
+    }
+
+    const data = await response.json();
+
+    return {
+      temp: data.current.temp_c,
+      condition: data.current.condition.text,
+    };
+  } catch (error) {
+    console.error("Failed to fetch weather:", error);
+
     return { temp: 0, condition: "" };
   }
-
-  const data = await response.json();
-
-  return { temp: data.current.temp_c, condition: data.current.condition.text };
 };

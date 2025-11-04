@@ -88,9 +88,11 @@ const Home = ({
       <div className="w-full hidden lg:flex items-center justify-between">
         <div className="flex flex-col gap-1.5">
           <p className="whitespace-nowrap text-sm">{date}</p>
-          <p className="whitespace-nowrap text-sm">
-            {Math.floor(weather.temp)} °C | {weather.condition}
-          </p>
+          {weather.temp !== 0 && (
+            <p className="whitespace-nowrap text-sm">
+              {Math.floor(weather.temp)} °C | {weather.condition}
+            </p>
+          )}
         </div>
 
         <div className="w-full items-center justify-center flex flex-col gap-1">
@@ -110,12 +112,12 @@ const Home = ({
 
       <div
         ref={categoriesRef}
-        className="border-b w-full px-4 py-2 flex items-center justify-start lg:justify-center overflow-x-scroll"
+        className="border-b w-full px-4 pt-2 flex items-center justify-start lg:justify-center overflow-x-scroll"
       >
         {categories.map((c, i) => (
           <div
             key={i}
-            className="dark:text-white text-black text-sm font-medium bg-transparent rounded-full px-4 py-2 hover:bg-muted cursor-pointer whitespace-nowrap"
+            className="dark:text-white text-black text-sm lg:text-base font-medium bg-transparent px-4 py-2 border-b border-transparent hover:border-white cursor-pointer whitespace-nowrap"
           >
             {c}
           </div>
@@ -133,7 +135,7 @@ const Home = ({
         </div>
 
         <div className="w-full lg:w-1/4 self-stretch lg:pl-6 flex flex-col gap-6 mt-6 lg:mt-0">
-          <h6 className="flex items-center justify-start gap-1 font-medium hover:gap-1.5 cursor-pointer transition-all">
+          <h6 className="flex items-center justify-start gap-1 font-medium hover:gap-1.5 cursor-pointer transition-all underline text-decoration-gold">
             Opinions <IoIosArrowForward />
           </h6>
 
