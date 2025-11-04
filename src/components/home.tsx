@@ -10,7 +10,6 @@ import Image from "next/image";
 import { useRef, useEffect, useState } from "react";
 import { OpinionPreview, PostPreview } from "@/lib/types";
 import { IoIosArrowForward } from "react-icons/io";
-import { cn } from "@/lib/utils";
 import IdeaSubmission from "./general/idea-submission";
 import Opinion from "./opinion";
 

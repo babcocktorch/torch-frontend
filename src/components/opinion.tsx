@@ -1,10 +1,7 @@
-import { cn, formatDate, getDayMonthYear } from "@/lib/utils";
-import Image from "next/image";
-import { urlFor } from "@/lib/sanity.client";
+import { getDayMonthYear } from "@/lib/utils";
 import Link from "next/link";
 import { OpinionProps } from "@/lib/types";
 import { PAGES } from "@/lib/constants";
-import { domine } from "@/lib/fonts";
 
 const Opinion = ({ opinion }: OpinionProps) => {
   const { day, month, year } = getDayMonthYear(opinion.publishedAt);
