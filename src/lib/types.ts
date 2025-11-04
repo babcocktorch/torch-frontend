@@ -13,3 +13,18 @@ export type PostPreview = {
 export type ArticleProps = {
   post: PostPreview;
 };
+
+export type OpinionPreview = {
+  _id: string;
+  title: string;
+  slug: string;
+  mainImage: any;
+  publishedAt: string;
+  author: {
+    name: string;
+  };
+};
+
+export type OpinionProps = {
+  opinion: OpinionPreview;
+};

@@ -1,7 +1,7 @@
 import { groq } from "next-sanity";
 import { API_ROUTES, BASE_URL, CREDENTIALS } from "./constants";
 import { sanityClient } from "./sanity.client";
-import { PostPreview } from "./types";
+import { OpinionPreview, PostPreview } from "./types";
 
 export const submitIdea = async (details: {
   name: string;
@@ -46,6 +46,31 @@ export const getPosts = async () => {
     return postsData as PostPreview[];
   } catch (error) {
     console.error("Failed to fetch posts:", error);
+
+    return [];
+  }
+};
+
+export const getOpinions = async () => {
+  const opinionsQuery = groq`
+  *[_type == "opinion"] | order(publishedAt desc) {
+    _id,
+    title,
+    "slug": slug.current,
+    mainImage,
+    publishedAt,
+    author->{
+      name
+    }
+  }
+`;
+
+  try {
+    const opinionsData = await sanityClient.fetch(opinionsQuery);
+
+    return opinionsData as OpinionPreview[];
+  } catch (error) {
+    console.error("Failed to fetch opinions:", error);
 
     return [];
   }

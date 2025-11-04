@@ -1,6 +1,6 @@
 import Home from "@/components/home";
 import { BASE_URL, IMAGES } from "@/lib/constants";
-import { getPosts, getWeather } from "@/lib/requests";
+import { getOpinions, getPosts, getWeather } from "@/lib/requests";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -30,10 +30,13 @@ export const metadata: Metadata = {
 };
 
 const HomePage = async () => {
-  const posts = await getPosts();
-  const weather = await getWeather();
+  const [posts, weather, opinions] = await Promise.all([
+    getPosts(),
+    getWeather(),
+    getOpinions(),
+  ]);
 
-  return <Home posts={posts} weather={weather} />;
+  return <Home posts={posts} weather={weather} opinions={opinions} />;
 };
 
 export default HomePage;

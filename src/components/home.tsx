@@ -8,7 +8,7 @@ import { domine } from "@/lib/fonts";
 import { useAtomValue, useSetAtom } from "jotai";
 import Image from "next/image";
 import { useRef, useEffect, useState } from "react";
-import { PostPreview } from "@/lib/types";
+import { OpinionPreview, PostPreview } from "@/lib/types";
 import { IoIosArrowForward } from "react-icons/io";
 import { cn } from "@/lib/utils";
 import IdeaSubmission from "./general/idea-submission";
@@ -16,14 +16,18 @@ import IdeaSubmission from "./general/idea-submission";
 const Home = ({
   posts,
   weather,
+  opinions,
 }: {
   posts: PostPreview[];
   weather: { temp: number; condition: string };
+  opinions: OpinionPreview[];
 }) => {
   const theme = useAtomValue(app_theme);
   const setIsCategoriesAtViewportEdge = useSetAtom(
     is_categories_at_viewport_edge
   );
+
+  console.log(opinions);
 
   const [isBelowThreshold, setIsBelowThreshold] = useState(false);
   const categoriesRef = useRef<HTMLDivElement | null>(null);
@@ -122,19 +126,12 @@ const Home = ({
 
       <section className="w-full flex flex-col lg:flex-row items-center justify-center">
         <div className="w-full lg:w-3/4 flex flex-col gap-6 lg:border-r lg:pr-6 self-stretch">
-          {posts.length > 0 ? (
-            posts.map((post) => (
-              <>
-                <Article key={post._id} post={post} />
-                <Separator />
-              </>
-            ))
-          ) : (
+          {posts.map((post) => (
             <>
-              <p>Loading articles...</p>
+              <Article key={post._id} post={post} />
               <Separator />
             </>
-          )}
+          ))}
         </div>
 
         <div className="w-full lg:w-1/4 self-stretch lg:pl-6 flex flex-col gap-6 mt-6 lg:mt-0">
@@ -142,14 +139,14 @@ const Home = ({
             Opinions <IoIosArrowForward />
           </h6>
 
-          <div className="pb-6 border-b">
-            <p className="text-muted-foreground text-sm mb-2">
-              Victor Ibironke
-            </p>
-            <h4 className={cn(domine.className, "text-lg")}>
-              This is Victor&apos;s Opinion: I think racism is not cool
-            </h4>
-          </div>
+          {opinions.map((opinion) => (
+            <div key={opinion._id} className="pb-6 border-b">
+              <p className="text-muted-foreground text-sm mb-2">
+                {opinion.author.name}
+              </p>
+              <h4 className={domine.className}>{opinion.title}</h4>
+            </div>
+          ))}
         </div>
       </section>
     </main>
