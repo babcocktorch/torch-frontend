@@ -20,7 +20,7 @@ const RootLayout = ({
     <html lang="en">
       <body
         className={cn(
-          "antialiased relative dark flex flex-col min-h-screen items-center justify-start",
+          "antialiased relative flex flex-col min-h-screen items-center justify-start",
           geist.className
         )}
       >
