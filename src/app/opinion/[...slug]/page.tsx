@@ -150,7 +150,7 @@ const PostPage = async ({
   };
 
   return (
-    <main className="max-w-4xl mx-auto px-6 my-8">
+    <main className="max-w-3xl mx-auto px-6 my-8">
       <div className="grid grid-cols-1 gap-8">
         <article>
           {/* Post meta */}

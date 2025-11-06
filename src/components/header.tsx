@@ -46,7 +46,10 @@ const Header = () => {
             alt="The Babcock Torch"
             width={logo.width}
             height={logo.height}
-            className="w-40 sm:w-48 h-auto mb-0.5"
+            className={cn(
+              "w-40 sm:w-48 h-auto",
+              theme === "dark" ? "mb-0" : "mb-2"
+            )}
           />
         </Link>
 

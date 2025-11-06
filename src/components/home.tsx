@@ -12,6 +12,7 @@ import { OpinionPreview, PostPreview } from "@/lib/types";
 import { IoIosArrowForward } from "react-icons/io";
 import IdeaSubmission from "./general/idea-submission";
 import Opinion from "./opinion";
+import { cn } from "@/lib/utils";
 
 const Home = ({
   posts,
@@ -101,7 +102,7 @@ const Home = ({
             alt="The Babcock Torch"
             width={logo.width}
             height={logo.height}
-            className="w-96 h-auto mb-1"
+            className={cn("w-96 h-auto", theme === "dark" ? "mb-0" : "mb-3")}
           />
 
           <p className={domine.className}>The University Daily, Est. 2025</p>
