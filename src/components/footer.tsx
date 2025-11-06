@@ -48,12 +48,29 @@ const Footer = () => {
             <ul className="space-y-3 text-sm text-muted-foreground">
               <li>Babcock University, Ilishan-Remo, Ogun State.</li>
               <li>
-                <a href="mailto:editor@babcocktorch.com">
+                <a
+                  href="mailto:editor@babcocktorch.com"
+                  className="hover:text-primary"
+                >
                   editor@babcocktorch.com
                 </a>
               </li>
               <li>
-                <a href="tel:+2349164554748">+234 916 455 4748</a>
+                <a href="tel:+2349164554748" className="hover:text-primary">
+                  +234 916 455 4748
+                </a>
+              </li>
+
+              <li className="mt-12">
+                <a href="#" className="hover:text-primary font-medium">
+                  Ask The Torch AI
+                </a>
+              </li>
+
+              <li>
+                <a href="#" className="hover:text-primary font-medium">
+                  Masthead
+                </a>
               </li>
             </ul>
           </div>
@@ -61,7 +78,7 @@ const Footer = () => {
           {/* Sections */}
           <div>
             <h3 className="font-semibold text-lg mb-4">Sections</h3>
-            <ul className="space-y-3 text-sm">
+            <ul className="space-y-3 text-sm text-muted-foreground">
               {[
                 "News",
                 "Breaking",
@@ -75,7 +92,12 @@ const Footer = () => {
                 "Maps",
               ].map((item) => (
                 <li key={item}>
-                  <Link href={`/${item.toLowerCase()}`}>{item}</Link>
+                  <Link
+                    href={`/${item.toLowerCase()}`}
+                    className="hover:text-primary"
+                  >
+                    {item}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -85,10 +107,10 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold text-lg mb-4">Contact Us</h3>
 
-            <ul className="space-y-3 text-sm">
+            <ul className="space-y-3 text-sm text-muted-foreground">
               {[
-                "Ask The Torch AI",
-                "Masthead",
+                // "Ask The Torch AI",
+                // "Masthead",
                 "Advertise",
                 "Donate to The Torch",
                 "Send a News Tip",
@@ -98,14 +120,7 @@ const Footer = () => {
                 "Report a Vulnerability",
               ].map((item) => (
                 <li key={item}>
-                  <Link
-                    href="#"
-                    className={
-                      item === "Ask The Torch AI" || item === "Masthead"
-                        ? "font-medium"
-                        : ""
-                    }
-                  >
+                  <Link href="#" className="hover:text-primary">
                     {item}
                   </Link>
                 </li>
