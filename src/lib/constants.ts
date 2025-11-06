@@ -1,3 +1,12 @@
+import {
+  FaFacebook,
+  FaInstagram,
+  FaLinkedin,
+  FaTiktok,
+  FaYoutube,
+} from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+
 export const BASE_URL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
@@ -93,3 +102,36 @@ export const MINOR_CATEGORIES = [
 export const API_ROUTES = {
   submit_idea: "/api/submit-idea",
 };
+
+export const SOCIAL_MEDIA = [
+  {
+    name: "Facebook",
+    url: "https://www.facebook.com/profile.php?id=61583489604023",
+    icon: FaFacebook,
+  },
+  {
+    name: "Instagram",
+    url: "https://www.instagram.com/babcocktorch",
+    icon: FaInstagram,
+  },
+  {
+    name: "LinkedIn",
+    url: "https://www.linkedin.com/company/the-babcock-torch",
+    icon: FaLinkedin,
+  },
+  {
+    name: "TikTok",
+    url: "https://www.tiktok.com/@babcocktorch",
+    icon: FaTiktok,
+  },
+  {
+    name: "YouTube",
+    url: "https://www.youtube.com/@babcocktorch",
+    icon: FaYoutube,
+  },
+  {
+    name: "X",
+    url: "https://x.com/babcocktorch",
+    icon: FaXTwitter,
+  },
+];

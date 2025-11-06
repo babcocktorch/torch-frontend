@@ -1,7 +1,6 @@
 "use client";
 
-import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
-import { IMAGES, PAGES } from "@/lib/constants";
+import { IMAGES, PAGES, SOCIAL_MEDIA } from "@/lib/constants";
 import Image from "next/image";
 import Link from "next/link";
 import { app_theme } from "@/lib/atoms";
@@ -28,22 +27,18 @@ const Footer = () => {
                 className="w-32 h-auto"
               />
             </Link>
+            <p className="font-miller text-2xl font-semibold">
+              The Babcock Torch
+            </p>
             <p className="text-sm text-muted-foreground italic font-miller">
               To Illuminate is To Imagine
             </p>
             <div className="flex items-center gap-4 mt-2">
-              <a href="#">
-                <FaYoutube size={20} />
-              </a>
-              <a href="#">
-                <FaTwitter size={20} />
-              </a>
-              <a href="#">
-                <FaInstagram size={20} />
-              </a>
-              <a href="#">
-                <FaFacebook size={20} />
-              </a>
+              {SOCIAL_MEDIA.map((item) => (
+                <a href={item.url} key={item.name} target="_blank">
+                  <item.icon size={20} />
+                </a>
+              ))}
             </div>
           </div>
 
