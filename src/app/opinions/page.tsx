@@ -1,4 +1,3 @@
-import Home from "@/components/home";
 import { Separator } from "@/components/ui/separator";
 import { BASE_URL, IMAGES, PAGES } from "@/lib/constants";
 import { domine } from "@/lib/fonts";

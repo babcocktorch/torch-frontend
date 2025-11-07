@@ -9,6 +9,7 @@ import { MAJOR_CATEGORIES } from "@/lib/constants";
 import { Menu } from "lucide-react";
 import { Input } from "../ui/input";
 import IdeaSubmission from "./idea-submission";
+import Link from "next/link";
 
 const Sidebar = () => {
   return (
@@ -25,12 +26,14 @@ const Sidebar = () => {
           />
 
           {MAJOR_CATEGORIES.map((c, i) => (
-            <Button
-              key={i}
-              className="w-full justify-start bg-transparent hover:bg-muted text-black dark:text-white"
-            >
-              {c}
-            </Button>
+            <Link href={c.href} key={i}>
+              <Button
+                key={i}
+                className="w-full justify-start bg-transparent hover:bg-muted text-black dark:text-white"
+              >
+                {c.name}
+              </Button>
+            </Link>
           ))}
 
           <IdeaSubmission />
