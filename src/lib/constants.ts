@@ -61,6 +61,19 @@ export const IMAGES = {
 
 export const PAGES = {
   home: "/",
+  opinions: "/opinions",
+  top_stories: "/top-stories",
+  ask_the_torch_ai: "/ask-the-torch-ai",
+  breaking: "/breaking",
+  blogs: "/blogs",
+  communities: "/communities",
+  business: "/business",
+  vendors: "/vendors",
+  alumni: "/alumni",
+  calendar: "/calendar",
+  maps: "/maps",
+  masthead: "/masthead",
+  news: "/news",
   search: (query?: string) => "/search" + (query ? `?query=${query}` : ""),
   post: (year: string, month: string, day: string, slug: string) =>
     `/post/${year}/${month}/${day}/${slug}`,
@@ -79,24 +92,24 @@ export const CREDENTIALS = {
 };
 
 export const MAJOR_CATEGORIES = [
-  "News",
-  "Breaking",
-  "Opinions",
-  "Blogs",
-  "Communities",
-  "Business",
-  "Vendors",
-  "Alumni",
-  "Calendar",
-  "Maps",
-  "Masthead",
+  { name: "News", href: PAGES.news },
+  { name: "Breaking", href: PAGES.breaking },
+  { name: "Opinions", href: PAGES.opinions },
+  { name: "Blogs", href: PAGES.blogs },
+  { name: "Communities", href: PAGES.communities },
+  { name: "Business", href: PAGES.business },
+  { name: "Vendors", href: PAGES.vendors },
+  { name: "Alumni", href: PAGES.alumni },
+  { name: "Calendar", href: PAGES.calendar },
+  { name: "Maps", href: PAGES.maps },
+  { name: "Masthead", href: PAGES.masthead },
 ];
 
 export const MINOR_CATEGORIES = [
-  "Top Stories",
-  "Breaking",
-  "Blogs",
-  "Ask the Torch AI",
+  { name: "Top Stories", href: PAGES.top_stories },
+  { name: "Breaking", href: PAGES.breaking },
+  { name: "Blogs", href: PAGES.blogs },
+  { name: "Ask the Torch AI", href: PAGES.ask_the_torch_ai },
 ];
 
 export const API_ROUTES = {

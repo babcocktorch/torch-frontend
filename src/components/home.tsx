@@ -3,7 +3,12 @@
 import Article from "@/components/article";
 import { Separator } from "@/components/ui/separator";
 import { app_theme, is_categories_at_viewport_edge } from "@/lib/atoms";
-import { MAJOR_CATEGORIES, MINOR_CATEGORIES, IMAGES } from "@/lib/constants";
+import {
+  MAJOR_CATEGORIES,
+  MINOR_CATEGORIES,
+  IMAGES,
+  PAGES,
+} from "@/lib/constants";
 import { domine } from "@/lib/fonts";
 import { useAtomValue, useSetAtom } from "jotai";
 import Image from "next/image";
@@ -13,6 +18,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import IdeaSubmission from "./general/idea-submission";
 import Opinion from "./opinion";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 const Home = ({
   posts,
@@ -116,12 +122,11 @@ const Home = ({
         className="border-b w-full px-4 pt-2 flex items-center justify-start lg:justify-center overflow-x-scroll"
       >
         {categories.map((c, i) => (
-          <div
-            key={i}
-            className="dark:text-white text-black text-sm lg:text-base font-medium bg-transparent px-4 py-2 border-b border-transparent hover:border-primary cursor-pointer whitespace-nowrap"
-          >
-            {c}
-          </div>
+          <Link href={c.href} key={i}>
+            <p className="dark:text-white text-black text-sm lg:text-base font-medium bg-transparent px-4 py-2 border-b border-transparent hover:border-primary cursor-pointer whitespace-nowrap">
+              {c.name}
+            </p>
+          </Link>
         ))}
       </div>
 
@@ -137,7 +142,9 @@ const Home = ({
 
         <div className="w-full lg:w-1/4 self-stretch lg:pl-6 flex flex-col gap-6 mt-6 lg:mt-0">
           <h6 className="flex items-center justify-start gap-1 font-medium hover:gap-1.5 cursor-pointer transition-all">
-            <span className="border-b-2 border-gold">Opinions</span>{" "}
+            <Link href={PAGES.opinions} className="border-b-2 border-gold">
+              Opinions
+            </Link>{" "}
             <IoIosArrowForward />
           </h6>
 
