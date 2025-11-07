@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { submitIdea } from "@/lib/requests";
@@ -26,6 +26,21 @@ const IdeaSubmission = () => {
     email: "",
     idea: "",
   });
+  const [file, setFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const selectedFile = e.target.files[0];
+      if (selectedFile.size > 25 * 1024 * 1024) {
+        toast.error("File size must not exceed 25MB.");
+        setFile(null);
+        e.target.value = "";
+        return;
+      }
+      setFile(selectedFile);
+    }
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -46,7 +61,15 @@ const IdeaSubmission = () => {
 
     setLoading(true);
 
-    const { error } = await submitIdea(details);
+    const formData = new FormData();
+    formData.append("name", details.name);
+    formData.append("email", details.email);
+    formData.append("idea", details.idea);
+    if (file) {
+      formData.append("attachment", file);
+    }
+
+    const { error } = await submitIdea(formData);
 
     setLoading(false);
 
@@ -57,12 +80,16 @@ const IdeaSubmission = () => {
 
     toast.success("Idea submitted successfully.");
 
-    setOpen(false);
     setDetails({
       name: "",
       email: "",
       idea: "",
     });
+    setFile(null);
+
+    if (fileInputRef.current) fileInputRef.current.value = "";
+
+    setOpen(false);
   };
 
   return (
@@ -106,6 +133,16 @@ const IdeaSubmission = () => {
               placeholder="Type your idea here. Be as descriptive as possible."
               value={details.idea}
               onChange={handleChange}
+            />
+          </div>
+
+          <div className="grid gap-3">
+            <Label htmlFor="attachment">Attachment (Optional)</Label>
+            <Input
+              name="attachment"
+              type="file"
+              onChange={handleFileChange}
+              ref={fileInputRef}
             />
           </div>
         </div>

@@ -3,20 +3,23 @@ import { NextResponse, type NextRequest } from "next/server";
 
 export const POST = async (request: NextRequest) => {
   try {
-    const body = await request.json();
-    const { name, email, idea } = body;
+    const formData = await request.formData();
+    const name = formData.get("name") as string;
+    const email = formData.get("email") as string;
+    const idea = formData.get("idea") as string;
+    const attachment = formData.get("attachment") as File | null;
 
     const clickUpToken = CREDENTIALS.clickup_api_token;
     const clickUpListId = CREDENTIALS.clickup_list_id;
 
-    const url = `https://api.clickup.com/api/v2/list/${clickUpListId}/task`;
+    const createTaskUrl = `https://api.clickup.com/api/v2/list/${clickUpListId}/task`;
 
     const taskData = {
       name: "New Article Idea",
       description: `Submitted by: ${name} (${email})\n\n--- IDEA ---\n${idea}`,
     };
 
-    const response = await fetch(url, {
+    const taskResponse = await fetch(createTaskUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -25,14 +28,35 @@ export const POST = async (request: NextRequest) => {
       body: JSON.stringify(taskData),
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-
-      console.error("ClickUp API Error:", errorData);
-
+    if (!taskResponse.ok) {
+      const errorData = await taskResponse.json();
+      console.error("ClickUp API Error (Task Creation):", errorData);
       throw new Error(
-        `ClickUp API Error: ${errorData.err || response.statusText}`
+        `ClickUp API Error: ${errorData.err || taskResponse.statusText}`
       );
+    }
+
+    const task = await taskResponse.json();
+
+    if (attachment) {
+      const attachmentUrl = `https://api.clickup.com/api/v2/task/${task.id}/attachment`;
+      const attachmentFormData = new FormData();
+      attachmentFormData.append("attachment", attachment);
+
+      const attachmentResponse = await fetch(attachmentUrl, {
+        method: "POST",
+        headers: {
+          Authorization: clickUpToken,
+        },
+        body: attachmentFormData,
+      });
+
+      if (!attachmentResponse.ok) {
+        const errorData = await attachmentResponse.json();
+        console.error("ClickUp API Error (Attachment):", errorData);
+        // Continue even if attachment fails, as the task is already created.
+        // You might want to handle this differently, e.g., by deleting the task or logging the failure.
+      }
     }
 
     return NextResponse.json(

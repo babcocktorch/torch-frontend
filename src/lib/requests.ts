@@ -3,15 +3,11 @@ import { API_ROUTES, BASE_URL, CREDENTIALS } from "./constants";
 import { sanityClient } from "./sanity.client";
 import { OpinionPreview, PostPreview } from "./types";
 
-export const submitIdea = async (details: {
-  name: string;
-  email: string;
-  idea: string;
-}) => {
+export const submitIdea = async (details: FormData) => {
   try {
     const response = await fetch(BASE_URL + API_ROUTES.submit_idea, {
       method: "POST",
-      body: JSON.stringify(details),
+      body: details,
     });
 
     if (!response.ok) {
