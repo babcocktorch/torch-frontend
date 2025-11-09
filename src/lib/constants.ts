@@ -64,7 +64,6 @@ export const PAGES = {
   opinions: "/opinions",
   top_stories: "/top-stories",
   ask_the_torch_ai: "/ask-the-torch-ai",
-  breaking: "/breaking",
   blogs: "/blogs",
   communities: "/communities",
   business: "/business",
@@ -93,7 +92,6 @@ export const CREDENTIALS = {
 
 export const MAJOR_CATEGORIES = [
   { name: "News", href: PAGES.news },
-  { name: "Breaking", href: PAGES.breaking },
   { name: "Opinions", href: PAGES.opinions },
   { name: "Blogs", href: PAGES.blogs },
   { name: "Communities", href: PAGES.communities },
@@ -107,7 +105,6 @@ export const MAJOR_CATEGORIES = [
 
 export const MINOR_CATEGORIES = [
   { name: "Top Stories", href: PAGES.top_stories },
-  { name: "Breaking", href: PAGES.breaking },
   { name: "Blogs", href: PAGES.blogs },
   { name: "Ask the Torch AI", href: PAGES.ask_the_torch_ai },
 ];
