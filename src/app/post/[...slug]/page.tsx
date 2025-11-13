@@ -10,6 +10,7 @@ import { BiTime } from "react-icons/bi";
 import Image from "next/image";
 import { Metadata } from "next";
 import { BASE_URL, PAGES } from "@/lib/constants";
+import { FaUser } from "react-icons/fa";
 
 const postQuery = groq`
   *[_type == "post" && slug.current == $slug][0] {
@@ -166,6 +167,10 @@ const PostPage = async ({
             <div className="flex items-center gap-x-2">
               <BiTime />
               <div>{readTime(words)}</div>
+            </div>
+            <div className="flex items-center gap-x-2">
+              <FaUser />
+              <div>{post.author.name}</div>
             </div>
           </div>
 
