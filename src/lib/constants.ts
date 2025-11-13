@@ -93,13 +93,13 @@ export const CREDENTIALS = {
 export const MAJOR_CATEGORIES = [
   { name: "News", href: PAGES.news },
   { name: "Opinions", href: PAGES.opinions },
-  { name: "Blogs", href: PAGES.blogs },
+  // { name: "Blogs", href: PAGES.blogs },
   { name: "Communities", href: PAGES.communities },
   { name: "Business", href: PAGES.business },
   { name: "Vendors", href: PAGES.vendors },
-  { name: "Alumni", href: PAGES.alumni },
-  { name: "Calendar", href: PAGES.calendar },
-  { name: "Maps", href: PAGES.maps },
+  // { name: "Alumni", href: PAGES.alumni },
+  // { name: "Calendar", href: PAGES.calendar },
+  // { name: "Maps", href: PAGES.maps },
   { name: "Masthead", href: PAGES.masthead },
 ];
 
