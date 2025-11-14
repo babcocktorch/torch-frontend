@@ -1,34 +1,35 @@
-export type PostPreview = {
+import { PortableTextBlock } from "next-sanity";
+
+export type PostType = {
   _id: string;
   title: string;
   slug: string;
   mainImage: any;
   description: string;
-  publishedAt: string;
+  date: string;
+  featured: boolean;
+  isPost: boolean;
   author: {
     name: string;
   };
   categories: {
     title: string;
   }[];
+  body: PortableTextBlock[];
 };
 
-export type ArticleProps = {
-  post: PostPreview;
+export type PostProps = {
+  post: PostType;
 };
 
-export type OpinionPreview = {
-  _id: string;
+export type ColorScheme = {
+  backgroundColor: string;
+  textColor: string;
+};
+
+export type SharePostProps = {
   title: string;
   slug: string;
-  mainImage: any;
   description: string;
-  publishedAt: string;
-  author: {
-    name: string;
-  };
-};
-
-export type OpinionProps = {
-  opinion: OpinionPreview;
+  date: string;
 };

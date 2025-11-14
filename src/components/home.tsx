@@ -13,7 +13,7 @@ import { domine } from "@/lib/fonts";
 import { useAtomValue, useSetAtom } from "jotai";
 import Image from "next/image";
 import { useRef, useEffect, useState, Fragment } from "react";
-import { OpinionPreview, PostPreview } from "@/lib/types";
+import { PostType } from "@/lib/types";
 import { IoIosArrowForward } from "react-icons/io";
 import IdeaSubmission from "./general/idea-submission";
 import Opinion from "./opinion";
@@ -24,11 +24,9 @@ import { usePathname } from "next/navigation";
 const Home = ({
   posts,
   weather,
-  opinions,
 }: {
-  posts: PostPreview[];
+  posts: PostType[];
   weather: { temp: number; condition: string };
-  opinions: OpinionPreview[];
 }) => {
   const pathname = usePathname();
   const theme = useAtomValue(app_theme);
@@ -139,12 +137,14 @@ const Home = ({
 
       <section className="w-full flex flex-col lg:flex-row items-center justify-center">
         <div className="w-full lg:w-3/4 flex flex-col gap-6 lg:border-r lg:pr-6 self-stretch">
-          {posts.map((post) => (
-            <Fragment key={post._id}>
-              <Article post={post} />
-              <Separator />
-            </Fragment>
-          ))}
+          {posts
+            .filter((post) => post.isPost)
+            .map((post) => (
+              <Fragment key={post._id}>
+                <Article post={post} />
+                <Separator />
+              </Fragment>
+            ))}
         </div>
 
         <div className="w-full lg:w-1/4 self-stretch lg:pl-6 flex flex-col gap-6 mt-6 lg:mt-0">
@@ -155,9 +155,11 @@ const Home = ({
             <IoIosArrowForward />
           </h6>
 
-          {opinions.map((opinion) => (
-            <Opinion key={opinion._id} opinion={opinion} />
-          ))}
+          {posts
+            .filter((post) => !post.isPost)
+            .map((post) => (
+              <Opinion key={post._id} post={post} />
+            ))}
         </div>
       </section>
     </main>

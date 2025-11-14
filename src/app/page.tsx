@@ -1,6 +1,6 @@
 import Home from "@/components/home";
 import { BASE_URL, IMAGES } from "@/lib/constants";
-import { getOpinions, getPosts, getWeather } from "@/lib/requests";
+import { getPosts, getWeather } from "@/lib/requests";
 import { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -32,13 +32,13 @@ export const metadata: Metadata = {
 };
 
 const HomePage = async () => {
-  const [posts, weather, opinions] = await Promise.all([
+  const [posts, weather] = await Promise.all([
     getPosts(),
     getWeather(),
-    getOpinions(),
+    // getOpinions(),
   ]);
 
-  return <Home posts={posts} weather={weather} opinions={opinions} />;
+  return <Home posts={posts} weather={weather} />;
 };
 
 export default HomePage;

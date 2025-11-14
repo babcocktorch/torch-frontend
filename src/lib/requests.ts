@@ -1,7 +1,7 @@
 import { groq } from "next-sanity";
 import { API_ROUTES, BASE_URL, CREDENTIALS } from "./constants";
 import { sanityClient } from "./sanity.client";
-import { OpinionPreview, PostPreview } from "./types";
+import { PostType } from "./types";
 
 export const submitIdea = async (details: FormData) => {
   try {
@@ -23,13 +23,15 @@ export const submitIdea = async (details: FormData) => {
 
 export const getPosts = async () => {
   const postsQuery = groq`
-  *[_type == "post"] | order(publishedAt desc) {
+  *[_type == "Post" && isPublished == true] | order(date desc) {
     _id,
     title,
     "slug": slug.current,
     mainImage,
     description,
-    publishedAt,
+    date,
+    featured,
+    isPost,
     categories[]->{
       title
     },
@@ -42,34 +44,9 @@ export const getPosts = async () => {
   try {
     const postsData = await sanityClient.fetch(postsQuery);
 
-    return postsData as PostPreview[];
+    return postsData as PostType[];
   } catch (error) {
     console.error("Failed to fetch posts:", error);
-
-    return [];
-  }
-};
-
-export const getOpinions = async () => {
-  const opinionsQuery = groq`
-  *[_type == "opinion"] | order(publishedAt desc) {
-    _id,
-    title,
-    "slug": slug.current,
-    mainImage,
-    publishedAt,
-    author->{
-      name
-    }
-  }
-`;
-
-  try {
-    const opinionsData = await sanityClient.fetch(opinionsQuery);
-
-    return opinionsData as OpinionPreview[];
-  } catch (error) {
-    console.error("Failed to fetch opinions:", error);
 
     return [];
   }

@@ -7,11 +7,11 @@ import {
 import Image from "next/image";
 import { urlFor } from "@/lib/sanity.client";
 import Link from "next/link";
-import { ArticleProps } from "@/lib/types";
+import { PostProps } from "@/lib/types";
 import { PAGES } from "@/lib/constants";
 
-const Article = ({ post }: ArticleProps) => {
-  const { day, month, year } = getDayMonthYear(post.publishedAt);
+const Article = ({ post }: PostProps) => {
+  const { day, month, year } = getDayMonthYear(post.date);
 
   const postUrl = PAGES.post(year, month, day, post.slug);
 
@@ -26,11 +26,11 @@ const Article = ({ post }: ArticleProps) => {
           <p className="text-sm text-muted-foreground">
             By{" "}
             <span className="font-medium text-primary">{post.author.name}</span>{" "}
-            • {formatDate(post.publishedAt)}
+            • {formatDate(post.date)}
           </p>
 
           {post.categories && (
-            <div className="flex items-center justify-start gap-2">
+            <div className="flex items-center justify-start gap-2 flex-wrap">
               {post.categories.map((category, i) => {
                 const { backgroundColor, textColor } = generateColorsFromString(
                   category.title

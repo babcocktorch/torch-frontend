@@ -1,7 +1,7 @@
 import { Separator } from "@/components/ui/separator";
 import { BASE_URL, IMAGES, PAGES } from "@/lib/constants";
 import { domine } from "@/lib/fonts";
-import { getOpinions } from "@/lib/requests";
+// import { getOpinions } from "@/lib/requests";
 import { urlFor } from "@/lib/sanity.client";
 import { cn, formatDate, getDayMonthYear } from "@/lib/utils";
 import { Metadata } from "next";
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
 };
 
 const OpinionsPage = async () => {
-  const opinions = await getOpinions();
+  // const opinions = await getOpinions();
 
   return (
     <main className="w-full max-w-4xl mx-auto px-6 my-8">
@@ -48,7 +48,7 @@ const OpinionsPage = async () => {
         </h1>
 
         <div className="grid grid-cols-1 gap-8">
-          {opinions.map((opinion) => {
+          {/* {opinions.map((opinion) => {
             const { day, month, year } = getDayMonthYear(opinion.publishedAt);
 
             const opinionUrl = PAGES.opinion(year, month, day, opinion.slug);
@@ -104,7 +104,7 @@ const OpinionsPage = async () => {
                 <Separator />
               </React.Fragment>
             );
-          })}
+          })} */}
         </div>
       </div>
     </main>

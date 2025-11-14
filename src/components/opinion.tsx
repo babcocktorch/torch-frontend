@@ -1,20 +1,18 @@
 import { getDayMonthYear } from "@/lib/utils";
 import Link from "next/link";
-import { OpinionProps } from "@/lib/types";
+import { PostProps } from "@/lib/types";
 import { PAGES } from "@/lib/constants";
 
-const Opinion = ({ opinion }: OpinionProps) => {
-  const { day, month, year } = getDayMonthYear(opinion.publishedAt);
+const Opinion = ({ post }: PostProps) => {
+  const { day, month, year } = getDayMonthYear(post.date);
 
-  const opinionUrl = PAGES.opinion(year, month, day, opinion.slug);
+  const opinionUrl = PAGES.post(year, month, day, post.slug);
 
   return (
     <Link href={opinionUrl}>
       <div className="pb-6 border-b">
-        <p className="text-muted-foreground text-sm mb-2">
-          {opinion.author.name}
-        </p>
-        <h4 className="font-miller text-base lg:text-lg">{opinion.title}</h4>
+        <p className="text-muted-foreground text-sm mb-2">{post.author.name}</p>
+        <h4 className="font-miller text-base lg:text-lg">{post.title}</h4>
       </div>
     </Link>
   );
