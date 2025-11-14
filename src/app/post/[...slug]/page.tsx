@@ -11,13 +11,10 @@ import { domine } from "@/lib/fonts";
 import React from "react";
 import { notFound } from "next/navigation";
 import { HiCalendar } from "react-icons/hi";
-import { BiSolidTime, BiTime } from "react-icons/bi";
-import Image from "next/image";
+import { BiSolidTime } from "react-icons/bi";
 import { Metadata } from "next";
 import { BASE_URL, PAGES } from "@/lib/constants";
-import { FaUser } from "react-icons/fa";
 import { PostType } from "@/lib/types";
-import Link from "next/link";
 import SharePost from "@/components/general/share-post";
 
 const postQuery = groq`
