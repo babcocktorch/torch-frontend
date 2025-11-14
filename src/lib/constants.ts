@@ -72,7 +72,6 @@ export const PAGES = {
   calendar: "/calendar",
   maps: "/maps",
   masthead: "/masthead",
-  news: "/news",
   search: (query?: string) => "/search" + (query ? `?query=${query}` : ""),
   post: (year: string, month: string, day: string, slug: string) =>
     `/post/${year}/${month}/${day}/${slug}`,
@@ -91,7 +90,7 @@ export const CREDENTIALS = {
 };
 
 export const MAJOR_CATEGORIES = [
-  { name: "News", href: PAGES.news },
+  { name: "News", href: PAGES.home },
   { name: "Opinions", href: PAGES.opinions },
   // { name: "Blogs", href: PAGES.blogs },
   { name: "Communities", href: PAGES.communities },

@@ -19,6 +19,7 @@ import IdeaSubmission from "./general/idea-submission";
 import Opinion from "./opinion";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Home = ({
   posts,
@@ -29,6 +30,7 @@ const Home = ({
   weather: { temp: number; condition: string };
   opinions: OpinionPreview[];
 }) => {
+  const pathname = usePathname();
   const theme = useAtomValue(app_theme);
   const setIsCategoriesAtViewportEdge = useSetAtom(
     is_categories_at_viewport_edge
@@ -123,7 +125,12 @@ const Home = ({
       >
         {categories.map((c, i) => (
           <Link href={c.href} key={i}>
-            <p className="dark:text-white text-black text-sm lg:text-base font-medium bg-transparent px-4 py-2 border-b border-transparent hover:border-primary cursor-pointer whitespace-nowrap">
+            <p
+              className={cn(
+                "dark:text-white text-black text-sm lg:text-base font-medium bg-transparent px-4 py-2 border-b border-transparent hover:border-primary cursor-pointer whitespace-nowrap",
+                pathname === c.href ? "border-primary" : ""
+              )}
+            >
               {c.name}
             </p>
           </Link>
