@@ -26,6 +26,7 @@ const postQuery = groq`
     title,
     description,
     mainImage,
+    isPost,
     body,
     date,
     author->{
