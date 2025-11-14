@@ -8,6 +8,9 @@ export type PostPreview = {
   author: {
     name: string;
   };
+  categories: {
+    title: string;
+  }[];
 };
 
 export type ArticleProps = {

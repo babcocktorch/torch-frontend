@@ -12,7 +12,7 @@ import {
 import { domine } from "@/lib/fonts";
 import { useAtomValue, useSetAtom } from "jotai";
 import Image from "next/image";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, Fragment } from "react";
 import { OpinionPreview, PostPreview } from "@/lib/types";
 import { IoIosArrowForward } from "react-icons/io";
 import IdeaSubmission from "./general/idea-submission";
@@ -140,10 +140,10 @@ const Home = ({
       <section className="w-full flex flex-col lg:flex-row items-center justify-center">
         <div className="w-full lg:w-3/4 flex flex-col gap-6 lg:border-r lg:pr-6 self-stretch">
           {posts.map((post) => (
-            <>
-              <Article key={post._id} post={post} />
+            <Fragment key={post._id}>
+              <Article post={post} />
               <Separator />
-            </>
+            </Fragment>
           ))}
         </div>
 

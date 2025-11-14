@@ -33,3 +33,31 @@ export const getDayMonthYear = (datePublished: string) => {
 
   return { day, month, year };
 };
+
+export const generateColorsFromString = (text: string) => {
+  // 1. Hash the string to get a consistent number
+  let hash = 0;
+
+  for (let i = 0; i < text.length; i++) {
+    hash = text.charCodeAt(i) + ((hash << 5) - hash);
+    hash = hash & hash; // Convert to 32-bit integer
+  }
+
+  // 2. Generate RGB values from the hash
+  const r = (hash >> 16) & 0xff;
+  const g = (hash >> 8) & 0xff;
+  const b = hash & 0xff;
+
+  // 3. Convert RGB to hex
+  const backgroundColor = `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
+
+  // 4. Calculate perceived brightness (0-255)
+  // Using the standard luminance formula
+  const brightness = 0.299 * r + 0.587 * g + 0.114 * b;
+
+  // 5. Choose white or black text based on brightness
+  // Threshold of 128 works well (or use 186 for stricter contrast)
+  const textColor = brightness > 128 ? "#000000" : "#ffffff";
+
+  return { backgroundColor, textColor };
+};

@@ -30,6 +30,9 @@ export const getPosts = async () => {
     mainImage,
     description,
     publishedAt,
+    categories[]->{
+      title
+    },
     author->{
       name
     }
