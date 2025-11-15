@@ -1,6 +1,7 @@
 import { Separator } from "@/components/ui/separator";
 import { BASE_URL, IMAGES, PAGES } from "@/lib/constants";
 import { domine } from "@/lib/fonts";
+import { getOpinions } from "@/lib/requests";
 // import { getOpinions } from "@/lib/requests";
 import { urlFor } from "@/lib/sanity.client";
 import { cn, formatDate, getDayMonthYear } from "@/lib/utils";
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
 };
 
 const OpinionsPage = async () => {
-  // const opinions = await getOpinions();
+  const opinions = await getOpinions();
 
   return (
     <main className="w-full max-w-4xl mx-auto px-6 my-8">
@@ -48,10 +49,10 @@ const OpinionsPage = async () => {
         </h1>
 
         <div className="grid grid-cols-1 gap-8">
-          {/* {opinions.map((opinion) => {
-            const { day, month, year } = getDayMonthYear(opinion.publishedAt);
+          {opinions.map((opinion) => {
+            const { day, month, year } = getDayMonthYear(opinion.date);
 
-            const opinionUrl = PAGES.opinion(year, month, day, opinion.slug);
+            const opinionUrl = PAGES.post(year, month, day, opinion.slug);
 
             return (
               <React.Fragment key={opinion._id}>
@@ -59,7 +60,7 @@ const OpinionsPage = async () => {
                   <div className="w-full flex flex-col md:flex-row items-start justify-between gap-6 cursor-pointer group">
                     <div className="flex flex-row items-start gap-6 w-full md:w-3/4">
                       <p className="text-sm text-muted-foreground whitespace-nowrap pt-1">
-                        {formatDate(opinion.publishedAt)}
+                        {formatDate(opinion.date)}
                       </p>
 
                       <div className="flex flex-col gap-2">
@@ -104,7 +105,7 @@ const OpinionsPage = async () => {
                 <Separator />
               </React.Fragment>
             );
-          })} */}
+          })}
         </div>
       </div>
     </main>
