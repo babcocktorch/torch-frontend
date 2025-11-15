@@ -1,29 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Stack+Sans+Notch:wght@200..700&display=swap");
+
 @import "tailwindcss";
 
 @import "tw-animate-css";
-
-/* Franklin Gothic Font */
-/* @font-face {
-  font-family: "Franklin Gothic";
-  src: url("/fonts/franklin-gothic/franklin-gothic.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-} */
-
-/* Georgia Fonts */
-/* @font-face {
-  font-family: "Georgia";
-  src: url("/fonts/georgia/georgia-regular.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Georgia";
-  src: url("/fonts/georgia/georgia-bold.ttf") format("truetype");
-  font-weight: bold;
-  font-style: normal;
-} */
 
 /* Miller Banner Fonts */
 @font-face {
@@ -116,10 +95,6 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -203,6 +178,8 @@ html {
 
   -ms-overflow-style: none;
   scrollbar-width: none;
+
+  font-family: "Stack Sans Notch", sans-serif;
 }
 
 ::-webkit-scrollbar {
