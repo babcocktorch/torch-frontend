@@ -85,6 +85,47 @@ export const getOpinions = async () => {
   }
 };
 
+export const searchPosts = async (searchTerm: string) => {
+  if (!searchTerm || searchTerm.trim() === "") {
+    return [];
+  }
+
+  const searchQuery = groq`
+  *[_type == "Post" && isPublished == true && (
+    title match $searchTerm ||
+    description match $searchTerm
+  )] | order(date desc) {
+    _id,
+    title,
+    "slug": slug.current,
+    mainImage,
+    description,
+    date,
+    isPublished,
+    featured,
+    isPost,
+    categories[]->{
+      title
+    },
+    author->{
+      name
+    }
+  }
+`;
+
+  try {
+    const searchResults = await sanityClient.fetch(searchQuery, {
+      searchTerm: `*${searchTerm}*`,
+    });
+
+    return searchResults as PostType[];
+  } catch (error) {
+    console.error("Failed to search posts:", error);
+
+    return [];
+  }
+};
+
 export const getWeather = async () => {
   try {
     const response = await fetch(
