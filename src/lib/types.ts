@@ -1,5 +1,13 @@
 import { PortableTextBlock } from "next-sanity";
 
+export type AuthorType = {
+  _id: string;
+  name: string;
+  slug: string;
+  image?: any;
+  bio?: PortableTextBlock[];
+};
+
 export type PostType = {
   _id: string;
   title: string;
@@ -12,6 +20,8 @@ export type PostType = {
   isPost: boolean;
   author: {
     name: string;
+    slug?: string;
+    image?: any;
   };
   categories: {
     title: string;

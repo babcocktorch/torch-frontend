@@ -18,6 +18,7 @@ import { PostType } from "@/lib/types";
 import SharePost from "@/components/general/share-post";
 import FeaturedPosts from "@/components/general/featured-posts";
 import Image from "next/image";
+import Link from "next/link";
 
 const postQuery = groq`
   *[_type == "Post" && isPublished == true && slug.current == $slug][0] {
@@ -30,6 +31,8 @@ const postQuery = groq`
     date,
     author->{
       name,
+      "slug": slug.current,
+      image
     },
     "categories": categories[]->{
       title
@@ -214,7 +217,11 @@ const PostPage = async ({
             <address className="flex items-center gap-x-3 mt-4 not-italic">
               <div className="relative w-10 h-10">
                 <img
-                  src={`https://api.dicebear.com/9.x/lorelei-neutral/svg?seed=${post.author.name}`}
+                  src={
+                    post.author.image
+                      ? urlFor(post.author.image).width(80).height(80).url()
+                      : `https://api.dicebear.com/9.x/lorelei-neutral/png?seed=${post.author.name}`
+                  }
                   alt={post.author.name}
                   width={40}
                   height={40}
@@ -222,9 +229,17 @@ const PostPage = async ({
                 />
               </div>
               <div rel="author">
-                <h3 className="font-medium text-lg tracking-tight">
-                  {post.author.name}
-                </h3>
+                {post.author.slug ? (
+                  <Link href={PAGES.author(post.author.slug)}>
+                    <h3 className="font-medium text-lg tracking-tight hover:text-primary transition-colors cursor-pointer">
+                      {post.author.name}
+                    </h3>
+                  </Link>
+                ) : (
+                  <h3 className="font-medium text-lg tracking-tight">
+                    {post.author.name}
+                  </h3>
+                )}
                 {/* <a
                     href={post.author.twitterUrl}
                     className="text-blue-500 text-sm"

@@ -75,6 +75,7 @@ export const PAGES = {
   search: (query?: string) => "/search" + (query ? `?query=${query}` : ""),
   post: (year: string, month: string, day: string, slug: string) =>
     `/post/${year}/${month}/${day}/${slug}`,
+  author: (slug: string) => `/author/${slug}`,
   // opinion: (year: string, month: string, day: string, slug: string) =>
   //   `/opinion/${year}/${month}/${day}/${slug}`,
 };

@@ -1,7 +1,7 @@
 import { groq } from "next-sanity";
 import { API_ROUTES, BASE_URL, CREDENTIALS } from "./constants";
 import { sanityClient } from "./sanity.client";
-import { PostType } from "./types";
+import { AuthorType, PostType } from "./types";
 
 export const submitIdea = async (details: FormData) => {
   try {
@@ -121,6 +121,63 @@ export const searchPosts = async (searchTerm: string) => {
     return searchResults as PostType[];
   } catch (error) {
     console.error("Failed to search posts:", error);
+
+    return [];
+  }
+};
+
+export const getAuthor = async (slug: string) => {
+  const authorQuery = groq`
+  *[_type == "Author" && slug.current == $slug][0] {
+    _id,
+    name,
+    "slug": slug.current,
+    image,
+    bio
+  }
+`;
+
+  try {
+    const authorData = await sanityClient.fetch(authorQuery, { slug });
+
+    return authorData as AuthorType;
+  } catch (error) {
+    console.error("Failed to fetch author:", error);
+
+    return null;
+  }
+};
+
+export const getAuthorPosts = async (authorName: string) => {
+  const authorPostsQuery = groq`
+  *[_type == "Post" && isPublished == true && author->name == $authorName] | order(date desc) {
+    _id,
+    title,
+    "slug": slug.current,
+    mainImage,
+    description,
+    date,
+    isPublished,
+    featured,
+    isPost,
+    categories[]->{
+      title
+    },
+    author->{
+      name,
+      "slug": slug.current
+    }
+  }
+`;
+
+  try {
+    const postsData = await sanityClient.fetch(authorPostsQuery, {
+      authorName,
+    });
+
+    return postsData as PostType[];
+  } catch (error) {
+    console.error("Failed to fetch author posts:", error);
 
     return [];
   }
