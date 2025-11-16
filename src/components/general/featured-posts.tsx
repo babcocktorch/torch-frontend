@@ -10,7 +10,7 @@ const FeaturedPosts = async ({ slug }: { slug: string }) => {
   const posts = await getPosts();
 
   return (
-    <>
+    <div className="flex flex-col gap-4">
       {posts.map((post) =>
         post.featured === true &&
         post.isPublished === true &&
@@ -51,7 +51,7 @@ const FeaturedPosts = async ({ slug }: { slug: string }) => {
           </article>
         ) : null
       )}
-    </>
+    </div>
   );
 };
 
