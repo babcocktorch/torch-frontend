@@ -58,7 +58,7 @@ const OpinionsPage = async () => {
               <React.Fragment key={opinion._id}>
                 <Link href={opinionUrl}>
                   <div className="w-full flex flex-col md:flex-row items-start justify-between gap-6 cursor-pointer group">
-                    <div className="flex flex-row items-start gap-6 w-full md:w-3/4">
+                    <div className="flex flex-row items-start gap-6 w-full">
                       <p className="text-sm text-muted-foreground whitespace-nowrap pt-1">
                         {formatDate(opinion.date)}
                       </p>
@@ -84,7 +84,7 @@ const OpinionsPage = async () => {
                       </div>
                     </div>
 
-                    <div className="w-full md:w-1/4">
+                    {/* <div className="w-full md:w-1/4">
                       {opinion.mainImage && (
                         <Image
                           src={urlFor(opinion.mainImage)
@@ -98,7 +98,7 @@ const OpinionsPage = async () => {
                           className="w-full h-auto object-cover"
                         />
                       )}
-                    </div>
+                    </div> */}
                   </div>
                 </Link>
 
