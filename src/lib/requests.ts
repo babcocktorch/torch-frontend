@@ -30,6 +30,7 @@ export const getPosts = async () => {
     mainImage,
     description,
     date,
+    isPublished,
     featured,
     isPost,
     categories[]->{
@@ -61,6 +62,7 @@ export const getOpinions = async () => {
     mainImage,
     description,
     date,
+    isPublished,
     featured,
     isPost,
     categories[]->{

@@ -56,7 +56,7 @@ const SharePost = ({ title, slug, description, date }: SharePostProps) => {
 
   return (
     <section className="border-b pb-6">
-      <h3 className="lg:text-lg font-medium tracking-tight mb-4">
+      <h3 className="lg:text-lg font-semibold tracking-tight mb-4">
         Share this post
       </h3>
 

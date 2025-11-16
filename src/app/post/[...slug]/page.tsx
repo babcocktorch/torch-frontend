@@ -16,6 +16,8 @@ import { Metadata } from "next";
 import { BASE_URL, PAGES } from "@/lib/constants";
 import { PostType } from "@/lib/types";
 import SharePost from "@/components/general/share-post";
+import FeaturedPosts from "@/components/general/featured-posts";
+import Image from "next/image";
 
 const postQuery = groq`
   *[_type == "Post" && isPublished == true && slug.current == $slug][0] {
@@ -183,12 +185,14 @@ const PostPage = async ({
           <div className="relative w-full h-auto">
             {post.mainImage && (
               <div className="mx-auto my-4">
-                <img
+                <Image
                   src={urlFor(post.mainImage)
                     .width(1200)
                     .fit("max")
                     .auto("format")
                     .url()}
+                  width={1200}
+                  height={630}
                   alt={post.mainImage.alt || "Post Image"}
                   loading="lazy"
                   className="w-full h-auto rounded-sm"
@@ -208,17 +212,17 @@ const PostPage = async ({
           <section className="border-b pb-6">
             <p className="text-muted-foreground text-sm">Written By</p>
             <address className="flex items-center gap-x-3 mt-4 not-italic">
-              <div className="relative w-12 h-12">
+              <div className="relative w-10 h-10">
                 <img
                   src={`https://api.dicebear.com/9.x/lorelei-neutral/svg?seed=${post.author.name}`}
                   alt={post.author.name}
-                  width={80}
-                  height={80}
-                  className="dark:bg-zinc-800 bg-zinc-300 rounded-full object-cover border"
+                  width={40}
+                  height={40}
+                  className="rounded-full object-cover border"
                 />
               </div>
               <div rel="author">
-                <h3 className="font-semibold text-lg tracking-tight">
+                <h3 className="font-medium text-lg tracking-tight">
                   {post.author.name}
                 </h3>
                 {/* <a
@@ -235,7 +239,7 @@ const PostPage = async ({
 
           {post.categories && (
             <section className="border-b pb-6">
-              <h3 className="lg:text-lg font-medium tracking-tight mb-4">
+              <h3 className="lg:text-lg font-semibold tracking-tight mb-4">
                 Categories
               </h3>
               <div className="flex flex-wrap items-center gap-2 tracking-tight">
@@ -264,12 +268,13 @@ const PostPage = async ({
             date={post.date}
           />
 
-          {/* <section className="border-b pb-6">
-            <h3 className="lg:text-lg font-medium tracking-tight mb-4">
+          <section className="border-b pb-6">
+            <h3 className="lg:text-lg font-semibold tracking-tight mb-4">
               Featured
             </h3>
-            <FeaturedPosts params={params.post} />
-          </section> */}
+
+            <FeaturedPosts slug={slug} />
+          </section>
         </aside>
       </article>
     </main>

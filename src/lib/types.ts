@@ -7,6 +7,7 @@ export type PostType = {
   mainImage: any;
   description: string;
   date: string;
+  isPublished: boolean;
   featured: boolean;
   isPost: boolean;
   author: {
