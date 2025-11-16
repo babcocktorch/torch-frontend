@@ -2,11 +2,8 @@ import { Separator } from "@/components/ui/separator";
 import { BASE_URL, IMAGES, PAGES } from "@/lib/constants";
 import { domine } from "@/lib/fonts";
 import { getOpinions } from "@/lib/requests";
-// import { getOpinions } from "@/lib/requests";
-import { urlFor } from "@/lib/sanity.client";
 import { cn, formatDate, getDayMonthYear } from "@/lib/utils";
 import { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 

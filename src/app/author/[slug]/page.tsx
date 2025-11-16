@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import { BASE_URL, IMAGES, PAGES } from "@/lib/constants";
+import { BASE_URL, PAGES } from "@/lib/constants";
 import { domine } from "@/lib/fonts";
 import { getAuthor, getAuthorPosts } from "@/lib/requests";
 import { urlFor } from "@/lib/sanity.client";
