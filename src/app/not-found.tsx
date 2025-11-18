@@ -49,9 +49,9 @@ const NotFound = () => {
             Page Not Found
           </h2> */}
           <p className="text-muted-foreground text-base lg:text-lg leading-relaxed">
-            The page you're looking for has either been moved, deleted, or never
-            existed in our archives. Even our best reporters couldn't track it
-            down.
+            The page you&apos;re looking for has either been moved, deleted, or
+            never existed in our archives. Even our best reporters couldn&apos;t
+            track it down.
           </p>
         </div>
 

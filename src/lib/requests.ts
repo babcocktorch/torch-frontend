@@ -1,5 +1,5 @@
 import { groq } from "next-sanity";
-import { API_ROUTES, BASE_URL, CREDENTIALS } from "./constants";
+import { API_ROUTES, BASE_URL } from "./constants";
 import { sanityClient } from "./sanity.client";
 import { AuthorType, PostType } from "./types";
 

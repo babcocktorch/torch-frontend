@@ -1,6 +1,6 @@
 import Home from "@/components/home";
 import { BASE_URL, IMAGES } from "@/lib/constants";
-import { getPosts, getWeather } from "@/lib/requests";
+import { getPosts } from "@/lib/requests";
 import { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
