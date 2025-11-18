@@ -185,9 +185,7 @@ export const getAuthorPosts = async (authorName: string) => {
 
 export const getWeather = async () => {
   try {
-    const response = await fetch(
-      `http://api.weatherapi.com/v1/current.json?key=${CREDENTIALS.weather_api_key}&q=Ilishan`
-    );
+    const response = await fetch(BASE_URL + API_ROUTES.weather);
 
     if (!response.ok) {
       return { temp: 0, condition: "" };
@@ -195,10 +193,7 @@ export const getWeather = async () => {
 
     const data = await response.json();
 
-    return {
-      temp: data.current.temp_c,
-      condition: data.current.condition.text,
-    };
+    return data;
   } catch (error) {
     console.error("Failed to fetch weather:", error);
 

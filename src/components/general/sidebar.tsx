@@ -8,7 +8,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { MAJOR_CATEGORIES } from "@/lib/constants";
-import { Menu, Search } from "lucide-react";
+import { Search, TextSearch } from "lucide-react";
 import { Input } from "../ui/input";
 import IdeaSubmission from "./idea-submission";
 import Link from "next/link";
@@ -37,7 +37,7 @@ const Sidebar = () => {
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger>
-        <Menu className="w-5 h-auto dark:text-white text-black cursor-pointer" />
+        <TextSearch className="w-6 h-auto dark:text-white text-black cursor-pointer" />
       </SheetTrigger>
       <SheetContent side="left" onOpenAutoFocus={(e) => e.preventDefault()}>
         <SheetHeader></SheetHeader>

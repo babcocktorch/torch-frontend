@@ -32,13 +32,9 @@ export const metadata: Metadata = {
 };
 
 const HomePage = async () => {
-  const [posts, weather] = await Promise.all([
-    getPosts(),
-    getWeather(),
-    // getOpinions(),
-  ]);
+  const posts = await getPosts();
 
-  return <Home posts={posts} weather={weather} />;
+  return <Home posts={posts} />;
 };
 
 export default HomePage;

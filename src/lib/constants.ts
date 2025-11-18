@@ -57,6 +57,12 @@ export const IMAGES = {
       height: 3290,
     },
   },
+
+  creatives: {
+    src: "/images/creatives.png",
+    width: 70,
+    height: 66,
+  },
 };
 
 export const PAGES = {
@@ -76,8 +82,6 @@ export const PAGES = {
   post: (year: string, month: string, day: string, slug: string) =>
     `/post/${year}/${month}/${day}/${slug}`,
   author: (slug: string) => `/author/${slug}`,
-  // opinion: (year: string, month: string, day: string, slug: string) =>
-  //   `/opinion/${year}/${month}/${day}/${slug}`,
 };
 
 export const CREDENTIALS = {
@@ -111,6 +115,7 @@ export const MINOR_CATEGORIES = [
 
 export const API_ROUTES = {
   submit_idea: "/api/submit-idea",
+  weather: "/api/weather",
 };
 
 export const SOCIAL_MEDIA = [
