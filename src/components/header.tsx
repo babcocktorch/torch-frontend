@@ -12,7 +12,6 @@ import Link from "next/link";
 import IdeaSubmission from "./general/idea-submission";
 import { useEffect, useRef, useState } from "react";
 import { FaYoutube } from "react-icons/fa";
-import { Users } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { getWeather } from "@/lib/requests";
 

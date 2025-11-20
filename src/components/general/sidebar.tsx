@@ -8,7 +8,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { MAJOR_CATEGORIES } from "@/lib/constants";
-import { Search, TextSearch } from "lucide-react";
+import { Search } from "lucide-react";
 import { Input } from "../ui/input";
 import IdeaSubmission from "./idea-submission";
 import Link from "next/link";
