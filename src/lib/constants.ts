@@ -57,12 +57,6 @@ export const IMAGES = {
       height: 3290,
     },
   },
-
-  creatives: {
-    src: "/images/creatives.png",
-    width: 70,
-    height: 66,
-  },
 };
 
 export const PAGES = {
