@@ -98,11 +98,11 @@ const Footer = () => {
                   Masthead
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link href="#" className="hover:opacity-70 transition">
                   Ask the Torch AI
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
 
@@ -111,7 +111,10 @@ const Footer = () => {
             <h3 className="font-semibold text-base mb-6">Support</h3>
             <ul className="space-y-3 text-sm text-muted-foreground">
               <li>
-                <Link href="#" className="hover:opacity-70 transition">
+                <Link
+                  href="mailto:advertising@babcocktorch.com"
+                  className="hover:opacity-70 transition"
+                >
                   Advertise
                 </Link>
               </li>
@@ -121,22 +124,31 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:opacity-70 transition">
+                <Link href={PAGES.tips} className="hover:opacity-70 transition">
                   Send an Anonymous News Tip
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:opacity-70 transition">
+                <Link
+                  href="mailto:editorial@babcocktorch.com"
+                  className="hover:opacity-70 transition"
+                >
                   Contact the Newsroom
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:opacity-70 transition">
+                <Link
+                  href="mailto:opinions@babcocktorch.com"
+                  className="hover:opacity-70 transition"
+                >
                   Contact the Opinions Team
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:opacity-70 transition">
+                <Link
+                  href="mailto:dev@babcocktorch.com"
+                  className="hover:opacity-70 transition"
+                >
                   Report a Vulnerability
                 </Link>
               </li>
@@ -148,22 +160,34 @@ const Footer = () => {
             <h3 className="font-semibold text-base mb-6">Editorial Policy</h3>
             <ul className="space-y-3 text-sm text-muted-foreground">
               <li>
-                <Link href="#" className="hover:opacity-70 transition">
+                <Link
+                  href={PAGES.policy + "#corrections"}
+                  className="hover:opacity-70 transition"
+                >
                   Request a Correction
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:opacity-70 transition">
+                <Link
+                  href={PAGES.policy + "#ethics"}
+                  className="hover:opacity-70 transition"
+                >
                   Ethics Guidelines
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:opacity-70 transition">
+                <Link
+                  href={PAGES.policy + "#licensing"}
+                  className="hover:opacity-70 transition"
+                >
                   Licensing
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:opacity-70 transition">
+                <Link
+                  href={PAGES.policy + "#legal"}
+                  className="hover:opacity-70 transition"
+                >
                   Legal & Copyright
                 </Link>
               </li>
@@ -217,10 +241,7 @@ const Footer = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
-              <Button
-                // variant="outline"
-                className="bg-gold text-white hover:bg-gold/90"
-              >
+              <Button className="bg-gold text-white hover:bg-gold/90">
                 Subscribe
               </Button>
             </form>
