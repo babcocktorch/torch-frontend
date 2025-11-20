@@ -124,7 +124,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href={PAGES.tips} className="hover:opacity-70 transition">
+                <Link href="#" className="hover:opacity-70 transition">
                   Send an Anonymous News Tip
                 </Link>
               </li>
