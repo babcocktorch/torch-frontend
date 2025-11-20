@@ -72,6 +72,8 @@ export const PAGES = {
   calendar: "/calendar",
   maps: "/maps",
   masthead: "/masthead",
+  policy: "/policy",
+  tips: "/tips",
   search: (query?: string) => "/search" + (query ? `?query=${query}` : ""),
   post: (year: string, month: string, day: string, slug: string) =>
     `/post/${year}/${month}/${day}/${slug}`,

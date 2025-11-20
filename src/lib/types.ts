@@ -44,3 +44,9 @@ export type SharePostProps = {
   description: string;
   date: string;
 };
+
+export type ComingSoonProps = {
+  title?: string;
+  description?: string;
+  showReturnButton?: boolean;
+};
