@@ -29,7 +29,7 @@ const NotFound = () => {
 
         {/* 404 Heading */}
         <div className="flex flex-col gap-4">
-          <h1 className="font-miller text-8xl lg:text-9xl font-bold text-gold">
+          <h1 className="font-miller text-8xl lg:text-9xl font-bold text-gold dark:text-white">
             404
           </h1>
           <div className="flex items-center justify-center gap-4">
