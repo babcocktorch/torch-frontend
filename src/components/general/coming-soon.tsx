@@ -34,7 +34,7 @@ const ComingSoon = ({
 
         {/* Coming Soon Heading */}
         <div className="flex flex-col gap-4">
-          <h1 className="font-miller text-6xl lg:text-7xl font-bold text-gold dark:text-white">
+          <h1 className="font-miller text-5xl md:text-6xl lg:text-7xl font-bold text-gold dark:text-white">
             {title}
           </h1>
           <div className="flex items-center justify-center gap-4">
