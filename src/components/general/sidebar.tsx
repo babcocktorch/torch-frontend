@@ -14,6 +14,7 @@ import IdeaSubmission from "./idea-submission";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { RiMenuSearchLine } from "react-icons/ri";
 
 const Sidebar = () => {
   const router = useRouter();
@@ -37,7 +38,7 @@ const Sidebar = () => {
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger>
-        <TextSearch className="w-6 h-auto dark:text-white text-black cursor-pointer" />
+        <RiMenuSearchLine className="w-6 h-auto dark:text-white text-black cursor-pointer" />
       </SheetTrigger>
       <SheetContent side="left" onOpenAutoFocus={(e) => e.preventDefault()}>
         <SheetHeader></SheetHeader>
