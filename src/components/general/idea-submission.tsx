@@ -17,9 +17,11 @@ import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { submitIdea } from "@/lib/requests";
 import { isValidEmail } from "@/lib/utils";
+import { Switch } from "../ui/switch";
 
 const IdeaSubmission = () => {
   const [open, setOpen] = useState(false);
+  const [isAnonymous, setIsAnonymous] = useState(false);
   const [loading, setLoading] = useState(false);
   const [details, setDetails] = useState({
     name: "",
@@ -105,6 +107,22 @@ const IdeaSubmission = () => {
           <DialogDescription>Submit an article to the Torch.</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4">
+          <div className="flex gap-3 items-center justify-start my-4">
+            <Switch
+              checked={isAnonymous}
+              onCheckedChange={(e) => {
+                setDetails((prev) => ({
+                  ...prev,
+                  name: e ? "Anonymous" : "",
+                  email: e ? "anonymous@babcocktorch.com" : "",
+                }));
+
+                setIsAnonymous(e);
+              }}
+            />
+            <Label htmlFor="isAnonymous">Send anonymously</Label>
+          </div>
+
           <div className="grid gap-3">
             <Label htmlFor="name">Name</Label>
             <Input
@@ -112,6 +130,7 @@ const IdeaSubmission = () => {
               placeholder="John Doe"
               value={details.name}
               onChange={handleChange}
+              disabled={isAnonymous}
             />
           </div>
 
@@ -123,6 +142,7 @@ const IdeaSubmission = () => {
               type="email"
               value={details.email}
               onChange={handleChange}
+              disabled={isAnonymous}
             />
           </div>
 
