@@ -137,9 +137,9 @@ const Header = () => {
       >
         {/* Top section with date, logo, and buttons */}
         <div className="w-full max-w-7xl mx-auto px-6 pt-6 pb-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-center relative">
             {/* Left: Date and Weather */}
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-1.5 absolute left-0">
               <p className="whitespace-nowrap text-sm font-medium">{date}</p>
 
               {weather.temp !== 0 && (
@@ -171,7 +171,7 @@ const Header = () => {
             </div>
 
             {/* Right: Talk to the Torch and Theme Toggle */}
-            <div className="flex flex-col items-end gap-3">
+            <div className="flex flex-col items-end gap-3 absolute right-0">
               <IdeaSubmission />
               <ThemeToggle />
             </div>
