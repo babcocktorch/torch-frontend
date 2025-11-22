@@ -179,8 +179,8 @@ const Header = () => {
         </div>
 
         {/* Navigation Menu */}
-        <nav className="w-full border-t border-b">
-          <div className="w-full max-w-7xl mx-auto px-6 flex items-center justify-center">
+        <nav className="w-full">
+          <div className="w-full border-b max-w-7xl mx-auto px-6 flex items-center justify-center">
             {MAJOR_CATEGORIES.map((category, i) => (
               <Link href={category.href} key={i}>
                 <div
@@ -199,7 +199,7 @@ const Header = () => {
         </nav>
 
         {pathname === PAGES.home && (
-          <div className="w-full bg-muted/30 border-t">
+          <div className="w-full">
             <div className="w-full max-w-5xl mx-auto px-6 py-4 grid grid-cols-3 gap-6">
               <Link
                 href="https://www.youtube.com/@babcocktorch"
