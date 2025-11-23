@@ -17,6 +17,7 @@ import { BASE_URL, PAGES } from "@/lib/constants";
 import { PostType } from "@/lib/types";
 import SharePost from "@/components/general/share-post";
 import FeaturedPosts from "@/components/general/featured-posts";
+import PostReactions from "@/components/general/post-reactions";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -209,6 +210,8 @@ const PostPage = async ({
               <PortableText value={post.body} components={ptComponents} />
             </div>
           )}
+
+          {!post.isPost && <PostReactions postId={post._id} />}
         </div>
 
         <aside className="flex flex-col lg:max-h-full h-max gap-y-6 sticky top-24 bottom-auto right-0 lg:pl-6 pl-0">
