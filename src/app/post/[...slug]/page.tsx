@@ -1,12 +1,7 @@
 import { sanityClient, urlFor } from "@/lib/sanity.client";
 import { groq } from "next-sanity";
 import { PortableText, toPlainText } from "@portabletext/react";
-import {
-  cn,
-  generateColorsFromString,
-  getDayMonthYear,
-  readTime,
-} from "@/lib/utils";
+import { cn, getDayMonthYear, readTime } from "@/lib/utils";
 import { domine } from "@/lib/fonts";
 import React from "react";
 import { notFound } from "next/navigation";
@@ -261,20 +256,14 @@ const PostPage = async ({
                 Categories
               </h3>
               <div className="flex flex-wrap items-center gap-2 tracking-tight">
-                {post.categories.map((category, i) => {
-                  const { backgroundColor, textColor } =
-                    generateColorsFromString(category.title);
-
-                  return (
-                    <p
-                      key={i}
-                      className="text-sm px-2.5 py-1 rounded-sm font-medium"
-                      style={{ backgroundColor, color: textColor }}
-                    >
-                      {category.title}
-                    </p>
-                  );
-                })}
+                {post.categories.map((category, i) => (
+                  <p
+                    key={i}
+                    className="text-sm px-2.5 py-1 rounded-full font-medium border"
+                  >
+                    {category.title}
+                  </p>
+                ))}
               </div>
             </section>
           )}

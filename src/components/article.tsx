@@ -1,9 +1,4 @@
-import {
-  cn,
-  getDayMonthYear,
-  formatDate,
-  generateColorsFromString,
-} from "@/lib/utils";
+import { cn, getDayMonthYear, formatDate } from "@/lib/utils";
 import Image from "next/image";
 import { urlFor } from "@/lib/sanity.client";
 import Link from "next/link";
@@ -31,21 +26,14 @@ const Article = ({ post }: PostProps) => {
 
           {post.categories && (
             <div className="flex items-center justify-start gap-2 flex-wrap">
-              {post.categories.map((category, i) => {
-                const { backgroundColor, textColor } = generateColorsFromString(
-                  category.title
-                );
-
-                return (
-                  <p
-                    key={i}
-                    className="text-xs px-2.5 py-1 rounded-sm font-medium"
-                    style={{ backgroundColor, color: textColor }}
-                  >
-                    {category.title}
-                  </p>
-                );
-              })}
+              {post.categories.map((category, i) => (
+                <p
+                  key={i}
+                  className="text-xs px-2.5 py-1 rounded-full font-medium border"
+                >
+                  {category.title}
+                </p>
+              ))}
             </div>
           )}
         </div>
