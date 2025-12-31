@@ -8,7 +8,7 @@ import { PAGES } from "@/lib/constants";
 const Article = ({ post }: PostProps) => {
   const { day, month, year } = getDayMonthYear(post.date);
 
-  const postUrl = PAGES.post(year, month, day, post.slug);
+  const postUrl = post.slug === "#" ? "#" : PAGES.post(year, month, day, post.slug);
 
   return (
     <Link href={postUrl}>
@@ -39,7 +39,7 @@ const Article = ({ post }: PostProps) => {
         </div>
 
         <div className="w-full md:w-3/5">
-          {post.mainImage && (
+          {post.mainImage ? (
             <Image
               src={urlFor(post.mainImage)
                 .width(500)
@@ -51,6 +51,10 @@ const Article = ({ post }: PostProps) => {
               height={400}
               className="w-full h-auto object-cover"
             />
+          ) : (
+            <div className="w-full aspect-[5/4] bg-gradient-to-br from-gold/20 to-gold/5 flex items-center justify-center">
+              <div className="text-gold/40 text-5xl font-miller">T</div>
+            </div>
           )}
         </div>
       </div>

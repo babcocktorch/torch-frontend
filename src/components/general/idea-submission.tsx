@@ -19,7 +19,11 @@ import { submitIdea } from "@/lib/requests";
 import { isValidEmail } from "@/lib/utils";
 import { Switch } from "../ui/switch";
 
-const IdeaSubmission = () => {
+interface IdeaSubmissionProps {
+  trigger?: React.ReactNode;
+}
+
+const IdeaSubmission = ({ trigger }: IdeaSubmissionProps) => {
   const [open, setOpen] = useState(false);
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -97,9 +101,11 @@ const IdeaSubmission = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="rounded-full">
-          Talk to the Torch
-        </Button>
+        {trigger || (
+          <Button variant="outline" className="rounded-full">
+            Talk to the Torch
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className="max-w-xl">
         <DialogHeader>

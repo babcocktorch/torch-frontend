@@ -6,7 +6,7 @@ import { PAGES } from "@/lib/constants";
 const Opinion = ({ post }: PostProps) => {
   const { day, month, year } = getDayMonthYear(post.date);
 
-  const opinionUrl = PAGES.post(year, month, day, post.slug);
+  const opinionUrl = post.slug === "#" ? "#" : PAGES.post(year, month, day, post.slug);
 
   return (
     <Link href={opinionUrl}>
