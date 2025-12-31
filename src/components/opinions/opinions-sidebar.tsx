@@ -3,8 +3,6 @@ import { cn, getDayMonthYear } from "@/lib/utils";
 import { domine } from "@/lib/fonts";
 import Link from "next/link";
 import { PAGES } from "@/lib/constants";
-import { IoIosArrowForward } from "react-icons/io";
-import { FaFire, FaEye, FaPen } from "react-icons/fa";
 
 interface OpinionsSidebarProps {
   opinions: PostType[];

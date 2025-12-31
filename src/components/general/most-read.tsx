@@ -3,7 +3,6 @@ import Link from "next/link";
 import { PostType } from "@/lib/types";
 import { PAGES } from "@/lib/constants";
 import { domine } from "@/lib/fonts";
-import { IoIosArrowForward } from "react-icons/io";
 
 interface MostReadProps {
   posts: PostType[];

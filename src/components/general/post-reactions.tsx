@@ -9,7 +9,7 @@ interface PostReactionsProps {
   className?: string;
 }
 
-const PostReactions = ({ postId, className }: PostReactionsProps) => {
+const PostReactions = ({ className }: PostReactionsProps) => {
   // Mock data for UI - will be replaced with real data later
   const [agreeCount, setAgreeCount] = useState(405);
   const [disagreeCount, setDisagreeCount] = useState(145);
