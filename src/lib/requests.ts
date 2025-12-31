@@ -1,7 +1,7 @@
 import { groq } from "next-sanity";
 import { API_ROUTES, BASE_URL } from "./constants";
 import { sanityClient } from "./sanity.client";
-import { AuthorType, PostType } from "./types";
+import { AuthorType, OpinionAuthor, PostType } from "./types";
 
 export const submitIdea = async (details: FormData) => {
   try {
@@ -199,4 +199,31 @@ export const getWeather = async () => {
 
     return { temp: 0, condition: "" };
   }
+};
+
+export const getOpinionAuthors = async (): Promise<OpinionAuthor[]> => {
+  // Get all opinions and extract unique authors with their opinion counts
+  const opinions = await getOpinions();
+
+  const authorMap = new Map<string, OpinionAuthor>();
+
+  for (const opinion of opinions) {
+    const authorName = opinion.author.name;
+    const existing = authorMap.get(authorName);
+
+    if (existing) {
+      existing.opinionCount += 1;
+    } else {
+      authorMap.set(authorName, {
+        name: authorName,
+        slug: opinion.author.slug || null,
+        opinionCount: 1,
+      });
+    }
+  }
+
+  // Sort by opinion count (descending)
+  return Array.from(authorMap.values()).sort(
+    (a, b) => b.opinionCount - a.opinionCount
+  );
 };

@@ -50,3 +50,9 @@ export type ComingSoonProps = {
   description?: string;
   showReturnButton?: boolean;
 };
+
+export type OpinionAuthor = {
+  name: string;
+  slug: string | null;
+  opinionCount: number;
+};
