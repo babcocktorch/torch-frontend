@@ -19,13 +19,13 @@ const MostRead = ({ posts, limit = 5 }: MostReadProps) => {
     <div className="w-full">
       <h6 className="flex items-center justify-start gap-1 font-medium mb-4 hover:gap-1.5 cursor-pointer transition-all">
         <span className="border-b-2 border-gold">Most Read</span>
-        <IoIosArrowForward />
       </h6>
 
       <div className="flex flex-col">
         {mostReadPosts.map((post, index) => {
           const { day, month, year } = getDayMonthYear(post.date);
-          const postUrl = post.slug === "#" ? "#" : PAGES.post(year, month, day, post.slug);
+          const postUrl =
+            post.slug === "#" ? "#" : PAGES.post(year, month, day, post.slug);
 
           return (
             <Link key={post._id} href={postUrl} className="group">
@@ -51,4 +51,3 @@ const MostRead = ({ posts, limit = 5 }: MostReadProps) => {
 };
 
 export default MostRead;
-

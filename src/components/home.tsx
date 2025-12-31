@@ -376,7 +376,6 @@ const Home = ({ posts }: { posts: PostType[] }) => {
           <div className="w-full lg:w-3/4 lg:border-r lg:pr-6">
             <h6 className="flex items-center justify-start gap-1 font-medium mb-6 hover:gap-1.5 cursor-pointer transition-all">
               <span className="border-b-2 border-gold">More Top Stories</span>
-              <IoIosArrowForward />
             </h6>
 
             <div className="flex flex-col md:flex-row gap-6">
