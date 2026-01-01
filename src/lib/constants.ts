@@ -57,6 +57,11 @@ export const IMAGES = {
       height: 3290,
     },
   },
+  contributor_cta: {
+    src: "/images/contributor_cta.webp",
+    width: 3264,
+    height: 2448,
+  }
 };
 
 export const PAGES = {
