@@ -32,9 +32,9 @@ export const metadata: Metadata = {
 };
 
 const HomePage = async () => {
-  const posts = await getPosts();
+  const { posts, editorsPickSlug } = await getPosts();
 
-  return <Home posts={posts} />;
+  return <Home posts={posts} editorsPickSlug={editorsPickSlug} />;
 };
 
 export default HomePage;

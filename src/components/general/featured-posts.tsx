@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const FeaturedPosts = async ({ slug }: { slug: string }) => {
-  const posts = await getPosts();
+  const { posts } = await getPosts();
 
   return (
     <div className="flex flex-col gap-4">

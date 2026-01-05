@@ -1,7 +1,7 @@
 import { groq } from "next-sanity";
-import { API_ROUTES, BASE_URL } from "./constants";
+import { API_ROUTES, BACKEND_API_ROUTES, BACKEND_BASE_URL, BASE_URL } from "./constants";
 import { sanityClient } from "./sanity.client";
-import { AuthorType, OpinionAuthor, PostType } from "./types";
+import { AdminArticle, AuthorType, OpinionAuthor, PostType } from "./types";
 
 export const submitIdea = async (details: FormData) => {
   try {
@@ -21,7 +21,60 @@ export const submitIdea = async (details: FormData) => {
   }
 };
 
-export const getPosts = async () => {
+/**
+ * Fetch public articles from backend to get visibility info
+ */
+const fetchBackendPublicArticles = async (): Promise<{
+  publicSlugs: Set<string>;
+  editorsPickSlug: string | null;
+}> => {
+  try {
+    const response = await fetch(
+      BACKEND_BASE_URL + BACKEND_API_ROUTES.public.articles,
+      { next: { revalidate: 60 } } // Cache for 60 seconds
+    );
+    
+    if (!response.ok) {
+      console.error("Failed to fetch backend articles");
+      return { publicSlugs: new Set(), editorsPickSlug: null };
+    }
+    
+    const data = await response.json();
+    const articles = data.data?.articles as AdminArticle[] || [];
+    
+    const publicSlugs = new Set(articles.map((a) => a.slug));
+    const editorsPick = articles.find((a) => a.isEditorsPick);
+    
+    return {
+      publicSlugs,
+      editorsPickSlug: editorsPick?.slug || null,
+    };
+  } catch (error) {
+    console.error("Failed to fetch backend articles:", error);
+    return { publicSlugs: new Set(), editorsPickSlug: null };
+  }
+};
+
+/**
+ * Check if a single article is public via backend
+ */
+export const isArticlePublic = async (slug: string): Promise<boolean> => {
+  try {
+    const response = await fetch(
+      BACKEND_BASE_URL + BACKEND_API_ROUTES.public.article(slug),
+      { next: { revalidate: 60 } }
+    );
+    return response.ok;
+  } catch (error) {
+    console.error("Failed to check article visibility:", error);
+    return false;
+  }
+};
+
+export const getPosts = async (): Promise<{
+  posts: PostType[];
+  editorsPickSlug: string | null;
+}> => {
   const postsQuery = groq`
   *[_type == "Post" && isPublished == true] | order(date desc) {
     _id,
@@ -43,17 +96,30 @@ export const getPosts = async () => {
 `;
 
   try {
-    const postsData = await sanityClient.fetch(postsQuery);
+    // Fetch both Sanity posts and backend visibility info in parallel
+    const [postsData, backendInfo] = await Promise.all([
+      sanityClient.fetch(postsQuery),
+      fetchBackendPublicArticles(),
+    ]);
 
-    return postsData as PostType[];
+    const allPosts = postsData as PostType[];
+    
+    // Filter posts to only include those that are public in backend
+    const filteredPosts = allPosts.filter((post) =>
+      backendInfo.publicSlugs.has(post.slug)
+    );
+
+    return {
+      posts: filteredPosts,
+      editorsPickSlug: backendInfo.editorsPickSlug,
+    };
   } catch (error) {
     console.error("Failed to fetch posts:", error);
-
-    return [];
+    return { posts: [], editorsPickSlug: null };
   }
 };
 
-export const getOpinions = async () => {
+export const getOpinions = async (): Promise<PostType[]> => {
   const opinionsQuery = groq`
   *[_type == "Post" && isPublished == true && (isPost == false || !defined(isPost))] | order(date desc) {
     _id,
@@ -75,12 +141,22 @@ export const getOpinions = async () => {
 `;
 
   try {
-    const opinionsData = await sanityClient.fetch(opinionsQuery);
+    // Fetch both Sanity opinions and backend visibility info in parallel
+    const [opinionsData, backendInfo] = await Promise.all([
+      sanityClient.fetch(opinionsQuery),
+      fetchBackendPublicArticles(),
+    ]);
 
-    return opinionsData as PostType[];
+    const allOpinions = opinionsData as PostType[];
+    
+    // Filter opinions to only include those that are public in backend
+    const filteredOpinions = allOpinions.filter((opinion) =>
+      backendInfo.publicSlugs.has(opinion.slug)
+    );
+
+    return filteredOpinions;
   } catch (error) {
     console.error("Failed to fetch opinions:", error);
-
     return [];
   }
 };

@@ -15,6 +15,7 @@ import FeaturedPosts from "@/components/general/featured-posts";
 import PostReactions from "@/components/general/post-reactions";
 import Image from "next/image";
 import Link from "next/link";
+import { isArticlePublic } from "@/lib/requests";
 
 const postQuery = groq`
   *[_type == "Post" && isPublished == true && slug.current == $slug][0] {
@@ -139,6 +140,10 @@ const PostPage = async ({
   const slug = (await params).slug.pop();
 
   if (!slug) return notFound();
+
+  // Check if article is public via backend
+  const isPublic = await isArticlePublic(slug);
+  if (!isPublic) return notFound();
 
   const post: PostType = await sanityClient.fetch(postQuery, { slug });
 
