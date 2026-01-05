@@ -1,5 +1,5 @@
 import { BACKEND_API_ROUTES, BACKEND_BASE_URL } from "./constants";
-import { AdminArticle, ApiResponse, SyncResult } from "./types";
+import { AdminArticle, SyncResult } from "./types";
 
 /**
  * Helper for authenticated requests
