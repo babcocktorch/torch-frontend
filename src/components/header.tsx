@@ -90,44 +90,67 @@ const Header = () => {
       {/* Small Header - slides down from top when needed */}
       <header
         className={cn(
-          "fixed top-0 z-50 w-full dark:bg-black bg-white border flex items-center justify-between py-4 px-6 gap-4 transition-transform duration-300",
+          "fixed top-0 z-50 w-full dark:bg-black bg-white border flex flex-col transition-transform duration-300",
           showSmallHeader ? "translate-y-0" : "-translate-y-full"
         )}
       >
-        <Sidebar />
+        {/* Top row: Sidebar, Logo, Theme Toggle */}
+        <div className="flex items-center justify-between py-4 px-6 gap-4">
+          <Sidebar />
 
-        <div
-          className={cn(
-            "flex items-center justify-center flex-col gap-1 transition-all",
-            shouldShowLogo ? "" : "lg:opacity-0"
-          )}
-        >
-          <Link href={PAGES.home}>
-            <Image
-              src={logo.src}
-              alt="The Babcock Torch"
-              width={logo.width}
-              height={logo.height}
-              className={cn(
-                "w-40 sm:w-48 h-auto",
-                theme === "dark" ? "mb-0" : "lg:mb-2"
-              )}
-            />
-          </Link>
-
-          <p
+          <div
             className={cn(
-              "text-xs text-muted-foreground hidden sm:block",
-              domine.className
+              "flex items-center justify-center flex-col gap-1 transition-all",
+              shouldShowLogo ? "" : "lg:opacity-0"
             )}
           >
-            The University Daily, Est. 2025
-          </p>
+            <Link href={PAGES.home}>
+              <Image
+                src={logo.src}
+                alt="The Babcock Torch"
+                width={logo.width}
+                height={logo.height}
+                className={cn(
+                  "w-40 sm:w-48 h-auto",
+                  theme === "dark" ? "mb-0" : "lg:mb-2"
+                )}
+              />
+            </Link>
+
+            <p
+              className={cn(
+                "text-xs text-muted-foreground hidden sm:block",
+                domine.className
+              )}
+            >
+              The University Daily, Est. 2025
+            </p>
+          </div>
+
+          <div className="flex items-center justify-center gap-4">
+            <ThemeToggle />
+          </div>
         </div>
 
-        <div className="flex items-center justify-center gap-4">
-          <ThemeToggle />
-        </div>
+        {/* Navigation Menu */}
+        <nav className="w-full border-t overflow-x-auto">
+          <div className="flex items-center justify-center px-2">
+            {MAJOR_CATEGORIES.map((category, i) => (
+              <Link href={category.href} key={i}>
+                <div
+                  className={cn(
+                    "px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium border-b-2 border-transparent hover:border-primary transition-colors cursor-pointer whitespace-nowrap",
+                    pathname === category.href
+                      ? "border-primary font-semibold"
+                      : ""
+                  )}
+                >
+                  {category.name}
+                </div>
+              </Link>
+            ))}
+          </div>
+        </nav>
       </header>
 
       {/* Large Header - main header section */}
@@ -185,7 +208,7 @@ const Header = () => {
               <Link href={category.href} key={i}>
                 <div
                   className={cn(
-                    "px-4 py-3 text-sm font-medium border-b-2 border-transparent hover:border-primary transition-colors cursor-pointer",
+                    "px-4 py-2 text-sm font-medium border-b-2 border-transparent hover:border-primary transition-colors cursor-pointer",
                     pathname === category.href
                       ? "border-primary font-semibold"
                       : ""
@@ -272,7 +295,7 @@ const Header = () => {
       <div
         className={cn(
           "transition-all duration-300",
-          showSmallHeader ? "h-[72px]" : "h-0"
+          showSmallHeader ? "h-[108px]" : "h-0"
         )}
       />
     </>
