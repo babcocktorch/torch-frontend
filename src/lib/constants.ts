@@ -12,6 +12,8 @@ export const BASE_URL =
     ? "http://localhost:3000"
     : "https://torch-frontend.vercel.app";
 
+export const BACKEND_BASE_URL = "https://torch-backend.vercel.app";
+
 export const THEME_KEY = "the-babcock-torch-theme";
 
 export const IMAGES = {
@@ -61,7 +63,7 @@ export const IMAGES = {
     src: "/images/contributor_cta.webp",
     width: 3264,
     height: 2448,
-  }
+  },
 };
 
 export const PAGES = {
@@ -116,6 +118,35 @@ export const MINOR_CATEGORIES = [
 export const API_ROUTES = {
   submit_idea: "/api/submit-idea",
   weather: "/api/weather",
+};
+
+export const ADMIN_PAGES = {
+  login: "/admin/login",
+  setup: "/admin/setup",
+  dashboard: "/admin",
+  articles: "/admin/articles",
+};
+
+export const BACKEND_API_ROUTES = {
+  // Auth endpoints
+  auth: {
+    setup: "/admin/auth/setup",
+    login: "/admin/auth/login",
+    me: "/admin/auth/me",
+    logout: "/admin/auth/logout",
+  },
+  // Admin article endpoints
+  admin: {
+    syncArticles: "/admin/articles/sync",
+    articles: "/admin/articles",
+    articleVisibility: (id: string) => `/admin/articles/${id}/visibility`,
+    editorsPick: (id: string) => `/admin/articles/${id}/editors-pick`,
+  },
+  // Public article endpoints
+  public: {
+    articles: "/articles",
+    article: (slug: string) => `/articles/${slug}`,
+  },
 };
 
 export const SOCIAL_MEDIA = [

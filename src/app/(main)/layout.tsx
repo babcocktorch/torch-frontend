@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "../globals.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { cn } from "@/lib/utils";
-// import { geist } from "@/lib/fonts";
 import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
@@ -11,7 +10,7 @@ export const metadata: Metadata = {
   description: "The Babcock Torch",
 };
 
-const RootLayout = ({
+const MainLayout = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -21,7 +20,6 @@ const RootLayout = ({
       <body
         className={cn(
           "antialiased relative flex flex-col min-h-screen items-center justify-start"
-          // geist.className
         )}
       >
         <Toaster position="top-center" />
@@ -33,4 +31,4 @@ const RootLayout = ({
   );
 };
 
-export default RootLayout;
+export default MainLayout;
