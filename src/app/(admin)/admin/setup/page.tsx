@@ -61,7 +61,7 @@ export default function AdminSetupPage() {
 
     setIsLoading(true);
     const result = await setup(email, password);
-    
+
     if (result.error) {
       setError(result.error);
       setIsLoading(false);
@@ -136,7 +136,7 @@ export default function AdminSetupPage() {
               />
             </div>
           </CardContent>
-          <CardFooter className="flex flex-col gap-4">
+          <CardFooter className="flex flex-col gap-4 mt-4">
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Set Up Account
