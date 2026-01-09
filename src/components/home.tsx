@@ -145,7 +145,7 @@ const MoreTopStoriesFeature = ({ post }: { post: PostType }) => {
           className="w-full h-auto object-cover mb-4"
         />
       ) : (
-        <div className="w-full aspect-[4/3] bg-gradient-to-br from-gold/20 to-gold/5 flex items-center justify-center mb-4">
+        <div className="w-full aspect-4/3 bg-linear-to-br from-gold/20 to-gold/5 flex items-center justify-center mb-4">
           <div className="text-gold/40 text-4xl font-miller">T</div>
         </div>
       )}

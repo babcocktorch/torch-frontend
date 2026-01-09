@@ -11,9 +11,15 @@ interface EditorsPickProps {
   secondaryHeadlines: PostType[];
 }
 
-const EditorsPick = ({ featuredPost, secondaryHeadlines }: EditorsPickProps) => {
+const EditorsPick = ({
+  featuredPost,
+  secondaryHeadlines,
+}: EditorsPickProps) => {
   const { day, month, year } = getDayMonthYear(featuredPost.date);
-  const postUrl = featuredPost.slug === "#" ? "#" : PAGES.post(year, month, day, featuredPost.slug);
+  const postUrl =
+    featuredPost.slug === "#"
+      ? "#"
+      : PAGES.post(year, month, day, featuredPost.slug);
 
   return (
     <div className="flex flex-col lg:flex-row gap-6">
@@ -50,7 +56,8 @@ const EditorsPick = ({ featuredPost, secondaryHeadlines }: EditorsPickProps) => 
         <div className="flex flex-col gap-3 border-t pt-4">
           {secondaryHeadlines.map((post) => {
             const { day, month, year } = getDayMonthYear(post.date);
-            const url = post.slug === "#" ? "#" : PAGES.post(year, month, day, post.slug);
+            const url =
+              post.slug === "#" ? "#" : PAGES.post(year, month, day, post.slug);
 
             return (
               <Link key={post._id} href={url} className="group">
@@ -85,7 +92,7 @@ const EditorsPick = ({ featuredPost, secondaryHeadlines }: EditorsPickProps) => 
               priority
             />
           ) : (
-            <div className="w-full aspect-[4/3] bg-gradient-to-br from-gold/20 to-gold/5 flex items-center justify-center">
+            <div className="w-full aspect-4/3 bg-linear-to-br from-gold/20 to-gold/5 flex items-center justify-center">
               <div className="text-gold/40 text-6xl font-miller">T</div>
             </div>
           )}
@@ -96,4 +103,3 @@ const EditorsPick = ({ featuredPost, secondaryHeadlines }: EditorsPickProps) => 
 };
 
 export default EditorsPick;
-

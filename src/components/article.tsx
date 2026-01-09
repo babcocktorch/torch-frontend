@@ -8,7 +8,8 @@ import { PAGES } from "@/lib/constants";
 const Article = ({ post }: PostProps) => {
   const { day, month, year } = getDayMonthYear(post.date);
 
-  const postUrl = post.slug === "#" ? "#" : PAGES.post(year, month, day, post.slug);
+  const postUrl =
+    post.slug === "#" ? "#" : PAGES.post(year, month, day, post.slug);
 
   return (
     <Link href={postUrl}>
@@ -52,7 +53,7 @@ const Article = ({ post }: PostProps) => {
               className="w-full h-auto object-cover"
             />
           ) : (
-            <div className="w-full aspect-[5/4] bg-gradient-to-br from-gold/20 to-gold/5 flex items-center justify-center">
+            <div className="w-full aspect-5/4 bg-linear-to-br from-gold/20 to-gold/5 flex items-center justify-center">
               <div className="text-gold/40 text-5xl font-miller">T</div>
             </div>
           )}

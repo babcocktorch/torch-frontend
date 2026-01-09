@@ -18,7 +18,7 @@ const ContributorCTA = ({
     return (
       <div
         className={cn(
-          "w-full bg-gradient-to-r from-foreground to-foreground/80 text-background rounded-2xl p-6",
+          "w-full bg-linear-to-r from-foreground to-foreground/80 text-background rounded-2xl p-6",
           className
         )}
       >
@@ -49,13 +49,13 @@ const ContributorCTA = ({
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-no-repeat"
-        style={{ 
+        style={{
           backgroundImage: `url(${IMAGES.contributor_cta.src})`,
-          backgroundPosition: 'right -150px center'
+          backgroundPosition: "right -150px center",
         }}
       />
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-r from-black via-black/80 to-transparent" />
       {/* Content */}
       <div className="relative z-10 p-8 lg:p-10">
         <h2 className="font-miller text-3xl lg:text-4xl xl:text-5xl font-semibold mb-3">

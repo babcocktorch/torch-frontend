@@ -12,7 +12,7 @@ const OpinionsCTA = ({ className }: OpinionsCTAProps) => {
   return (
     <div
       className={cn(
-        "w-full bg-gradient-to-r from-gold/10 via-gold/5 to-transparent border border-gold/20 rounded-2xl p-6 lg:p-8",
+        "w-full bg-linear-to-r from-gold/10 via-gold/5 to-transparent border border-gold/20 rounded-2xl p-6 lg:p-8",
         className
       )}
     >
