@@ -41,9 +41,7 @@ const TorchAIChatInterface = () => {
     <div className="flex flex-col items-center justify-center flex-1 w-full max-w-3xl mx-auto px-4 py-8">
       {/* Greeting Section */}
       <div className="text-center mb-12">
-        <h1 className={cn("text-4xl sm:text-5xl mb-3", domine.className)}>
-          {greeting}
-        </h1>
+        <h1 className="text-4xl sm:text-5xl mb-3 font-miller">{greeting}</h1>
         <p className="text-muted-foreground text-lg">
           Ask me about Babcock news, clubs, and events.
         </p>
@@ -92,4 +90,3 @@ const TorchAIChatInterface = () => {
 };
 
 export default TorchAIChatInterface;
-
