@@ -25,7 +25,7 @@ const TorchAISidebar = ({ onNewChat, onOpenFAQs }: TorchAISidebarProps) => {
   return (
     <aside
       className={cn(
-        "h-full border rounded-lg bg-background flex flex-col transition-all duration-300 ease-in-out overflow-hidden",
+        "border rounded-lg bg-background flex flex-col transition-all duration-300 ease-in-out overflow-hidden shrink-0",
         sidebarOpen ? "w-64" : "w-16"
       )}
     >

@@ -32,7 +32,7 @@ const TorchAIPageContent = () => {
       <TorchAIHeader />
 
       {/* Main Content Area with padding */}
-      <div className="flex flex-1 p-4 gap-4 overflow-hidden">
+      <div className="flex flex-1 p-4 gap-4 overflow-hidden items-stretch">
         {/* Sidebar */}
         <TorchAISidebar onNewChat={handleNewChat} onOpenFAQs={handleOpenFAQs} />
 
