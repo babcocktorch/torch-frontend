@@ -52,17 +52,15 @@ const TorchAIChatInterface = () => {
       {/* Chat Input Section */}
       <div className="w-full">
         <form onSubmit={handleSubmit} className="w-full">
-          <div className="flex items-end gap-2 p-3 bg-muted/50 rounded-2xl border">
-            <div className="flex items-center justify-center w-8 h-8">
-              <Plus className="w-5 h-5 text-muted-foreground" />
-            </div>
+          <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-2xl border">
+            <Plus className="w-5 h-5 text-muted-foreground shrink-0" />
 
             <textarea
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="What do you want to know?"
-              className="flex-1 bg-transparent border-none outline-none resize-none text-base placeholder:text-muted-foreground min-h-[24px] max-h-[200px] py-1"
+              className="flex-1 bg-transparent border-none outline-none resize-none text-base placeholder:text-muted-foreground min-h-[24px] max-h-[200px] leading-6"
               rows={1}
             />
 

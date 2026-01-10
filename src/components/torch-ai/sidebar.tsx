@@ -1,10 +1,16 @@
 "use client";
 
-import { useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { torch_ai_sidebar_open } from "@/lib/atoms";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
-import { Plus, HelpCircle, ExternalLink, Copy } from "lucide-react";
+import {
+  Plus,
+  HelpCircle,
+  ExternalLink,
+  PanelLeftClose,
+  PanelLeftOpen,
+} from "lucide-react";
 import Link from "next/link";
 import { PAGES } from "@/lib/constants";
 
@@ -14,26 +20,35 @@ interface TorchAISidebarProps {
 }
 
 const TorchAISidebar = ({ onNewChat, onOpenFAQs }: TorchAISidebarProps) => {
-  const sidebarOpen = useAtomValue(torch_ai_sidebar_open);
+  const [sidebarOpen, setSidebarOpen] = useAtom(torch_ai_sidebar_open);
 
   return (
     <aside
       className={cn(
-        "h-full border-r bg-background flex flex-col transition-all duration-300 ease-in-out overflow-hidden",
-        sidebarOpen ? "w-64" : "w-0"
+        "h-full border rounded-lg bg-background flex flex-col transition-all duration-300 ease-in-out overflow-hidden",
+        sidebarOpen ? "w-64" : "w-16"
       )}
     >
-      <div className="flex flex-col h-full p-3 min-w-64">
-        {/* Top section */}
-        <div className="flex items-center justify-between mb-4">
-          <span className="text-sm font-medium text-muted-foreground"></span>
+      <div className="flex flex-col h-full p-3">
+        {/* Top section with collapse button */}
+        <div
+          className={cn(
+            "flex items-center mb-4",
+            sidebarOpen ? "justify-end" : "justify-center"
+          )}
+        >
           <Button
             variant="ghost"
             size="icon"
             className="h-8 w-8"
-            aria-label="Copy chat"
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
           >
-            <Copy className="w-4 h-4" />
+            {sidebarOpen ? (
+              <PanelLeftClose className="w-4 h-4" />
+            ) : (
+              <PanelLeftOpen className="w-4 h-4" />
+            )}
           </Button>
         </div>
 
@@ -42,21 +57,33 @@ const TorchAISidebar = ({ onNewChat, onOpenFAQs }: TorchAISidebarProps) => {
           {/* New Chat */}
           <Button
             variant="ghost"
-            className="w-full justify-start gap-3 h-10"
+            className={cn(
+              "h-10",
+              sidebarOpen
+                ? "w-full justify-start gap-3"
+                : "w-10 justify-center mx-auto"
+            )}
             onClick={onNewChat}
+            title="New Chat"
           >
-            <Plus className="w-4 h-4 text-gold" />
-            <span>New Chat</span>
+            <Plus className="w-4 h-4 text-gold shrink-0" />
+            {sidebarOpen && <span>New Chat</span>}
           </Button>
 
           {/* FAQs */}
           <Button
             variant="ghost"
-            className="w-full justify-start gap-3 h-10"
+            className={cn(
+              "h-10",
+              sidebarOpen
+                ? "w-full justify-start gap-3"
+                : "w-10 justify-center mx-auto"
+            )}
             onClick={onOpenFAQs}
+            title="FAQ's"
           >
-            <HelpCircle className="w-4 h-4" />
-            <span>FAQ&apos;s</span>
+            <HelpCircle className="w-4 h-4 shrink-0" />
+            {sidebarOpen && <span>FAQ&apos;s</span>}
           </Button>
         </nav>
 
@@ -65,10 +92,16 @@ const TorchAISidebar = ({ onNewChat, onOpenFAQs }: TorchAISidebarProps) => {
           <Link href={PAGES.home}>
             <Button
               variant="ghost"
-              className="w-full justify-start gap-3 h-10 text-muted-foreground hover:text-foreground"
+              className={cn(
+                "h-10 text-muted-foreground hover:text-foreground",
+                sidebarOpen
+                  ? "w-full justify-start gap-3"
+                  : "w-10 justify-center mx-auto"
+              )}
+              title="Back to Main Site"
             >
-              <ExternalLink className="w-4 h-4" />
-              <span>Back to Main Site</span>
+              <ExternalLink className="w-4 h-4 shrink-0" />
+              {sidebarOpen && <span>Back to Main Site</span>}
             </Button>
           </Link>
         </div>
