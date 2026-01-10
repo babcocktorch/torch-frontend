@@ -44,25 +44,20 @@ const TorchAIWelcomeModal = () => {
         className="max-w-xl"
       >
         <DialogHeader className="text-center sm:text-center">
-          <DialogTitle
-            className={cn(
-              "text-3xl sm:text-4xl font-normal mb-2",
-              domine.className
-            )}
-          >
+          <DialogTitle className="text-2xl sm:text-3xl font-normal mb-2 font-miller">
             Welcome to the Torch AI
           </DialogTitle>
-          <DialogDescription className="text-base text-foreground/80 leading-relaxed">
+          <DialogDescription className="text-foreground/80 leading-relaxed">
             The Torch AI was built with ❤️ and help from GDG Babcock&apos;s Data
             & AI Team. It is Powered by the Babcock University Knowledge Graph
-            (BUKG)
+            (BUKG).
           </DialogDescription>
         </DialogHeader>
 
         <div className="flex flex-col items-center gap-3 mt-4">
           <Button
             onClick={handleAccept}
-            className="w-full bg-gold hover:bg-gold/90 text-white rounded-full py-6 text-base font-medium"
+            className="w-full bg-gold hover:bg-gold/90 text-white rounded-full py-6 font-medium"
           >
             I Understand & Agree
           </Button>
