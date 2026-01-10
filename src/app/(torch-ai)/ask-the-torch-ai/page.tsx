@@ -1,4 +1,3 @@
-import ComingSoon from "@/components/general/coming-soon";
 import { BASE_URL, IMAGES, PAGES } from "@/lib/constants";
 import { Metadata } from "next";
 
@@ -32,11 +31,10 @@ export const metadata: Metadata = {
 
 const AskTheTorchAIPage = () => {
   return (
-    <ComingSoon
-      title="Ask the Torch AI"
-      description="Ask the Torch AI is a tool that allows you to ask questions about the Babcock Torch."
-      showReturnButton={true}
-    />
+    <div className="w-full min-h-screen">
+      {/* TorchAI components will be added here */}
+      <p className="p-4">Torch AI - Coming soon</p>
+    </div>
   );
 };
 
