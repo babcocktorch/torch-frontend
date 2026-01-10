@@ -44,7 +44,7 @@ const TorchAIWelcomeModal = () => {
         className="max-w-xl"
       >
         <DialogHeader className="text-center sm:text-center">
-          <DialogTitle className="text-2xl sm:text-3xl font-normal mb-2 font-miller">
+          <DialogTitle className="text-xl sm:text-2xl font-normal mb-2 font-miller">
             Welcome to the Torch AI
           </DialogTitle>
           <DialogDescription className="text-foreground/80 leading-relaxed">
