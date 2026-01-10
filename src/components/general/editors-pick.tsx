@@ -1,4 +1,4 @@
-import { cn, getDayMonthYear, formatDate } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import Image from "next/image";
 import { urlFor } from "@/lib/sanity.client";
 import Link from "next/link";
@@ -15,11 +15,8 @@ const EditorsPick = ({
   featuredPost,
   secondaryHeadlines,
 }: EditorsPickProps) => {
-  const { day, month, year } = getDayMonthYear(featuredPost.date);
   const postUrl =
-    featuredPost.slug === "#"
-      ? "#"
-      : PAGES.post(year, month, day, featuredPost.slug);
+    featuredPost.slug === "#" ? "#" : PAGES.post(featuredPost.slug);
 
   return (
     <div className="flex flex-col lg:flex-row gap-6">
@@ -55,9 +52,7 @@ const EditorsPick = ({
         {/* Secondary Headlines */}
         <div className="flex flex-col gap-3 border-t pt-4">
           {secondaryHeadlines.map((post) => {
-            const { day, month, year } = getDayMonthYear(post.date);
-            const url =
-              post.slug === "#" ? "#" : PAGES.post(year, month, day, post.slug);
+            const url = post.slug === "#" ? "#" : PAGES.post(post.slug);
 
             return (
               <Link key={post._id} href={url} className="group">

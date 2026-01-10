@@ -2,7 +2,7 @@ import { PAGES } from "@/lib/constants";
 import { domine } from "@/lib/fonts";
 import { getPosts } from "@/lib/requests";
 import { urlFor } from "@/lib/sanity.client";
-import { cn, getDayMonthYear } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -17,12 +17,7 @@ const FeaturedPosts = async ({ slug }: { slug: string }) => {
         post.slug !== slug ? (
           <article key={post._id} className="flex lg:flex-row flex-col">
             <Link
-              href={PAGES.post(
-                getDayMonthYear(post.date).year,
-                getDayMonthYear(post.date).month,
-                getDayMonthYear(post.date).day,
-                post.slug
-              )}
+              href={PAGES.post(post.slug)}
               className="flex flex-col gap-4 p-3 rounded-lg border"
             >
               <Image

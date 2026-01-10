@@ -9,8 +9,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { domine } from "@/lib/fonts";
 
 const STORAGE_KEY = "torch-ai-terms-accepted";
 

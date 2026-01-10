@@ -1,7 +1,7 @@
 import { sanityClient, urlFor } from "@/lib/sanity.client";
 import { groq } from "next-sanity";
 import { PortableText, toPlainText } from "@portabletext/react";
-import { cn, getDayMonthYear, readTime } from "@/lib/utils";
+import { cn, readTime } from "@/lib/utils";
 import { domine } from "@/lib/fonts";
 import React from "react";
 import { notFound } from "next/navigation";
@@ -51,9 +51,7 @@ export const generateMetadata = async ({
 
   if (!post) return notFound();
 
-  const { day, month, year } = getDayMonthYear(post.date);
-
-  const url = PAGES.post(year, month, day, post.slug);
+  const url = PAGES.post(post.slug);
 
   return {
     title: post.title,

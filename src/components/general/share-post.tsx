@@ -2,14 +2,11 @@
 
 import { BASE_URL, PAGES } from "@/lib/constants";
 import { SharePostProps } from "@/lib/types";
-import { getDayMonthYear } from "@/lib/utils";
 import { BiLogoWhatsapp } from "react-icons/bi";
 import { FaXTwitter } from "react-icons/fa6";
 
-const SharePost = ({ title, slug, description, date }: SharePostProps) => {
-  const { day, month, year } = getDayMonthYear(date);
-
-  const post = BASE_URL + PAGES.post(year, month, day, slug);
+const SharePost = ({ title, slug, description }: SharePostProps) => {
+  const post = BASE_URL + PAGES.post(slug);
 
   const options = [
     {

@@ -1,12 +1,11 @@
-import { cn, getDayMonthYear, formatDate } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import Link from "next/link";
 import { PostProps } from "@/lib/types";
 import { PAGES } from "@/lib/constants";
 import { domine } from "@/lib/fonts";
 
 const CompressedArticle = ({ post }: PostProps) => {
-  const { day, month, year } = getDayMonthYear(post.date);
-  const postUrl = post.slug === "#" ? "#" : PAGES.post(year, month, day, post.slug);
+  const postUrl = post.slug === "#" ? "#" : PAGES.post(post.slug);
 
   return (
     <Link href={postUrl} className="group">
@@ -28,4 +27,3 @@ const CompressedArticle = ({ post }: PostProps) => {
 };
 
 export default CompressedArticle;
-

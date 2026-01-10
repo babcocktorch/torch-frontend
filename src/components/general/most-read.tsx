@@ -1,4 +1,4 @@
-import { cn, getDayMonthYear } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { PostType } from "@/lib/types";
 import { PAGES } from "@/lib/constants";
@@ -22,9 +22,7 @@ const MostRead = ({ posts, limit = 5 }: MostReadProps) => {
 
       <div className="flex flex-col">
         {mostReadPosts.map((post, index) => {
-          const { day, month, year } = getDayMonthYear(post.date);
-          const postUrl =
-            post.slug === "#" ? "#" : PAGES.post(year, month, day, post.slug);
+          const postUrl = post.slug === "#" ? "#" : PAGES.post(post.slug);
 
           return (
             <Link key={post._id} href={postUrl} className="group">

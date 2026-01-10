@@ -3,7 +3,7 @@ import { BASE_URL, PAGES } from "@/lib/constants";
 import { domine } from "@/lib/fonts";
 import { getAuthor, getAuthorPosts } from "@/lib/requests";
 import { urlFor } from "@/lib/sanity.client";
-import { cn, formatDate, getDayMonthYear } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -132,8 +132,7 @@ const AuthorPage = async ({
           ) : (
             <div className="grid grid-cols-1 gap-8">
               {posts.map((post) => {
-                const { day, month, year } = getDayMonthYear(post.date);
-                const postUrl = PAGES.post(year, month, day, post.slug);
+                const postUrl = PAGES.post(post.slug);
 
                 return (
                   <React.Fragment key={post._id}>

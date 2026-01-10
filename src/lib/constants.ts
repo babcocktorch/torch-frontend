@@ -81,8 +81,7 @@ export const PAGES = {
   masthead: "/masthead",
   policy: "/policy",
   search: (query?: string) => "/search" + (query ? `?query=${query}` : ""),
-  post: (year: string, month: string, day: string, slug: string) =>
-    `/post/${year}/${month}/${day}/${slug}`,
+  post: (slug: string) => `/p/${slug}`,
   author: (slug: string) => `/author/${slug}`,
 };
 

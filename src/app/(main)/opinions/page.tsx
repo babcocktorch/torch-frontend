@@ -2,7 +2,7 @@ import { Separator } from "@/components/ui/separator";
 import { BASE_URL, IMAGES, PAGES } from "@/lib/constants";
 import { domine } from "@/lib/fonts";
 import { getOpinions, getOpinionAuthors } from "@/lib/requests";
-import { cn, formatDate, getDayMonthYear } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import { Metadata } from "next";
 import Link from "next/link";
 import React from "react";
@@ -57,8 +57,7 @@ const OpinionsPage = async () => {
               </p>
             ) : (
               opinions.map((opinion) => {
-                const { day, month, year } = getDayMonthYear(opinion.date);
-                const opinionUrl = PAGES.post(year, month, day, opinion.slug);
+                const opinionUrl = PAGES.post(opinion.slug);
 
                 return (
                   <React.Fragment key={opinion._id}>

@@ -1,12 +1,9 @@
-import { getDayMonthYear } from "@/lib/utils";
 import Link from "next/link";
 import { PostProps } from "@/lib/types";
 import { PAGES } from "@/lib/constants";
 
 const Opinion = ({ post }: PostProps) => {
-  const { day, month, year } = getDayMonthYear(post.date);
-
-  const opinionUrl = post.slug === "#" ? "#" : PAGES.post(year, month, day, post.slug);
+  const opinionUrl = post.slug === "#" ? "#" : PAGES.post(post.slug);
 
   return (
     <Link href={opinionUrl}>

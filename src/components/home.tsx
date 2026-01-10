@@ -14,7 +14,7 @@ import ContributorCTA from "./general/contributor-cta";
 import EditorsPick from "./general/editors-pick";
 import Image from "next/image";
 import { urlFor } from "@/lib/sanity.client";
-import { cn, getDayMonthYear } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { domine } from "@/lib/fonts";
 
 type HomeProps = {
@@ -130,9 +130,7 @@ const Home = ({ posts, editorsPickSlug }: HomeProps) => {
 
 // Sub-component for More Top Stories featured article
 const MoreTopStoriesFeature = ({ post }: { post: PostType }) => {
-  const { day, month, year } = getDayMonthYear(post.date);
-  const postUrl =
-    post.slug === "#" ? "#" : PAGES.post(year, month, day, post.slug);
+  const postUrl = post.slug === "#" ? "#" : PAGES.post(post.slug);
 
   return (
     <Link href={postUrl} className="group block">

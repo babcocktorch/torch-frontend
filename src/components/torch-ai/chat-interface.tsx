@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { domine } from "@/lib/fonts";
 import { Button } from "@/components/ui/button";
 import { Plus, ArrowUp } from "lucide-react";
 

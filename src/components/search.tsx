@@ -6,7 +6,7 @@ import { PAGES } from "@/lib/constants";
 import { domine } from "@/lib/fonts";
 import { searchPosts } from "@/lib/requests";
 import { PostType } from "@/lib/types";
-import { cn, formatDate, getDayMonthYear } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { Suspense, useEffect, useState } from "react";
@@ -109,8 +109,7 @@ const SearchContent = () => {
 
               <div className="grid grid-cols-1 gap-8">
                 {posts.map((post) => {
-                  const { day, month, year } = getDayMonthYear(post.date);
-                  const postUrl = PAGES.post(year, month, day, post.slug);
+                  const postUrl = PAGES.post(post.slug);
 
                   return (
                     <React.Fragment key={post._id}>
@@ -159,8 +158,7 @@ const SearchContent = () => {
 
               <div className="grid grid-cols-1 gap-8">
                 {opinions.map((opinion) => {
-                  const { day, month, year } = getDayMonthYear(opinion.date);
-                  const opinionUrl = PAGES.post(year, month, day, opinion.slug);
+                  const opinionUrl = PAGES.post(opinion.slug);
 
                   return (
                     <React.Fragment key={opinion._id}>

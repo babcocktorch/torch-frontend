@@ -1,5 +1,5 @@
 import { OpinionAuthor, PostType } from "@/lib/types";
-import { cn, getDayMonthYear } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { domine } from "@/lib/fonts";
 import Link from "next/link";
 import { PAGES } from "@/lib/constants";
@@ -30,11 +30,7 @@ const OpinionsSidebar = ({ opinions, authors }: OpinionsSidebarProps) => {
         </h3>
         <div className="flex flex-col gap-3">
           {mostControversial.map((opinion) => {
-            const { day, month, year } = getDayMonthYear(opinion.date);
-            const url =
-              opinion.slug === "#"
-                ? "#"
-                : PAGES.post(year, month, day, opinion.slug);
+            const url = opinion.slug === "#" ? "#" : PAGES.post(opinion.slug);
 
             return (
               <Link key={opinion._id} href={url} className="group">
@@ -64,11 +60,7 @@ const OpinionsSidebar = ({ opinions, authors }: OpinionsSidebarProps) => {
         </h3>
         <div className="flex flex-col">
           {mostRead.map((opinion, index) => {
-            const { day, month, year } = getDayMonthYear(opinion.date);
-            const url =
-              opinion.slug === "#"
-                ? "#"
-                : PAGES.post(year, month, day, opinion.slug);
+            const url = opinion.slug === "#" ? "#" : PAGES.post(opinion.slug);
 
             return (
               <Link key={opinion._id} href={url} className="group">

@@ -1,4 +1,4 @@
-import { cn, getDayMonthYear, formatDate } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import Image from "next/image";
 import { urlFor } from "@/lib/sanity.client";
 import Link from "next/link";
@@ -6,10 +6,7 @@ import { PostProps } from "@/lib/types";
 import { PAGES } from "@/lib/constants";
 
 const Article = ({ post }: PostProps) => {
-  const { day, month, year } = getDayMonthYear(post.date);
-
-  const postUrl =
-    post.slug === "#" ? "#" : PAGES.post(year, month, day, post.slug);
+  const postUrl = post.slug === "#" ? "#" : PAGES.post(post.slug);
 
   return (
     <Link href={postUrl}>
