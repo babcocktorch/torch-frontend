@@ -41,9 +41,9 @@ const postQuery = groq`
 export const generateMetadata = async ({
   params,
 }: {
-  params: Promise<{ slug: string[] }>;
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> => {
-  const slug = (await params).slug.pop();
+  const { slug } = await params;
 
   if (!slug) return notFound();
 
@@ -130,12 +130,8 @@ const ptComponents = {
   },
 };
 
-const PostPage = async ({
-  params,
-}: {
-  params: Promise<{ slug: string[] }>;
-}) => {
-  const slug = (await params).slug.pop();
+const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
+  const { slug } = await params;
 
   if (!slug) return notFound();
 
