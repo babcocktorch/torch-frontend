@@ -80,10 +80,10 @@ const TorchAISidebar = ({ onNewChat, onOpenFAQs }: TorchAISidebarProps) => {
                 : "w-10 justify-center mx-auto"
             )}
             onClick={onOpenFAQs}
-            title="FAQ's"
+            title="FAQs"
           >
             <HelpCircle className="w-4 h-4 shrink-0" />
-            {sidebarOpen && <span>FAQ&apos;s</span>}
+            {sidebarOpen && <span>FAQs</span>}
           </Button>
         </nav>
 
