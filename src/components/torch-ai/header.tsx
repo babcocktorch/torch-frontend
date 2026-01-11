@@ -37,7 +37,6 @@ const TorchAIHeader = () => {
           trigger={
             <Button variant="outline" className="rounded-full text-sm">
               Talk to the torch
-              <span className="ml-1">↗</span>
             </Button>
           }
         />
