@@ -92,9 +92,9 @@ const TorchAIChatInterface = () => {
   const hasMessages = messages.length > 0;
 
   return (
-    <div className="flex flex-col flex-1 w-full h-full">
+    <div className="flex flex-col flex-1 w-full h-full min-h-0 overflow-hidden">
       {/* Chat Messages Area */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto min-h-0">
         {!hasMessages ? (
           // Welcome screen when no messages
           <div className="flex flex-col items-center justify-center h-full px-4 py-8">

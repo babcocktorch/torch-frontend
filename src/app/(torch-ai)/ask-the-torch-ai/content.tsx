@@ -22,7 +22,7 @@ const TorchAIPageContent = () => {
   };
 
   return (
-    <div className="w-full min-h-screen flex flex-col md:bg-muted/30">
+    <div className="w-full h-screen flex flex-col md:bg-muted/30 overflow-hidden">
       {/* Welcome Modal */}
       <TorchAIWelcomeModal />
 
@@ -41,7 +41,7 @@ const TorchAIPageContent = () => {
       {/* Main Content Area */}
       {/* Desktop: padding + gap + sidebar panel */}
       {/* Mobile: full width chat interface */}
-      <div className="flex flex-1 md:p-4 md:gap-4 overflow-hidden items-stretch">
+      <div className="flex flex-1 md:p-4 md:gap-4 overflow-hidden items-stretch min-h-0">
         {/* Sidebar - hidden on mobile */}
         <div className="hidden md:flex">
           <TorchAISidebar
@@ -51,7 +51,7 @@ const TorchAIPageContent = () => {
         </div>
 
         {/* Chat Interface */}
-        <main className="flex-1 flex flex-col overflow-y-auto md:border md:rounded-lg bg-background">
+        <main className="flex-1 flex flex-col overflow-hidden md:border md:rounded-lg bg-background min-h-0">
           <TorchAIChatInterface key={chatKey} />
         </main>
       </div>
