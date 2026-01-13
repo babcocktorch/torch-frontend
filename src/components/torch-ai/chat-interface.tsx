@@ -3,11 +3,13 @@
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Plus, ArrowUp } from "lucide-react";
+import { Plus, ArrowUp, Loader2 } from "lucide-react";
+import { sendTorchAIMessage } from "@/lib/requests";
 
 const TorchAIChatInterface = () => {
   const [message, setMessage] = useState("");
   const [greeting, setGreeting] = useState("Good evening");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -20,13 +22,25 @@ const TorchAIChatInterface = () => {
     }
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!message.trim()) return;
+    if (!message.trim() || isLoading) return;
 
-    // TODO: Implement API call when ready
-    console.log("Message submitted:", message);
+    const userMessage = message.trim();
     setMessage("");
+    setIsLoading(true);
+
+    console.log("📤 Sending message:", userMessage);
+
+    const response = await sendTorchAIMessage(userMessage);
+
+    if (response.error) {
+      console.error("❌ Error:", response.error);
+    } else {
+      console.log("✅ Response:", response.data);
+    }
+
+    setIsLoading(false);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -59,20 +73,25 @@ const TorchAIChatInterface = () => {
               placeholder="What do you want to know?"
               className="flex-1 bg-transparent border-none outline-none resize-none text-base placeholder:text-muted-foreground min-h-[24px] max-h-[200px] leading-6"
               rows={1}
+              disabled={isLoading}
             />
 
             <Button
               type="submit"
               size="icon"
-              disabled={!message.trim()}
+              disabled={!message.trim() || isLoading}
               className={cn(
                 "rounded-lg w-9 h-9 shrink-0 transition-colors",
-                message.trim()
+                message.trim() && !isLoading
                   ? "bg-gold hover:bg-gold/90 text-white"
                   : "bg-muted text-muted-foreground"
               )}
             >
-              <ArrowUp className="w-5 h-5" />
+              {isLoading ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                <ArrowUp className="w-5 h-5" />
+              )}
             </Button>
           </div>
         </form>

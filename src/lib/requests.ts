@@ -1,5 +1,11 @@
 import { groq } from "next-sanity";
-import { API_ROUTES, BACKEND_API_ROUTES, BACKEND_BASE_URL, BASE_URL } from "./constants";
+import {
+  API_ROUTES,
+  BACKEND_API_ROUTES,
+  BACKEND_BASE_URL,
+  BASE_URL,
+  TORCH_AI,
+} from "./constants";
 import { sanityClient } from "./sanity.client";
 import { AdminArticle, AuthorType, OpinionAuthor, PostType } from "./types";
 
@@ -302,4 +308,45 @@ export const getOpinionAuthors = async (): Promise<OpinionAuthor[]> => {
   return Array.from(authorMap.values()).sort(
     (a, b) => b.opinionCount - a.opinionCount
   );
+};
+
+// Torch AI Chat
+export interface TorchAIChatResponse {
+  data?: string;
+  error?: string;
+}
+
+export const sendTorchAIMessage = async (
+  message: string
+): Promise<TorchAIChatResponse> => {
+  try {
+    const response = await fetch(TORCH_AI.endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: TORCH_AI.default_user_id,
+        message: message,
+        profile: TORCH_AI.default_profile,
+        persona: TORCH_AI.default_persona,
+      }),
+    });
+
+    if (!response.ok) {
+      if (response.status === 422) {
+        const errorData = await response.json();
+        const errorMessage =
+          errorData.detail?.[0]?.msg || "Invalid request. Please try again.";
+        return { error: errorMessage };
+      }
+      return { error: "Failed to get response. Please try again." };
+    }
+
+    const data = await response.text();
+    return { data };
+  } catch (error) {
+    console.error("Torch AI chat error:", error);
+    return { error: "Failed to connect to Torch AI. Please try again." };
+  }
 };

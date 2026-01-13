@@ -181,3 +181,16 @@ export const SOCIAL_MEDIA = [
     icon: FaXTwitter,
   },
 ];
+
+// Torch AI Chat Configuration
+export const TORCH_AI = {
+  endpoint: "https://santacl-bkg.hf.space/chat",
+  default_user_id: "torch-ai-guest",
+  default_profile: {
+    name: "Torch AI User",
+    level: "Guest",
+    program: "General",
+    hall: "N/A",
+  },
+  default_persona: "default",
+};
