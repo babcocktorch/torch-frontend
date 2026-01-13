@@ -8,11 +8,22 @@ import IdeaSubmission from "./idea-submission";
 interface ContributorCTAProps {
   variant?: "default" | "compact";
   className?: string;
+
+  lineOne: string;
+  lineTwo: string;
+  description: string;
+  buttonText: string;
+  bgImage: string;
 }
 
 const ContributorCTA = ({
   variant = "default",
   className,
+  lineOne,
+  lineTwo,
+  description,
+  buttonText,
+  bgImage,
 }: ContributorCTAProps) => {
   if (variant === "compact") {
     return (
@@ -50,7 +61,7 @@ const ContributorCTA = ({
       <div
         className="absolute inset-0 bg-cover bg-no-repeat"
         style={{
-          backgroundImage: `url(${IMAGES.contributor_cta.src})`,
+          backgroundImage: `url(${bgImage})`,
           backgroundPosition: "right -150px center",
         }}
       />
@@ -59,18 +70,17 @@ const ContributorCTA = ({
       {/* Content */}
       <div className="relative z-10 p-8 lg:p-10">
         <h2 className="font-miller text-3xl lg:text-4xl xl:text-5xl font-semibold mb-3">
-          Your Voice,
+          {lineOne}
           <br />
-          Your Platform.
+          {lineTwo}
         </h2>
         <p className="text-background/80 text-base lg:text-lg mb-6 max-w-md">
-          Pitch a story idea, submit an opinion piece, or report on campus News.
-          The Torch is built for student contributors.
+          {description}
         </p>
         <IdeaSubmission
           trigger={
             <button className="inline-flex items-center gap-2 bg-gold text-white px-6 py-3 rounded-full font-medium hover:bg-gold/90 transition-colors group">
-              Contribute Now
+              {buttonText}
               <IoArrowForward className="group-hover:translate-x-1 transition-transform" />
             </button>
           }

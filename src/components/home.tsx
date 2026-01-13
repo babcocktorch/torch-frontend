@@ -2,7 +2,7 @@
 
 import Article from "@/components/article";
 import { Separator } from "@/components/ui/separator";
-import { PAGES } from "@/lib/constants";
+import { IMAGES, PAGES } from "@/lib/constants";
 import { Fragment } from "react";
 import { PostType } from "@/lib/types";
 import { IoIosArrowForward } from "react-icons/io";
@@ -123,7 +123,14 @@ const Home = ({ posts, editorsPickSlug }: HomeProps) => {
       )}
 
       {/* CTA Section */}
-      <ContributorCTA className="my-4" />
+      <ContributorCTA
+        className="my-4"
+        buttonText="Contribute Now"
+        lineOne="Your Voice,"
+        lineTwo="Your Platform."
+        description="The Torch is built for student contributors. Pitch a story idea, submit an opinion piece, or report on campus news."
+        bgImage={IMAGES.contributor_cta.src}
+      />
     </main>
   );
 };
