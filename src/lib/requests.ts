@@ -39,18 +39,18 @@ const fetchBackendPublicArticles = async (): Promise<{
       BACKEND_BASE_URL + BACKEND_API_ROUTES.public.articles,
       { next: { revalidate: 60 } } // Cache for 60 seconds
     );
-    
+
     if (!response.ok) {
       console.error("Failed to fetch backend articles");
       return { publicSlugs: new Set(), editorsPickSlug: null };
     }
-    
+
     const data = await response.json();
-    const articles = data.data?.articles as AdminArticle[] || [];
-    
+    const articles = (data.data?.articles as AdminArticle[]) || [];
+
     const publicSlugs = new Set(articles.map((a) => a.slug));
     const editorsPick = articles.find((a) => a.isEditorsPick);
-    
+
     return {
       publicSlugs,
       editorsPickSlug: editorsPick?.slug || null,
@@ -109,7 +109,7 @@ export const getPosts = async (): Promise<{
     ]);
 
     const allPosts = postsData as PostType[];
-    
+
     // Filter posts to only include those that are public in backend
     const filteredPosts = allPosts.filter((post) =>
       backendInfo.publicSlugs.has(post.slug)
@@ -154,7 +154,7 @@ export const getOpinions = async (): Promise<PostType[]> => {
     ]);
 
     const allOpinions = opinionsData as PostType[];
-    
+
     // Filter opinions to only include those that are public in backend
     const filteredOpinions = allOpinions.filter((opinion) =>
       backendInfo.publicSlugs.has(opinion.slug)
@@ -311,8 +311,14 @@ export const getOpinionAuthors = async (): Promise<OpinionAuthor[]> => {
 };
 
 // Torch AI Chat
+export interface TorchAIAPIResponse {
+  response: string;
+  tool_used: string;
+  vibe: string;
+}
+
 export interface TorchAIChatResponse {
-  data?: string;
+  data?: TorchAIAPIResponse;
   error?: string;
 }
 
@@ -343,7 +349,8 @@ export const sendTorchAIMessage = async (
       return { error: "Failed to get response. Please try again." };
     }
 
-    const data = await response.text();
+    const text = await response.text();
+    const data: TorchAIAPIResponse = JSON.parse(text);
     return { data };
   } catch (error) {
     console.error("Torch AI chat error:", error);
