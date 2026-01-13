@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Plus, ArrowUp, Loader2 } from "lucide-react";
 import { sendTorchAIMessage } from "@/lib/requests";
+import ReactMarkdown from "react-markdown";
 
 interface ChatMessage {
   id: string;
@@ -126,9 +127,15 @@ const TorchAIChatInterface = () => {
                       : "bg-muted rounded-bl-md"
                   )}
                 >
-                  <p className="text-sm sm:text-base whitespace-pre-wrap">
-                    {msg.content}
-                  </p>
+                  {msg.role === "user" ? (
+                    <p className="text-sm sm:text-base whitespace-pre-wrap">
+                      {msg.content}
+                    </p>
+                  ) : (
+                    <div className="text-sm sm:text-base prose prose-sm dark:prose-invert max-w-none prose-p:my-1 prose-ul:my-2 prose-ol:my-2 prose-li:my-0.5 prose-headings:my-2 prose-strong:font-semibold">
+                      <ReactMarkdown>{msg.content}</ReactMarkdown>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
