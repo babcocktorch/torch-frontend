@@ -1,10 +1,8 @@
 "use client";
 
 import { IMAGES, PAGES } from "@/lib/constants";
-import { useAtomValue } from "jotai";
-import Image, { ImageProps } from "next/image";
+import Image from "next/image";
 import Link from "next/link";
-import { app_theme } from "@/lib/atoms";
 import IdeaSubmission from "../general/idea-submission";
 import Sidebar from "../general/sidebar";
 import { Button } from "../ui/button";

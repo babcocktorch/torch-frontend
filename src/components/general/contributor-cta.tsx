@@ -1,7 +1,6 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { IMAGES } from "@/lib/constants";
 import { IoArrowForward } from "react-icons/io5";
 import IdeaSubmission from "./idea-submission";
 
