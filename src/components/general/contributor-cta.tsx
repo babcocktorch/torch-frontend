@@ -68,12 +68,12 @@ const ContributorCTA = ({
       <div className="absolute inset-0 bg-linear-to-r from-black via-black/80 to-transparent" />
       {/* Content */}
       <div className="relative z-10 p-8 lg:p-10">
-        <h2 className="font-miller text-3xl lg:text-4xl xl:text-5xl font-semibold mb-3">
+        <h2 className="font-miller text-white text-3xl lg:text-4xl xl:text-5xl font-semibold mb-3">
           {lineOne}
           <br />
           {lineTwo}
         </h2>
-        <p className="text-background/80 text-base lg:text-lg mb-6 max-w-md">
+        <p className="text-white/80 text-base lg:text-lg mb-6 max-w-md">
           {description}
         </p>
         <IdeaSubmission
