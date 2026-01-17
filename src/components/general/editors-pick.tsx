@@ -5,6 +5,7 @@ import Link from "next/link";
 import { PostType } from "@/lib/types";
 import { PAGES } from "@/lib/constants";
 import { domine } from "@/lib/fonts";
+import { Separator } from "../ui/separator";
 
 interface EditorsPickProps {
   featuredPost: PostType;
@@ -51,7 +52,31 @@ const EditorsPick = ({
 
         {/* Secondary Headlines */}
         <div className="flex flex-col gap-3 border-t pt-4">
-          {secondaryHeadlines.map((post) => {
+          <Link key={secondaryHeadlines[0]._id} href={PAGES.post(secondaryHeadlines[0].slug)} className="group">
+            <h3
+              className={cn(
+                "text-base font-medium group-hover:text-gold transition-colors",
+                domine.className
+              )}
+            >
+              {secondaryHeadlines[0].title}
+            </h3>
+          </Link>
+
+          <Separator />
+
+          <Link key={secondaryHeadlines[1]._id} href={PAGES.post(secondaryHeadlines[1].slug)} className="group">
+            <h3
+              className={cn(
+                "text-base font-medium group-hover:text-gold transition-colors",
+                domine.className
+              )}
+            >
+              {secondaryHeadlines[1].title}
+            </h3>
+          </Link>
+
+          {/* {secondaryHeadlines.map((post) => {
             const url = post.slug === "#" ? "#" : PAGES.post(post.slug);
 
             return (
@@ -66,7 +91,7 @@ const EditorsPick = ({
                 </h3>
               </Link>
             );
-          })}
+          })} */}
         </div>
       </div>
 
