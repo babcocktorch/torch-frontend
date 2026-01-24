@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Plus, ArrowUp, Loader2 } from "lucide-react";
 import { sendTorchAIMessage } from "@/lib/requests";
 import ReactMarkdown from "react-markdown";
+import slugify from "slugify";
 
 interface ChatMessage {
   id: string;
@@ -24,6 +25,8 @@ const TorchAIChatInterface = () => {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
+  const uniqueId = slugify(window.navigator.userAgent) + Date.now()
 
   useEffect(() => {
     scrollToBottom();
@@ -58,7 +61,7 @@ const TorchAIChatInterface = () => {
 
     setIsLoading(true);
 
-    const response = await sendTorchAIMessage(userMessage);
+    const response = await sendTorchAIMessage(userMessage, uniqueId);
 
     if (response.error) {
       // Add error message as assistant response

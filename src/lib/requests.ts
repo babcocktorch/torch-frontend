@@ -323,7 +323,8 @@ export interface TorchAIChatResponse {
 }
 
 export const sendTorchAIMessage = async (
-  message: string
+  message: string,
+  uniqueId: string
 ): Promise<TorchAIChatResponse> => {
   try {
     const response = await fetch(TORCH_AI.endpoint, {
@@ -332,7 +333,7 @@ export const sendTorchAIMessage = async (
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        user_id: TORCH_AI.default_user_id,
+        user_id: uniqueId,
         message: message,
         profile: TORCH_AI.default_profile,
         persona: TORCH_AI.default_persona,
