@@ -26,7 +26,7 @@ const TorchAIChatInterface = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const uniqueId = slugify(window.navigator.userAgent) + Date.now()
+  const uniqueId = slugify(window.navigator.userAgent) + Date.now();
 
   useEffect(() => {
     scrollToBottom();
@@ -101,7 +101,7 @@ const TorchAIChatInterface = () => {
       <div className="flex-1 overflow-y-auto min-h-0">
         {!hasMessages ? (
           // Welcome screen when no messages
-          <div className="flex flex-col items-center justify-center h-full px-4 py-8">
+          <div className="flex flex-col items-center justify-center h-full px-4 py-36">
             <div className="text-center mb-12">
               <h1 className="text-4xl sm:text-5xl mb-3 font-miller">
                 {greeting}
@@ -119,7 +119,7 @@ const TorchAIChatInterface = () => {
                 key={msg.id}
                 className={cn(
                   "flex",
-                  msg.role === "user" ? "justify-end" : "justify-start"
+                  msg.role === "user" ? "justify-end" : "justify-start",
                 )}
               >
                 <div
@@ -127,7 +127,7 @@ const TorchAIChatInterface = () => {
                     "max-w-[85%] sm:max-w-[75%] px-4 py-3 rounded-2xl",
                     msg.role === "user"
                       ? "bg-gold text-white rounded-br-md"
-                      : "bg-muted rounded-bl-md"
+                      : "bg-muted rounded-bl-md",
                   )}
                 >
                   {msg.role === "user" ? (
@@ -187,7 +187,7 @@ const TorchAIChatInterface = () => {
                   "rounded-lg w-9 h-9 shrink-0 transition-colors",
                   message.trim() && !isLoading
                     ? "bg-gold hover:bg-gold/90 text-white"
-                    : "bg-muted text-muted-foreground"
+                    : "bg-muted text-muted-foreground",
                 )}
               >
                 {isLoading ? (
