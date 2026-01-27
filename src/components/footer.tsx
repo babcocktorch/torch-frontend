@@ -16,7 +16,7 @@ const Footer = () => {
 
   const logo =
     theme === "dark"
-      ? IMAGES.logos.engravers_old_eng_white
+      ? IMAGES.logos.qt_fraktur_white
       : IMAGES.logos.big_moore_gold;
 
   const handleSubscribe = (e: React.FormEvent) => {
@@ -250,9 +250,7 @@ const Footer = () => {
 
         {/* Copyright */}
         <div className="border-t border-border pt-8 text-center text-sm text-muted-foreground">
-          <p>
-            babcocktorch.com © {new Date().getFullYear()} The Babcock Torch
-          </p>
+          <p>babcocktorch.com © {new Date().getFullYear()} The Babcock Torch</p>
         </div>
       </div>
     </footer>

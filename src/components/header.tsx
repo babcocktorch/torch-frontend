@@ -28,7 +28,7 @@ const Header = () => {
 
   const logo =
     theme === "dark"
-      ? IMAGES.logos.engravers_old_eng_white
+      ? IMAGES.logos.qt_fraktur_white
       : IMAGES.logos.big_moore_gold;
 
   const date = new Date().toLocaleDateString("en-US", {
@@ -59,7 +59,7 @@ const Header = () => {
         root: null,
         threshold: 0,
         rootMargin: "0px",
-      }
+      },
     );
 
     observer.observe(largeHeaderRef.current);
@@ -91,7 +91,7 @@ const Header = () => {
       <header
         className={cn(
           "fixed top-0 z-50 w-full dark:bg-black bg-white border flex flex-col transition-transform duration-300",
-          showSmallHeader ? "translate-y-0" : "-translate-y-full"
+          showSmallHeader ? "translate-y-0" : "-translate-y-full",
         )}
       >
         {/* Top row: Sidebar, Logo, Theme Toggle */}
@@ -101,7 +101,7 @@ const Header = () => {
           <div
             className={cn(
               "flex items-center justify-center flex-col gap-1 transition-all",
-              shouldShowLogo ? "" : "lg:opacity-0"
+              shouldShowLogo ? "" : "lg:opacity-0",
             )}
           >
             <Link href={PAGES.home}>
@@ -112,7 +112,7 @@ const Header = () => {
                 height={logo.height}
                 className={cn(
                   "w-40 sm:w-48 h-auto",
-                  theme === "dark" ? "mb-0" : "lg:mb-2"
+                  theme === "dark" ? "mb-0" : "lg:mb-2",
                 )}
               />
             </Link>
@@ -120,7 +120,7 @@ const Header = () => {
             <p
               className={cn(
                 "text-xs text-muted-foreground hidden sm:block",
-                domine.className
+                domine.className,
               )}
             >
               The University Daily, Est. 2025
@@ -142,7 +142,7 @@ const Header = () => {
                     "px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium border-b-2 border-transparent hover:border-primary transition-colors cursor-pointer whitespace-nowrap",
                     pathname === category.href
                       ? "border-primary font-semibold"
-                      : ""
+                      : "",
                   )}
                 >
                   {category.name}
@@ -184,7 +184,7 @@ const Header = () => {
                   height={logo.height}
                   className={cn(
                     "w-96 h-auto",
-                    theme === "dark" ? "mb-0" : "mb-3"
+                    theme === "dark" ? "mb-0" : "mb-3",
                   )}
                 />
               </Link>
@@ -211,7 +211,7 @@ const Header = () => {
                     "px-4 py-2 text-sm font-medium border-b-2 border-transparent hover:border-primary transition-colors cursor-pointer",
                     pathname === category.href
                       ? "border-primary font-semibold"
-                      : ""
+                      : "",
                   )}
                 >
                   {category.name}
@@ -295,7 +295,7 @@ const Header = () => {
       <div
         className={cn(
           "transition-all duration-300",
-          showSmallHeader ? "h-[108px]" : "h-0"
+          showSmallHeader ? "h-[108px]" : "h-0",
         )}
       />
     </>
