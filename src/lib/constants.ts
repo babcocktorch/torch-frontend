@@ -101,6 +101,7 @@ export const CREDENTIALS = {
 };
 
 export const MAJOR_CATEGORIES = [
+  { name: "Torch AI", href: PAGES.ask_the_torch_ai },
   { name: "News", href: PAGES.home },
   { name: "Opinions", href: PAGES.opinions },
   // { name: "Blogs", href: PAGES.blogs },
@@ -111,7 +112,6 @@ export const MAJOR_CATEGORIES = [
   // { name: "Calendar", href: PAGES.calendar },
   // { name: "Maps", href: PAGES.maps },
   { name: "Masthead", href: PAGES.masthead },
-  { name: "Torch AI", href: PAGES.ask_the_torch_ai },
 ];
 
 export const MINOR_CATEGORIES = [
