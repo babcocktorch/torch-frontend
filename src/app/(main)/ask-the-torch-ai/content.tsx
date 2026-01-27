@@ -6,7 +6,6 @@ import TorchAIMobileActionBar from "@/components/torch-ai/mobile-action-bar";
 import TorchAIWelcomeModal from "@/components/torch-ai/welcome-modal";
 import TorchAIFAQs from "@/components/torch-ai/faqs";
 import TorchAIChatInterface from "@/components/torch-ai/chat-interface";
-import { Sparkles } from "lucide-react";
 
 const TorchAIPageContent = () => {
   const [faqsOpen, setFaqsOpen] = useState(false);
