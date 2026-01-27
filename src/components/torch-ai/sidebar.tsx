@@ -4,15 +4,7 @@ import { useAtom } from "jotai";
 import { torch_ai_sidebar_open } from "@/lib/atoms";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
-import {
-  Plus,
-  HelpCircle,
-  ExternalLink,
-  PanelLeftClose,
-  PanelLeftOpen,
-} from "lucide-react";
-import Link from "next/link";
-import { PAGES } from "@/lib/constants";
+import { Plus, HelpCircle, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 
 interface TorchAISidebarProps {
   onNewChat: () => void;
@@ -26,7 +18,7 @@ const TorchAISidebar = ({ onNewChat, onOpenFAQs }: TorchAISidebarProps) => {
     <aside
       className={cn(
         "border rounded-lg bg-background flex flex-col transition-all duration-300 ease-in-out overflow-hidden shrink-0",
-        sidebarOpen ? "w-64" : "w-16"
+        sidebarOpen ? "w-64" : "w-16",
       )}
     >
       <div className="flex flex-col h-full p-3">
@@ -34,7 +26,7 @@ const TorchAISidebar = ({ onNewChat, onOpenFAQs }: TorchAISidebarProps) => {
         <div
           className={cn(
             "flex items-center mb-4",
-            sidebarOpen ? "justify-end" : "justify-center"
+            sidebarOpen ? "justify-end" : "justify-center",
           )}
         >
           <Button
@@ -61,7 +53,7 @@ const TorchAISidebar = ({ onNewChat, onOpenFAQs }: TorchAISidebarProps) => {
               "h-10",
               sidebarOpen
                 ? "w-full justify-start gap-3"
-                : "w-10 justify-center mx-auto"
+                : "w-10 justify-center mx-auto",
             )}
             onClick={onNewChat}
             title="New Chat"
@@ -77,7 +69,7 @@ const TorchAISidebar = ({ onNewChat, onOpenFAQs }: TorchAISidebarProps) => {
               "h-10",
               sidebarOpen
                 ? "w-full justify-start gap-3"
-                : "w-10 justify-center mx-auto"
+                : "w-10 justify-center mx-auto",
             )}
             onClick={onOpenFAQs}
             title="FAQs"
@@ -86,25 +78,6 @@ const TorchAISidebar = ({ onNewChat, onOpenFAQs }: TorchAISidebarProps) => {
             {sidebarOpen && <span>FAQs</span>}
           </Button>
         </nav>
-
-        {/* Bottom section - Back to Main Site */}
-        <div className="mt-auto pt-4 border-t">
-          <Link href={PAGES.home}>
-            <Button
-              variant="ghost"
-              className={cn(
-                "h-10 text-muted-foreground hover:text-foreground",
-                sidebarOpen
-                  ? "w-full justify-start gap-3"
-                  : "w-10 justify-center mx-auto"
-              )}
-              title="Back to Main Site"
-            >
-              <ExternalLink className="w-4 h-4 shrink-0" />
-              {sidebarOpen && <span>Back to Main Site</span>}
-            </Button>
-          </Link>
-        </div>
       </div>
     </aside>
   );
