@@ -4,24 +4,18 @@ import { urlFor } from "@/lib/sanity.client";
 import Link from "next/link";
 import { PostType } from "@/lib/types";
 import { PAGES } from "@/lib/constants";
-import { domine } from "@/lib/fonts";
-import { Separator } from "../ui/separator";
 
 interface EditorsPickProps {
   featuredPost: PostType;
-  secondaryHeadlines: PostType[];
 }
 
-const EditorsPick = ({
-  featuredPost,
-  secondaryHeadlines,
-}: EditorsPickProps) => {
+const EditorsPick = ({ featuredPost }: EditorsPickProps) => {
   const postUrl =
     featuredPost.slug === "#" ? "#" : PAGES.post(featuredPost.slug);
 
   return (
     <div className="flex flex-col lg:flex-row gap-6">
-      {/* Left: Featured Article Text + Secondary Headlines */}
+      {/* Left: Featured Article Text */}
       <div className="w-full lg:w-2/5 flex flex-col">
         {/* Editor's Pick Label */}
         <span className="text-gold text-xs font-semibold tracking-wider uppercase mb-3">
@@ -33,7 +27,7 @@ const EditorsPick = ({
           <h2
             className={cn(
               "text-2xl lg:text-3xl font-semibold mb-3 group-hover:text-gold transition-colors",
-              "font-miller"
+              "font-miller",
             )}
           >
             {featuredPost.title}
@@ -41,7 +35,7 @@ const EditorsPick = ({
           <p className="text-muted-foreground mb-3 text-sm lg:text-base">
             {featuredPost.description}
           </p>
-          <p className="text-sm text-muted-foreground mb-6">
+          <p className="text-sm text-muted-foreground">
             By{" "}
             <span className="font-medium text-foreground">
               {featuredPost.author.name}
@@ -49,50 +43,6 @@ const EditorsPick = ({
             • {formatDate(featuredPost.date)}
           </p>
         </Link>
-
-        {/* Secondary Headlines */}
-        <div className="flex flex-col gap-3 border-t pt-4">
-          <Link key={secondaryHeadlines[0]._id} href={PAGES.post(secondaryHeadlines[0].slug)} className="group">
-            <h3
-              className={cn(
-                "text-base font-medium group-hover:text-gold transition-colors",
-                domine.className
-              )}
-            >
-              {secondaryHeadlines[0].title}
-            </h3>
-          </Link>
-
-          <Separator />
-
-          <Link key={secondaryHeadlines[1]._id} href={PAGES.post(secondaryHeadlines[1].slug)} className="group">
-            <h3
-              className={cn(
-                "text-base font-medium group-hover:text-gold transition-colors",
-                domine.className
-              )}
-            >
-              {secondaryHeadlines[1].title}
-            </h3>
-          </Link>
-
-          {/* {secondaryHeadlines.map((post) => {
-            const url = post.slug === "#" ? "#" : PAGES.post(post.slug);
-
-            return (
-              <Link key={post._id} href={url} className="group">
-                <h3
-                  className={cn(
-                    "text-base font-medium group-hover:text-gold transition-colors",
-                    domine.className
-                  )}
-                >
-                  {post.title}
-                </h3>
-              </Link>
-            );
-          })} */}
-        </div>
       </div>
 
       {/* Right: Featured Image */}

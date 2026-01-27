@@ -34,18 +34,16 @@ const Home = ({ posts, editorsPickSlug }: HomeProps) => {
 
   // Get other posts (excluding editor's pick)
   const otherNewsPosts = newsPosts.filter(
-    (post) => post.slug !== editorsPickPost?.slug
+    (post) => post.slug !== editorsPickPost?.slug,
   );
 
   // Layout distribution:
   // - Editor's Pick: 1 featured post (from backend)
-  // - Secondary headlines in editor's pick: 2 posts
   // - Additional articles with images: 2 posts
   // - More Top Stories: remaining posts (compressed)
   const editorsPick = editorsPickPost;
-  const secondaryHeadlines = otherNewsPosts.slice(0, 2);
-  const additionalArticles = otherNewsPosts.slice(2, 4);
-  const moreTopStories = otherNewsPosts.slice(4, 10);
+  const additionalArticles = otherNewsPosts.slice(0, 2);
+  const moreTopStories = otherNewsPosts.slice(2, 8);
   const moreTopStoriesWithImage = moreTopStories[0];
   const moreTopStoriesCompressed = moreTopStories.slice(1);
 
@@ -56,12 +54,7 @@ const Home = ({ posts, editorsPickSlug }: HomeProps) => {
         {/* Left: Editor's Pick + Additional Articles */}
         <div className="w-full lg:w-3/4 flex flex-col gap-6 lg:border-r lg:pr-6">
           {/* Editor's Pick */}
-          {editorsPick && (
-            <EditorsPick
-              featuredPost={editorsPick}
-              secondaryHeadlines={secondaryHeadlines}
-            />
-          )}
+          {editorsPick && <EditorsPick featuredPost={editorsPick} />}
 
           <Separator />
 
@@ -157,7 +150,7 @@ const MoreTopStoriesFeature = ({ post }: { post: PostType }) => {
       <h3
         className={cn(
           "text-base lg:text-lg font-medium group-hover:text-gold transition-colors",
-          domine.className
+          domine.className,
         )}
       >
         {post.title}
