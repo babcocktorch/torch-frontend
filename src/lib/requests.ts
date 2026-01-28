@@ -37,7 +37,7 @@ const fetchBackendPublicArticles = async (): Promise<{
   try {
     const response = await fetch(
       BACKEND_BASE_URL + BACKEND_API_ROUTES.public.articles,
-      { next: { revalidate: 60 } } // Cache for 60 seconds
+      { next: { revalidate: 60 } }, // Cache for 60 seconds
     );
 
     if (!response.ok) {
@@ -68,7 +68,7 @@ export const isArticlePublic = async (slug: string): Promise<boolean> => {
   try {
     const response = await fetch(
       BACKEND_BASE_URL + BACKEND_API_ROUTES.public.article(slug),
-      { next: { revalidate: 60 } }
+      { next: { revalidate: 60 } },
     );
     return response.ok;
   } catch (error) {
@@ -112,7 +112,7 @@ export const getPosts = async (): Promise<{
 
     // Filter posts to only include those that are public in backend
     const filteredPosts = allPosts.filter((post) =>
-      backendInfo.publicSlugs.has(post.slug)
+      backendInfo.publicSlugs.has(post.slug),
     );
 
     return {
@@ -157,7 +157,7 @@ export const getOpinions = async (): Promise<PostType[]> => {
 
     // Filter opinions to only include those that are public in backend
     const filteredOpinions = allOpinions.filter((opinion) =>
-      backendInfo.publicSlugs.has(opinion.slug)
+      backendInfo.publicSlugs.has(opinion.slug),
     );
 
     return filteredOpinions;
@@ -167,7 +167,7 @@ export const getOpinions = async (): Promise<PostType[]> => {
   }
 };
 
-export const searchPosts = async (searchTerm: string) => {
+export const searchPosts = async (searchTerm: string): Promise<PostType[]> => {
   if (!searchTerm || searchTerm.trim() === "") {
     return [];
   }
@@ -196,11 +196,22 @@ export const searchPosts = async (searchTerm: string) => {
 `;
 
   try {
-    const searchResults = await sanityClient.fetch(searchQuery, {
-      searchTerm: `*${searchTerm}*`,
-    });
+    // Fetch both search results and backend visibility info in parallel
+    const [searchResults, backendInfo] = await Promise.all([
+      sanityClient.fetch(searchQuery, {
+        searchTerm: `*${searchTerm}*`,
+      }),
+      fetchBackendPublicArticles(),
+    ]);
 
-    return searchResults as PostType[];
+    const allResults = searchResults as PostType[];
+
+    // Filter results to only include those that are public in backend
+    const filteredResults = allResults.filter((post) =>
+      backendInfo.publicSlugs.has(post.slug),
+    );
+
+    return filteredResults;
   } catch (error) {
     console.error("Failed to search posts:", error);
 
@@ -306,7 +317,7 @@ export const getOpinionAuthors = async (): Promise<OpinionAuthor[]> => {
 
   // Sort by opinion count (descending)
   return Array.from(authorMap.values()).sort(
-    (a, b) => b.opinionCount - a.opinionCount
+    (a, b) => b.opinionCount - a.opinionCount,
   );
 };
 
@@ -324,7 +335,7 @@ export interface TorchAIChatResponse {
 
 export const sendTorchAIMessage = async (
   message: string,
-  uniqueId: string
+  uniqueId: string,
 ): Promise<TorchAIChatResponse> => {
   try {
     const response = await fetch(TORCH_AI.endpoint, {
