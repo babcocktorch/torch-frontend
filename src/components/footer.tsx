@@ -36,7 +36,10 @@ const Footer = () => {
               alt="The Babcock Torch"
               width={logo.width}
               height={logo.height}
-              className={cn("w-96 h-auto", theme === "dark" ? "mb-0" : "mb-3")}
+              className={cn(
+                "w-72 md:w-96 h-auto",
+                theme === "dark" ? "mb-0" : "mb-3",
+              )}
             />
           </Link>
           <p className="text-sm text-muted-foreground font-miller italic">
