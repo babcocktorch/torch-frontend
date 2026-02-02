@@ -7,7 +7,15 @@ import {
   TORCH_AI,
 } from "./constants";
 import { sanityClient } from "./sanity.client";
-import { AdminArticle, AuthorType, OpinionAuthor, PostType } from "./types";
+import {
+  AdminArticle,
+  AuthorType,
+  Community,
+  CommunitySubmission,
+  CreateSubmissionRequest,
+  OpinionAuthor,
+  PostType,
+} from "./types";
 
 export const submitIdea = async (details: FormData) => {
   try {
@@ -367,5 +375,94 @@ export const sendTorchAIMessage = async (
   } catch (error) {
     console.error("Torch AI chat error:", error);
     return { error: "Failed to connect to Torch AI. Please try again." };
+  }
+};
+
+// ============================================
+// Community Public Functions
+// ============================================
+
+/**
+ * Get all communities (public - for dropdown selection)
+ */
+export const getCommunities = async (): Promise<{
+  data?: Community[];
+  error?: string;
+}> => {
+  try {
+    const response = await fetch(
+      BACKEND_BASE_URL + BACKEND_API_ROUTES.public.communities,
+      { next: { revalidate: 60 } },
+    );
+
+    if (!response.ok) {
+      return { error: "Failed to fetch communities" };
+    }
+
+    const result = await response.json();
+    return { data: result.data?.communities || [] };
+  } catch (error) {
+    console.error("Failed to fetch communities:", error);
+    return { error: "Network error. Please try again." };
+  }
+};
+
+/**
+ * Get a single community by slug (public)
+ */
+export const getCommunityBySlug = async (
+  slug: string,
+): Promise<{ data?: Community; error?: string }> => {
+  try {
+    const response = await fetch(
+      BACKEND_BASE_URL + BACKEND_API_ROUTES.public.community(slug),
+      { next: { revalidate: 60 } },
+    );
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        return { error: "Community not found" };
+      }
+      return { error: "Failed to fetch community" };
+    }
+
+    const result = await response.json();
+    return { data: result.data?.community };
+  } catch (error) {
+    console.error("Failed to fetch community:", error);
+    return { error: "Network error. Please try again." };
+  }
+};
+
+/**
+ * Submit community content (public - no auth required)
+ */
+export const submitCommunityContent = async (
+  submission: CreateSubmissionRequest,
+): Promise<{ data?: CommunitySubmission; error?: string }> => {
+  try {
+    const response = await fetch(
+      BACKEND_BASE_URL + BACKEND_API_ROUTES.submissions.community,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(submission),
+      },
+    );
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      return {
+        error: result.message || "Failed to submit content. Please try again.",
+      };
+    }
+
+    return { data: result.data?.submission };
+  } catch (error) {
+    console.error("Failed to submit community content:", error);
+    return { error: "Network error. Please try again." };
   }
 };
