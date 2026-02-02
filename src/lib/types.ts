@@ -97,3 +97,71 @@ export type SyncResult = {
   updated: number;
   total: number;
 };
+
+// Community types
+export type Community = {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string | null;
+  logoUrl?: string | null;
+  contactEmail?: string | null;
+  createdAt: string;
+  updatedAt?: string;
+  _count?: {
+    submissions: number;
+  };
+};
+
+export type SubmissionType = "news" | "event" | "announcement";
+export type SubmissionStatus = "pending" | "reviewed" | "rejected";
+
+export type CommunitySubmission = {
+  id: string;
+  communityId: string;
+  authorName: string;
+  authorContact: string;
+  submissionType: SubmissionType;
+  title: string;
+  content: string;
+  eventDate?: string | null;
+  mediaUrls: string[] | string; // Can be array or JSON string from API
+  status: SubmissionStatus;
+  reviewedAt?: string | null;
+  reviewedBy?: string | null;
+  createdAt: string;
+  community?: {
+    id: string;
+    name: string;
+    slug: string;
+    logoUrl?: string | null;
+  };
+};
+
+// Request types for creating/updating
+export type CreateCommunityRequest = {
+  name: string;
+  slug?: string;
+  description?: string;
+  logoUrl?: string;
+  contactEmail?: string;
+};
+
+export type UpdateCommunityRequest = {
+  name?: string;
+  slug?: string;
+  description?: string | null;
+  logoUrl?: string | null;
+  contactEmail?: string | null;
+};
+
+export type CreateSubmissionRequest = {
+  communityId: string;
+  authorName: string;
+  authorContact: string;
+  submissionType: SubmissionType;
+  title: string;
+  content: string;
+  eventDate?: string;
+  mediaUrls?: string[];
+};
