@@ -146,6 +146,8 @@ export const ADMIN_PAGES = {
   setup: "/admin/setup",
   dashboard: "/admin",
   articles: "/admin/articles",
+  communities: "/admin/communities",
+  submissions: "/admin/submissions",
 };
 
 export const BACKEND_API_ROUTES = {

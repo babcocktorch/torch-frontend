@@ -12,6 +12,8 @@ import {
   FileText,
   LogOut,
   Home,
+  Users,
+  Inbox,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -25,6 +27,16 @@ const navItems = [
     title: "Articles",
     href: ADMIN_PAGES.articles,
     icon: FileText,
+  },
+  {
+    title: "Communities",
+    href: ADMIN_PAGES.communities,
+    icon: Users,
+  },
+  {
+    title: "Submissions",
+    href: ADMIN_PAGES.submissions,
+    icon: Inbox,
   },
 ];
 
