@@ -161,11 +161,25 @@ export const BACKEND_API_ROUTES = {
     articles: "/admin/articles",
     articleVisibility: (id: string) => `/admin/articles/${id}/visibility`,
     editorsPick: (id: string) => `/admin/articles/${id}/editors-pick`,
+    // Community management
+    communities: "/admin/communities",
+    community: (id: string) => `/admin/communities/${id}`,
+    // Submission management
+    submissions: "/admin/submissions",
+    submission: (id: string) => `/admin/submissions/${id}`,
+    submissionStatus: (id: string) => `/admin/submissions/${id}/status`,
   },
   // Public article endpoints
   public: {
     articles: "/articles",
     article: (slug: string) => `/articles/${slug}`,
+    // Public community endpoints
+    communities: "/communities",
+    community: (slug: string) => `/communities/${slug}`,
+  },
+  // Public submission endpoint
+  submissions: {
+    community: "/submissions/community",
   },
 };
 
