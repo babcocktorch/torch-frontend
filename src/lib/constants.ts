@@ -93,6 +93,7 @@ export const PAGES = {
   ask_the_torch_ai: "/ask-the-torch-ai",
   blogs: "/blogs",
   communities: "/communities",
+  community: (slug: string) => `/communities/${slug}`,
   business: "/business",
   vendors: "/vendors",
   alumni: "/alumni",

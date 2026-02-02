@@ -41,7 +41,7 @@ const CommunitiesHome = ({ communities }: { communities: Community[] }) => {
             {communities.map((community) => (
               <Link
                 key={community.id}
-                href={`${PAGES.communities}/${community.slug}`}
+                href={PAGES.community(community.slug)}
                 className="group"
               >
                 <article className="border rounded-lg p-6 h-full flex flex-col gap-4 hover:border-gold hover:shadow-md transition-all duration-200">
