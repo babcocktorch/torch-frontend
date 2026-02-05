@@ -466,3 +466,33 @@ export const submitCommunityContent = async (
     return { error: "Network error. Please try again." };
   }
 };
+
+// ============================================
+// Masthead Functions
+// ============================================
+
+import { MastheadMember } from "./types";
+
+/**
+ * Get all masthead members from Sanity
+ */
+export const getMastheadMembers = async (): Promise<MastheadMember[]> => {
+  const mastheadQuery = groq`
+  *[_type == "Masthead"] | order(order asc) {
+    _id,
+    name,
+    position,
+    image,
+    board,
+    order
+  }
+`;
+
+  try {
+    const members = await sanityClient.fetch(mastheadQuery);
+    return members as MastheadMember[];
+  } catch (error) {
+    console.error("Failed to fetch masthead members:", error);
+    return [];
+  }
+};

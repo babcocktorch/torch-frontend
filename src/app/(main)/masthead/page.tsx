@@ -1,6 +1,7 @@
-import ComingSoon from "@/components/general/coming-soon";
 import { BASE_URL, IMAGES, PAGES } from "@/lib/constants";
+import { getMastheadMembers } from "@/lib/requests";
 import { Metadata } from "next";
+import MastheadHome from "@/components/masthead/home";
 
 export const dynamic = "force-dynamic";
 
@@ -30,14 +31,10 @@ export const metadata: Metadata = {
   },
 };
 
-const MastheadPage = () => {
-  return (
-    <ComingSoon
-      title="Masthead"
-      description="The Masthead is the editorial team that oversees the publication of The Babcock Torch."
-      showReturnButton={true}
-    />
-  );
+const MastheadPage = async () => {
+  const members = await getMastheadMembers();
+
+  return <MastheadHome members={members} />;
 };
 
 export default MastheadPage;

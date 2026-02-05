@@ -165,3 +165,13 @@ export type CreateSubmissionRequest = {
   eventDate?: string;
   mediaUrls?: string[];
 };
+
+// Masthead types
+export type MastheadMember = {
+  _id: string;
+  name: string;
+  position: string;
+  image?: any;
+  board: string;
+  order: number;
+};
