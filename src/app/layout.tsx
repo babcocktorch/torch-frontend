@@ -16,7 +16,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "antialiased relative flex flex-col min-h-screen items-center justify-start",
+          "antialiased relative flex flex-col min-h-screen items-center justify-start w-full",
         )}
       >
         {children}
