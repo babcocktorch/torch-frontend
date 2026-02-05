@@ -7,7 +7,6 @@ import { ADMIN_PAGES } from "@/lib/constants";
 import { AdminSidebar } from "@/components/admin/admin-sidebar";
 import { Loader2 } from "lucide-react";
 import { Toaster } from "@/components/ui/sonner";
-import "../globals.css";
 
 function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading } = useAuth();
@@ -61,13 +60,11 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="antialiased">
-        <Toaster position="top-center" />
-        <AuthProvider>
-          <AdminLayoutContent>{children}</AdminLayoutContent>
-        </AuthProvider>
-      </body>
-    </html>
+    <>
+      <Toaster position="top-center" />
+      <AuthProvider>
+        <AdminLayoutContent>{children}</AdminLayoutContent>
+      </AuthProvider>
+    </>
   );
 }
