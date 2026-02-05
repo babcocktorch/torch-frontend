@@ -95,7 +95,7 @@ const Header = () => {
         )}
       >
         {/* Top row: Sidebar, Logo, Theme Toggle */}
-        <div className="flex items-center justify-between py-4 px-6 gap-4">
+        <div className="flex items-center justify-between py-4 px-6 gap-4 max-w-7xl mx-auto w-full">
           <Sidebar />
 
           <div
@@ -295,7 +295,7 @@ const Header = () => {
       <div
         className={cn(
           "transition-all duration-300",
-          showSmallHeader ? "h-[108px]" : "h-0",
+          showSmallHeader ? "h-[93px] sm:h-[108px]" : "h-0",
         )}
       />
     </>
