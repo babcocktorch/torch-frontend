@@ -153,36 +153,37 @@ export const ADMIN_PAGES = {
 export const BACKEND_API_ROUTES = {
   // Auth endpoints
   auth: {
-    setup: "/admin/auth/setup",
-    login: "/admin/auth/login",
-    me: "/admin/auth/me",
-    logout: "/admin/auth/logout",
+    setup: "/api/v2/admin/auth/setup",
+    login: "/api/v2/admin/auth/login",
+    me: "/api/v2/admin/auth/me",
+    logout: "/api/v2/admin/auth/logout",
   },
   // Admin article endpoints
   admin: {
-    syncArticles: "/admin/articles/sync",
-    articles: "/admin/articles",
-    articleVisibility: (id: string) => `/admin/articles/${id}/visibility`,
-    editorsPick: (id: string) => `/admin/articles/${id}/editors-pick`,
+    syncArticles: "/api/v2/admin/articles/sync",
+    articles: "/api/v2/admin/articles",
+    articleVisibility: (id: string) =>
+      `/api/v2/admin/articles/${id}/visibility`,
+    editorsPick: (id: string) => `/api/v2/admin/articles/${id}/editors-pick`,
     // Community management
-    communities: "/admin/communities",
-    community: (id: string) => `/admin/communities/${id}`,
+    communities: "/api/v2/admin/communities",
+    community: (id: string) => `/api/v2/admin/communities/${id}`,
     // Submission management
-    submissions: "/admin/submissions",
-    submission: (id: string) => `/admin/submissions/${id}`,
-    submissionStatus: (id: string) => `/admin/submissions/${id}/status`,
+    submissions: "/api/v2/admin/submissions",
+    submission: (id: string) => `/api/v2/admin/submissions/${id}`,
+    submissionStatus: (id: string) => `/api/v2/admin/submissions/${id}/status`,
   },
   // Public article endpoints
   public: {
-    articles: "/articles",
-    article: (slug: string) => `/articles/${slug}`,
+    articles: "/api/v2/articles",
+    article: (slug: string) => `/api/v2/articles/${slug}`,
     // Public community endpoints
-    communities: "/communities",
-    community: (slug: string) => `/communities/${slug}`,
+    communities: "/api/v2/communities",
+    community: (slug: string) => `/api/v2/communities/${slug}`,
   },
   // Public submission endpoint
   submissions: {
-    community: "/submissions/community",
+    community: "/api/v2/submissions/community",
   },
 };
 
