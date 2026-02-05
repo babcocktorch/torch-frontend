@@ -29,7 +29,7 @@ const MemberCard = ({ member }: MemberCardProps) => {
   return (
     <div className="flex flex-col gap-2">
       {/* Card with gradient overlay */}
-      <div className="relative aspect-[4/5] bg-muted overflow-hidden">
+      <div className="relative aspect-4/5 bg-muted overflow-hidden">
         {imageUrl ? (
           <Image
             src={imageUrl}
@@ -38,22 +38,22 @@ const MemberCard = ({ member }: MemberCardProps) => {
             className="object-cover"
           />
         ) : (
-          <div className="w-full h-full bg-gradient-to-b from-gray-400 to-gray-600" />
+          <div className="w-full h-full bg-linear-to-b from-gray-400 to-gray-600" />
         )}
 
         {/* Gradient overlay at bottom */}
-        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/80 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-black/80 to-transparent" />
 
         {/* Name at bottom of card */}
         <div className="absolute inset-x-0 bottom-0 p-4">
-          <h3 className="text-white font-miller text-lg font-semibold">
+          <h3 className="text-white font-miller text-lg md:text-2xl font-semibold text-center">
             {member.name.toUpperCase()}
           </h3>
         </div>
       </div>
 
       {/* Position below the card */}
-      <p className="text-gold text-sm font-medium text-center uppercase tracking-wide">
+      <p className="text-gold text-sm md:text-lg font-medium text-center uppercase tracking-wide">
         {member.position}
       </p>
     </div>
@@ -63,18 +63,54 @@ const MemberCard = ({ member }: MemberCardProps) => {
 type BoardSectionProps = {
   title: string;
   members: MastheadMember[];
+  isAdvisory?: boolean;
 };
 
-const BoardSection = ({ title, members }: BoardSectionProps) => {
+const BoardSection = ({ title, members, isAdvisory }: BoardSectionProps) => {
   if (members.length === 0) return null;
 
+  // For Advisory Board: first member is featured, rest are in grid
+  const featuredMember = isAdvisory ? members[0] : null;
+  const gridMembers = isAdvisory ? members.slice(1) : members;
+
+  if (isAdvisory && featuredMember) {
+    return (
+      <section className="mb-12">
+        <div className="flex flex-col md:flex-row md:items-end gap-6">
+          {/* Featured member on left - larger card */}
+          <div className="w-full md:w-1/3">
+            <MemberCard member={featuredMember} />
+          </div>
+
+          {/* Right side: title, line, and grid */}
+          <div className="flex-1">
+            {/* Section header with line */}
+            <div className="flex items-center mb-4">
+              <h2 className="text-xl font-medium whitespace-nowrap">{title}</h2>
+            </div>
+            <div className="h-0.5 bg-gold flex-1 mb-4" />
+
+            {/* Other members - 2 column grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {gridMembers.map((member) => (
+                <MemberCard key={member._id} member={member} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Regular boards: title, line, then 3 column grid
   return (
     <section className="mb-12">
       {/* Section header with line */}
-      <div className="flex items-center gap-4 mb-6">
+      <div className="flex items-center mb-4">
         <h2 className="text-xl font-medium whitespace-nowrap">{title}</h2>
-        <div className="h-px bg-border flex-1" />
       </div>
+
+      <div className="h-0.5 bg-gold flex-1 mb-4" />
 
       {/* Member cards grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -103,12 +139,12 @@ const MastheadHome = ({ members }: MastheadHomeProps) => {
   return (
     <main className="w-full mb-8">
       {/* Banner */}
-      <div className="bg-gold dark:bg-gold/10 pl-8 mb-8">
+      <div className="bg-gold dark:bg-gold/10 px-2 md:pl-8 mb-8">
         <div className="w-full py-12 max-w-7xl mx-auto relative overflow-hidden flex flex-col gap-4 items-center md:items-start justify-center">
           <h1 className="text-4xl sm:text-5xl lg:text-7xl z-30 text-white font-semibold font-miller">
             Masthead
           </h1>
-          <p className="text-white/80 text-lg z-30 max-w-xl">
+          <p className="text-white/80 text-lg z-30 max-w-xl text-center md:text-left">
             The Babcock Torch is housed and supported by the Directorate of
             Academic Planning
           </p>
@@ -193,7 +229,7 @@ const MastheadHome = ({ members }: MastheadHomeProps) => {
       <div className="px-6 max-w-7xl mx-auto">
         {members.length === 0 ? (
           <p className="text-muted-foreground py-8 text-center">
-            No team members found. Add members through Sanity Studio.
+            No team members found.
           </p>
         ) : (
           BOARD_ORDER.map((board) => (
@@ -201,6 +237,7 @@ const MastheadHome = ({ members }: MastheadHomeProps) => {
               key={board.value}
               title={board.title}
               members={membersByBoard[board.value] || []}
+              isAdvisory={board.value === "advisory-board"}
             />
           ))
         )}
