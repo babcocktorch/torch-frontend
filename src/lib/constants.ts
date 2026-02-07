@@ -58,6 +58,21 @@ export const IMAGES = {
       width: 100,
       height: 100,
     },
+    majuyan_fraktur_black: {
+      src: "/logos/torch_logotype_majuyan_fraktur_black.svg",
+      width: 100,
+      height: 100,
+    },
+    majuyan_fraktur_white: {
+      src: "/logos/torch_logotype_majuyan_fraktur_white.svg",
+      width: 100,
+      height: 100,
+    },
+    majuyan_fraktur_gold: {
+      src: "/logos/torch_logotype_majuyan_fraktur_gold.svg",
+      width: 100,
+      height: 100,
+    },
     logo_white: {
       src: "/logos/torch_white.svg",
       width: 100,

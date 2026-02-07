@@ -26,10 +26,15 @@ const Header = () => {
   const [isLargeScreen, setIsLargeScreen] = useState(true);
   const largeHeaderRef = useRef<HTMLDivElement | null>(null);
 
+  // const logo =
+  //   theme === "dark"
+  //     ? IMAGES.logos.qt_fraktur_white
+  //     : IMAGES.logos.big_moore_gold;
+
   const logo =
     theme === "dark"
-      ? IMAGES.logos.qt_fraktur_white
-      : IMAGES.logos.big_moore_gold;
+      ? IMAGES.logos.majuyan_fraktur_white
+      : IMAGES.logos.majuyan_fraktur_black;
 
   const date = new Date().toLocaleDateString("en-US", {
     year: "numeric",
@@ -112,7 +117,7 @@ const Header = () => {
                 height={logo.height}
                 className={cn(
                   "w-40 sm:w-48 h-auto",
-                  theme === "dark" ? "mb-0" : "lg:mb-2",
+                  // theme === "dark" ? "mb-0" : "lg:mb-2",
                 )}
               />
             </Link>
@@ -184,7 +189,7 @@ const Header = () => {
                   height={logo.height}
                   className={cn(
                     "w-96 h-auto",
-                    theme === "dark" ? "mb-0" : "mb-3",
+                    // theme === "dark" ? "mb-0" : "mb-3",
                   )}
                 />
               </Link>
@@ -295,7 +300,7 @@ const Header = () => {
       <div
         className={cn(
           "transition-all duration-300",
-          showSmallHeader ? "h-[93px] sm:h-[108px]" : "h-0",
+          showSmallHeader ? "h-23.25 sm:h-27" : "h-0",
         )}
       />
     </>

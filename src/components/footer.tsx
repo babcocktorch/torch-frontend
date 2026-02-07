@@ -14,10 +14,15 @@ const Footer = () => {
   const theme = useAtomValue(app_theme);
   const [email, setEmail] = useState("");
 
+  // const logo =
+  //   theme === "dark"
+  //     ? IMAGES.logos.qt_fraktur_white
+  //     : IMAGES.logos.big_moore_gold;
+
   const logo =
     theme === "dark"
-      ? IMAGES.logos.qt_fraktur_white
-      : IMAGES.logos.big_moore_gold;
+      ? IMAGES.logos.majuyan_fraktur_white
+      : IMAGES.logos.majuyan_fraktur_gold;
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,7 +43,7 @@ const Footer = () => {
               height={logo.height}
               className={cn(
                 "w-72 md:w-96 h-auto",
-                theme === "dark" ? "mb-0" : "mb-3",
+                // theme === "dark" ? "mb-0" : "mb-3",
               )}
             />
           </Link>
