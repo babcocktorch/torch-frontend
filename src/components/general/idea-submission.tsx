@@ -49,7 +49,7 @@ const IdeaSubmission = ({ trigger }: IdeaSubmissionProps) => {
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setDetails({ ...details, [e.target.name]: e.target.value });
   };
@@ -102,7 +102,7 @@ const IdeaSubmission = ({ trigger }: IdeaSubmissionProps) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {trigger || (
-          <Button variant="outline" className="rounded-full">
+          <Button variant="outline" className="rounded-full text-xs lg:text-sm">
             Talk to the Torch
           </Button>
         )}

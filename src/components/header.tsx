@@ -14,6 +14,7 @@ import { useEffect, useRef, useState } from "react";
 import { FaYoutube } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import { getWeather } from "@/lib/requests";
+import { Button } from "./ui/button";
 
 const Header = () => {
   const theme = useAtomValue(app_theme);
@@ -99,8 +100,32 @@ const Header = () => {
           showSmallHeader ? "translate-y-0" : "-translate-y-full",
         )}
       >
+        <div className="p-4 w-full border flex items-center justify-between">
+          <div className="flex flex-col gap-1.5 left-0">
+            <p className="whitespace-nowrap text-xs font-medium">{date}</p>
+
+            {weather.temp !== 0 && (
+              <p className="whitespace-nowrap text-xs font-medium">
+                {Math.floor(weather.temp)} °C |{" "}
+                {weather.condition.split(" ").slice(0, 2).join(" ")}
+              </p>
+            )}
+          </div>
+
+          <IdeaSubmission
+          // trigger={
+          //   <Button
+          //     variant="outline"
+          //     className="rounded-full text-xs lg:text-sm"
+          //   >
+          //     Submit
+          //   </Button>
+          // }
+          />
+        </div>
+
         {/* Top row: Sidebar, Logo, Theme Toggle */}
-        <div className="flex items-center justify-between py-4 px-6 gap-4 max-w-7xl mx-auto w-full">
+        <div className="flex items-center justify-between p-4 gap-4 max-w-7xl mx-auto w-full">
           <Sidebar />
 
           <div
@@ -311,7 +336,7 @@ const Header = () => {
       <div
         className={cn(
           "transition-all duration-300",
-          showSmallHeader ? "h-23.25 sm:h-27" : "h-0",
+          showSmallHeader ? "h-40 sm:h-44" : "h-0",
         )}
       />
     </>
