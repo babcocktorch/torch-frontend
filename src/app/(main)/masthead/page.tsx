@@ -1,5 +1,5 @@
 import { BASE_URL, IMAGES, PAGES } from "@/lib/constants";
-import { getMastheadMembers } from "@/lib/requests";
+import { getMastheadGuards, getMastheadMembers } from "@/lib/requests";
 import { Metadata } from "next";
 import MastheadHome from "@/components/masthead/home";
 
@@ -32,9 +32,12 @@ export const metadata: Metadata = {
 };
 
 const MastheadPage = async () => {
-  const members = await getMastheadMembers();
+  const [guards, members] = await Promise.all([
+    getMastheadGuards(),
+    getMastheadMembers(),
+  ]);
 
-  return <MastheadHome members={members} />;
+  return <MastheadHome guards={guards} members={members} />;
 };
 
 export default MastheadPage;
