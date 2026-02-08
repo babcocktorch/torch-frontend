@@ -167,11 +167,24 @@ export type CreateSubmissionRequest = {
 };
 
 // Masthead types
+export type MastheadGuard = {
+  _id: string;
+  title: string;
+  slug: string;
+  label: string;
+  administration: string;
+  tenure: string;
+  editorNote?: string;
+  editorImage?: any;
+  order: number;
+};
+
 export type MastheadMember = {
   _id: string;
   name: string;
   position: string;
   image?: any;
   board: string;
+  guard: string; // guard slug
   order: number;
 };
