@@ -100,7 +100,7 @@ const Header = () => {
           showSmallHeader ? "translate-y-0" : "-translate-y-full",
         )}
       >
-        <div className="p-4 w-full border flex items-center justify-between">
+        <div className="p-4 w-full flex items-center justify-between max-w-7xl mx-auto">
           <div className="flex flex-col gap-1.5 left-0">
             <p className="whitespace-nowrap text-xs font-medium">{date}</p>
 
@@ -125,7 +125,7 @@ const Header = () => {
         </div>
 
         {/* Top row: Sidebar, Logo, Theme Toggle */}
-        <div className="flex items-center justify-between p-4 gap-4 max-w-7xl mx-auto w-full">
+        <div className="flex items-center justify-between p-4 gap-4 max-w-7xl mx-auto w-full border-t">
           <Sidebar />
 
           <div
