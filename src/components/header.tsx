@@ -14,7 +14,6 @@ import { useEffect, useRef, useState } from "react";
 import { FaYoutube } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import { getWeather } from "@/lib/requests";
-import { Button } from "./ui/button";
 
 const Header = () => {
   const theme = useAtomValue(app_theme);

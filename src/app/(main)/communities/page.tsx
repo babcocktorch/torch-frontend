@@ -1,7 +1,7 @@
-import CommunitiesHome from "@/components/communities/home";
+// import CommunitiesHome from "@/components/communities/home";
 import ComingSoon from "@/components/general/coming-soon";
 import { BASE_URL, IMAGES, PAGES } from "@/lib/constants";
-import { getCommunities } from "@/lib/requests";
+// import { getCommunities } from "@/lib/requests";
 import { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
