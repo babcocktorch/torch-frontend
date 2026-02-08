@@ -1,8 +1,10 @@
 "use client";
 
-import { MastheadMember } from "@/lib/types";
+import { MastheadGuard, MastheadMember } from "@/lib/types";
 import { urlFor } from "@/lib/sanity.client";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 // Board categories in display order
 const BOARD_ORDER = [
@@ -15,6 +17,12 @@ const BOARD_ORDER = [
     value: "media-marketing-communications",
     title: "Media, Marketing & Communications",
   },
+];
+
+// Category filter options (derived from BOARD_ORDER)
+const CATEGORY_FILTERS = [
+  { value: "all", label: "All" },
+  ...BOARD_ORDER.map((b) => ({ value: b.value, label: b.title })),
 ];
 
 type MemberCardProps = {
@@ -123,18 +131,34 @@ const BoardSection = ({ title, members, isAdvisory }: BoardSectionProps) => {
 };
 
 type MastheadHomeProps = {
+  guards: MastheadGuard[];
   members: MastheadMember[];
 };
 
-const MastheadHome = ({ members }: MastheadHomeProps) => {
-  // Group members by board
+const MastheadHome = ({ guards, members }: MastheadHomeProps) => {
+  const [activeGuardSlug, setActiveGuardSlug] = useState(
+    guards[0]?.slug ?? ""
+  );
+  const [activeCategory, setActiveCategory] = useState("all");
+
+  const activeGuard = guards.find((g) => g.slug === activeGuardSlug);
+
+  // Filter members by active guard, then group by board
+  const guardMembers = members.filter((m) => m.guard === activeGuardSlug);
+
   const membersByBoard = BOARD_ORDER.reduce(
     (acc, board) => {
-      acc[board.value] = members.filter((m) => m.board === board.value);
+      acc[board.value] = guardMembers.filter((m) => m.board === board.value);
       return acc;
     },
     {} as Record<string, MastheadMember[]>,
   );
+
+  // Filter boards by active category
+  const visibleBoards =
+    activeCategory === "all"
+      ? BOARD_ORDER
+      : BOARD_ORDER.filter((b) => b.value === activeCategory);
 
   return (
     <main className="w-full mb-8">
@@ -225,14 +249,119 @@ const MastheadHome = ({ members }: MastheadHomeProps) => {
         </div>
       </div>
 
+      {/* Guard Tabs & Category Filters */}
+      <div className="px-6 max-w-7xl mx-auto">
+        {/* Guard Tabs */}
+        <div className="flex justify-center gap-2 mb-6">
+          {guards.map((guard) => (
+            <button
+              key={guard._id}
+              onClick={() => setActiveGuardSlug(guard.slug)}
+              className={cn(
+                "px-5 py-2 cursor-pointer text-sm font-medium transition-colors border",
+                activeGuardSlug === guard.slug
+                  ? "bg-gold text-white border-gold"
+                  : "bg-transparent text-foreground border-border hover:border-gold/50"
+              )}
+            >
+              {guard.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Category Filter Row */}
+        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-10">
+          {CATEGORY_FILTERS.map((cat) => (
+            <button
+              key={cat.value}
+              onClick={() => setActiveCategory(cat.value)}
+              className={cn(
+                "text-sm transition-colors pb-0.5 cursor-pointer",
+                activeCategory === cat.value
+                  ? "text-gold underline underline-offset-8 decoration-gold font-medium"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Main Heading */}
+        {activeGuard && (
+          <>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-miller text-center mb-8">
+              {activeGuard.title}
+            </h2>
+
+            {/* Administration / Tenure Info Bar */}
+            <div className="max-w-2xl mx-auto mb-10">
+              <div className="h-px bg-foreground/20" />
+              <div className="grid grid-cols-2 py-4">
+                {/* Administration */}
+                <div className="text-center border-r border-foreground/20 pr-6">
+                  <p className="text-xs font-bold uppercase tracking-widest mb-1">
+                    Administration
+                  </p>
+                  <p className="text-2xl sm:text-3xl font-miller">
+                    {activeGuard.administration}
+                  </p>
+                </div>
+                {/* Tenure */}
+                <div className="text-center pl-6">
+                  <p className="text-xs font-bold uppercase tracking-widest mb-1">
+                    Tenure
+                  </p>
+                  <p className="text-2xl sm:text-3xl font-miller">
+                    {activeGuard.tenure}
+                  </p>
+                </div>
+              </div>
+              <div className="h-px bg-foreground/20" />
+            </div>
+
+            {/* Notes From the Editor */}
+            {activeGuard.editorNote && (
+              <div className="max-w-4xl mx-auto mb-14">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                  {/* Text Column */}
+                  <div>
+                    <h3 className="text-xl sm:text-2xl font-bold mb-4">
+                      Notes From the Editor
+                    </h3>
+                    <p className="text-base leading-relaxed">
+                      {activeGuard.editorNote}
+                    </p>
+                  </div>
+                  {/* Image Column */}
+                  <div className="aspect-4/3 bg-muted rounded-sm relative overflow-hidden">
+                    {activeGuard.editorImage && (
+                      <Image
+                        src={urlFor(activeGuard.editorImage)
+                          .width(600)
+                          .height(450)
+                          .url()}
+                        alt="Editor"
+                        fill
+                        className="object-cover"
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+
       {/* Content */}
       <div className="px-6 max-w-7xl mx-auto">
-        {members.length === 0 ? (
+        {guardMembers.length === 0 ? (
           <p className="text-muted-foreground py-8 text-center">
             No team members found.
           </p>
         ) : (
-          BOARD_ORDER.map((board) => (
+          visibleBoards.map((board) => (
             <BoardSection
               key={board.value}
               title={board.title}
