@@ -14,7 +14,7 @@ const BOARD_CATEGORIES = [
 
 export default defineType({
   name: "Masthead",
-  title: "Masthead",
+  title: "Masthead Member",
   type: "document",
   fields: [
     defineField({
@@ -46,6 +46,14 @@ export default defineType({
         list: BOARD_CATEGORIES,
         layout: "dropdown",
       },
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "guard",
+      title: "Guard",
+      type: "reference",
+      to: [{ type: "mastheadGuard" }],
+      description: "Which guard/era this member belongs to",
       validation: (rule) => rule.required(),
     }),
     defineField({
