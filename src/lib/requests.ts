@@ -471,7 +471,34 @@ export const submitCommunityContent = async (
 // Masthead Functions
 // ============================================
 
-import { MastheadMember } from "./types";
+import { MastheadGuard, MastheadMember } from "./types";
+
+/**
+ * Get all masthead guards (eras/terms) from Sanity
+ */
+export const getMastheadGuards = async (): Promise<MastheadGuard[]> => {
+  const guardsQuery = groq`
+  *[_type == "mastheadGuard"] | order(order asc) {
+    _id,
+    title,
+    "slug": slug.current,
+    label,
+    administration,
+    tenure,
+    editorNote,
+    editorImage,
+    order
+  }
+`;
+
+  try {
+    const guards = await sanityClient.fetch(guardsQuery);
+    return guards as MastheadGuard[];
+  } catch (error) {
+    console.error("Failed to fetch masthead guards:", error);
+    return [];
+  }
+};
 
 /**
  * Get all masthead members from Sanity
@@ -484,6 +511,7 @@ export const getMastheadMembers = async (): Promise<MastheadMember[]> => {
     position,
     image,
     board,
+    "guard": guard->slug.current,
     order
   }
 `;
