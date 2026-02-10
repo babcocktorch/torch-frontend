@@ -5,12 +5,22 @@ import { IMAGES, PAGES } from "@/lib/constants";
 import { domine } from "@/lib/fonts";
 import { cn, formatDate } from "@/lib/utils";
 import Link from "next/link";
-import React from "react";
+import Image from "next/image";
+import React, { useState } from "react";
 import OpinionsSidebar from "@/components/opinions/opinions-sidebar";
 import IdeaSubmission from "@/components/general/idea-submission";
 import { IoArrowForward } from "react-icons/io5";
 import { OpinionAuthor, PostType } from "@/lib/types";
+import { urlFor } from "@/lib/sanity.client";
 import ContributorCTA from "../general/contributor-cta";
+
+const OPINIONS_NAV_TABS = [
+  { id: "home", label: "Home" },
+  { id: "opinions", label: "Opinions" },
+  { id: "most-controversial", label: "Most Controversial" },
+  { id: "most-read", label: "Most Read" },
+  { id: "opinionists", label: "Opinionists" },
+];
 
 const OpinionsHome = ({
   opinions,
@@ -19,8 +29,40 @@ const OpinionsHome = ({
   opinions: PostType[];
   authors: OpinionAuthor[];
 }) => {
+  const [activeTab, setActiveTab] = useState("home");
+
   return (
     <main className="w-full mb-8">
+      {/* Opinions Sub-Navigation Bar */}
+      <nav className="w-full border-b border-border">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-center overflow-x-auto scrollbar-hide">
+            {OPINIONS_NAV_TABS.map((tab, index) => (
+              <React.Fragment key={tab.id}>
+                {index > 0 && (
+                  <div className="h-4 w-px bg-border shrink-0" />
+                )}
+                <button
+                  onClick={() => setActiveTab(tab.id)}
+                  className={cn(
+                    "relative px-4 sm:px-6 py-3 text-sm font-medium whitespace-nowrap transition-colors cursor-pointer",
+                    "hover:text-gold",
+                    activeTab === tab.id
+                      ? "text-gold"
+                      : "text-muted-foreground"
+                  )}
+                >
+                  {tab.label}
+                  {activeTab === tab.id && (
+                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gold" />
+                  )}
+                </button>
+              </React.Fragment>
+            ))}
+          </div>
+        </div>
+      </nav>
+
       <div className="bg-gold dark:bg-gold/10 pl-8 mb-8">
         <div className="w-full py-12 max-w-7xl mx-auto relative overflow-hidden flex flex-col gap-8 items-center md:items-start justify-center">
           <h1 className="text-4xl sm:text-5xl lg:text-7xl z-30 text-white font-semibold font-miller">
@@ -120,42 +162,105 @@ const OpinionsHome = ({
                 No opinions available at the moment.
               </p>
             ) : (
-              opinions.map((opinion) => {
-                const opinionUrl = PAGES.post(opinion.slug);
+              <>
+                {/* Featured Opinion - First opinion */}
+                {opinions.length > 0 && (
+                  <Link
+                    href={PAGES.post(opinions[0].slug)}
+                    className="group mb-6"
+                  >
+                    <article className="w-full cursor-pointer">
+                      {/* FEATURED OPINION label — gold bar + gold text */}
+                      <div className="flex items-center gap-2.5 mb-3">
+                        <span className="w-1 h-4 bg-gold rounded-full" />
+                        <span className="text-gold text-[10px] sm:text-xs font-semibold uppercase tracking-widest">
+                          Featured Opinion
+                        </span>
+                      </div>
 
-                return (
-                  <React.Fragment key={opinion._id}>
-                    <Link href={opinionUrl}>
-                      <article className="w-full flex flex-col md:flex-row items-start gap-4 py-6 cursor-pointer group">
-                        <p className="text-sm text-muted-foreground whitespace-nowrap pt-1 min-w-[100px]">
-                          {formatDate(opinion.date)}
-                        </p>
+                      {/* Image with title + description overlaid */}
+                      <div className="relative w-full aspect-4/3 sm:aspect-16/10 overflow-hidden">
+                        {opinions[0].mainImage ? (
+                          <Image
+                            src={urlFor(opinions[0].mainImage)
+                              .width(800)
+                              .height(500)
+                              .fit("crop")
+                              .url()}
+                            alt={opinions[0].title}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-linear-to-br from-gold/20 to-gold/5 flex items-center justify-center">
+                            <div className="text-gold/40 text-7xl font-miller">
+                              T
+                            </div>
+                          </div>
+                        )}
 
-                        <div className="flex flex-col gap-2 flex-1">
+                        {/* Bottom gradient overlay with title + description */}
+                        <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/95 via-black/70 to-transparent pt-24 sm:pt-28 pb-5 px-5">
                           <h2
                             className={cn(
                               domine.className,
-                              "text-lg lg:text-xl font-semibold group-hover:text-gold transition-colors"
+                              "text-lg sm:text-2xl lg:text-3xl font-bold text-white leading-tight"
                             )}
                           >
-                            {opinion.title}
+                            {opinions[0].title}
                           </h2>
-                          <p className="text-muted-foreground text-sm lg:text-base">
-                            {opinion.description}
-                          </p>
-                          <p className="text-sm text-muted-foreground">
-                            By{" "}
-                            <span className="font-medium text-foreground">
-                              {opinion.author.name}
+                          <p className="text-white/80 text-xs sm:text-sm mt-2 leading-relaxed line-clamp-2 sm:line-clamp-3">
+                            {opinions[0].description}{" "}
+                            <span className="font-bold text-white text-xs sm:text-sm">
+                              SEE MORE
                             </span>
                           </p>
                         </div>
-                      </article>
-                    </Link>
-                    <Separator />
-                  </React.Fragment>
-                );
-              })
+                      </div>
+                    </article>
+                  </Link>
+                )}
+
+                <Separator />
+
+                {/* Remaining opinions */}
+                {opinions.slice(1).map((opinion) => {
+                  const opinionUrl = PAGES.post(opinion.slug);
+
+                  return (
+                    <React.Fragment key={opinion._id}>
+                      <Link href={opinionUrl}>
+                        <article className="w-full flex flex-col md:flex-row items-start gap-4 py-6 cursor-pointer group">
+                          <p className="text-sm text-muted-foreground whitespace-nowrap pt-1 min-w-[100px]">
+                            {formatDate(opinion.date)}
+                          </p>
+
+                          <div className="flex flex-col gap-2 flex-1">
+                            <h2
+                              className={cn(
+                                domine.className,
+                                "text-lg lg:text-xl font-semibold group-hover:text-gold transition-colors"
+                              )}
+                            >
+                              {opinion.title}
+                            </h2>
+                            <p className="text-muted-foreground text-sm lg:text-base">
+                              {opinion.description}
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                              By{" "}
+                              <span className="font-medium text-foreground">
+                                {opinion.author.name}
+                              </span>
+                            </p>
+                          </div>
+                        </article>
+                      </Link>
+                      <Separator />
+                    </React.Fragment>
+                  );
+                })}
+              </>
             )}
           </div>
         </div>
