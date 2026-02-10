@@ -512,7 +512,11 @@ export const getMastheadMembers = async (): Promise<MastheadMember[]> => {
     image,
     board,
     "guard": guard->slug.current,
-    order
+    order,
+    graduationYear,
+    quote,
+    xUrl,
+    linkedinUrl
   }
 `;
 
