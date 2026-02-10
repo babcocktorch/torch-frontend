@@ -4,7 +4,14 @@ import { MastheadGuard, MastheadMember } from "@/lib/types";
 import { urlFor } from "@/lib/sanity.client";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import React, { useState } from "react";
+
+const MASTHEAD_NAV_TABS = [
+  { id: "about", label: "About The Torch" },
+  { id: "guards", label: "Guards of The Torch" },
+  { id: "policy", label: "Policy" },
+  { id: "resources", label: "Resources & Archive" },
+];
 
 // Board categories in display order
 const BOARD_ORDER = [
@@ -136,6 +143,7 @@ type MastheadHomeProps = {
 };
 
 const MastheadHome = ({ guards, members }: MastheadHomeProps) => {
+  const [activeTab, setActiveTab] = useState("about");
   const [activeGuardSlug, setActiveGuardSlug] = useState(
     guards[0]?.slug ?? ""
   );
@@ -162,6 +170,36 @@ const MastheadHome = ({ guards, members }: MastheadHomeProps) => {
 
   return (
     <main className="w-full mb-8">
+      {/* Masthead Sub-Navigation Bar */}
+      <nav className="w-full border-b border-border">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-center overflow-x-auto scrollbar-hide">
+            {MASTHEAD_NAV_TABS.map((tab, index) => (
+              <React.Fragment key={tab.id}>
+                {index > 0 && (
+                  <div className="h-4 w-px bg-border shrink-0" />
+                )}
+                <button
+                  onClick={() => setActiveTab(tab.id)}
+                  className={cn(
+                    "relative px-4 sm:px-6 py-3 text-sm font-medium whitespace-nowrap transition-colors cursor-pointer",
+                    "hover:text-gold",
+                    activeTab === tab.id
+                      ? "text-gold"
+                      : "text-muted-foreground"
+                  )}
+                >
+                  {tab.label}
+                  {activeTab === tab.id && (
+                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gold" />
+                  )}
+                </button>
+              </React.Fragment>
+            ))}
+          </div>
+        </div>
+      </nav>
+
       {/* Banner */}
       <div className="bg-gold dark:bg-gold/10 px-2 md:pl-8 mb-8">
         <div className="w-full py-12 max-w-7xl mx-auto relative overflow-hidden flex flex-col gap-4 items-center md:items-start justify-center">
