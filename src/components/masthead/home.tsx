@@ -5,6 +5,8 @@ import { urlFor } from "@/lib/sanity.client";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import React, { useState } from "react";
+import { FaXTwitter } from "react-icons/fa6";
+import { FaLinkedin } from "react-icons/fa";
 
 const MASTHEAD_NAV_TABS = [
   { id: "about", label: "About The Torch" },
@@ -41,36 +43,78 @@ const MemberCard = ({ member }: MemberCardProps) => {
     ? urlFor(member.image).width(400).height(500).url()
     : null;
 
+  const hasSocials = member.xUrl || member.linkedinUrl;
+  const displayName = member.graduationYear
+    ? `${member.name} ${member.graduationYear}`
+    : member.name;
+
   return (
     <div className="flex flex-col gap-2">
-      {/* Card with gradient overlay */}
+      {/* Card with grayscale image and gold gradient */}
       <div className="relative aspect-4/5 bg-muted overflow-hidden">
-        {imageUrl ? (
-          <Image
-            src={imageUrl}
-            alt={member.name}
-            fill
-            className="object-cover"
-          />
-        ) : (
-          <div className="w-full h-full bg-linear-to-b from-gray-400 to-gray-600" />
-        )}
-
-        {/* Gradient overlay at bottom */}
-        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-black/80 to-transparent" />
-
-        {/* Name at bottom of card */}
-        <div className="absolute inset-x-0 bottom-0 p-4">
-          <h3 className="text-white font-miller text-lg md:text-2xl font-semibold text-center">
-            {member.name.toUpperCase()}
-          </h3>
+        {/* Grayscale image wrapper */}
+        <div className="absolute inset-0" style={{ filter: "grayscale(100%)" }}>
+          {imageUrl ? (
+            <Image
+              src={imageUrl}
+              alt={member.name}
+              fill
+              className="object-cover"
+            />
+          ) : (
+            <div className="w-full h-full bg-linear-to-b from-gray-400 to-gray-600" />
+          )}
         </div>
+
+        {/* Gold gradient overlay at bottom */}
+        <div
+          className="absolute inset-x-0 bottom-0 h-2/5"
+          style={{ background: "linear-gradient(to top, rgba(152, 116, 5, 0.8), rgba(152, 116, 5, 0.3), transparent)" }}
+        />
+
+        {/* Social icons at bottom of image */}
+        {hasSocials && (
+          <div className="absolute bottom-3 left-0 right-0 flex items-center justify-center gap-3">
+            {member.xUrl && (
+              <a
+                href={member.xUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="text-black hover:text-black/70 transition-colors"
+              >
+                <FaXTwitter className="w-4 h-4" />
+              </a>
+            )}
+            {member.linkedinUrl && (
+              <a
+                href={member.linkedinUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="text-black hover:text-black/70 transition-colors"
+              >
+                <FaLinkedin className="w-4 h-4" />
+              </a>
+            )}
+          </div>
+        )}
       </div>
 
-      {/* Position below the card */}
-      <p className="text-gold text-sm md:text-lg font-medium text-center uppercase tracking-wide">
-        {member.position}
-      </p>
+      {/* Info below the card */}
+      <div className="text-center">
+        <h3 className="font-miller font-semibold text-lg md:text-2xl">
+          {displayName}
+        </h3>
+        <p className="text-gold text-sm md:text-base font-medium">
+          {member.position}
+        </p>
+        {member.quote && (
+          <p className="text-muted-foreground text-xs md:text-sm mt-1">
+            {member.quote}
+          </p>
+        )}
+      </div>
     </div>
   );
 };
