@@ -187,4 +187,8 @@ export type MastheadMember = {
   board: string;
   guard: string; // guard slug
   order: number;
+  graduationYear?: string;
+  quote?: string;
+  xUrl?: string;
+  linkedinUrl?: string;
 };
