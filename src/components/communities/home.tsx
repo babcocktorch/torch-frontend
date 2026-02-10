@@ -7,10 +7,51 @@ import Link from "next/link";
 import Image from "next/image";
 import { PAGES } from "@/lib/constants";
 import { Users, ArrowRight } from "lucide-react";
+import React, { useState } from "react";
+
+const COMMUNITIES_NAV_TABS = [
+  { id: "home", label: "Home" },
+  { id: "featured-communities", label: "Featured Communities" },
+  { id: "discover-communities", label: "Discover Communities" },
+  { id: "impact-stories", label: "Impact Stories" },
+  { id: "gallery", label: "Gallery" },
+];
 
 const CommunitiesHome = ({ communities }: { communities: Community[] }) => {
+  const [activeTab, setActiveTab] = useState("home");
+
   return (
     <main className="w-full mb-8">
+      {/* Communities Sub-Navigation Bar */}
+      <nav className="w-full border-b border-border">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-center overflow-x-auto scrollbar-hide">
+            {COMMUNITIES_NAV_TABS.map((tab, index) => (
+              <React.Fragment key={tab.id}>
+                {index > 0 && (
+                  <div className="h-4 w-px bg-border shrink-0" />
+                )}
+                <button
+                  onClick={() => setActiveTab(tab.id)}
+                  className={cn(
+                    "relative px-4 sm:px-6 py-3 text-sm font-medium whitespace-nowrap transition-colors cursor-pointer",
+                    "hover:text-gold",
+                    activeTab === tab.id
+                      ? "text-gold"
+                      : "text-muted-foreground"
+                  )}
+                >
+                  {tab.label}
+                  {activeTab === tab.id && (
+                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gold" />
+                  )}
+                </button>
+              </React.Fragment>
+            ))}
+          </div>
+        </div>
+      </nav>
+
       {/* Hero Section */}
       <div className="bg-gold dark:bg-gold/10 px-8 mb-8">
         <div className="w-full py-12 max-w-7xl mx-auto relative overflow-hidden flex flex-col gap-4 items-center md:items-start justify-center">
