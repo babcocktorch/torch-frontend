@@ -57,6 +57,30 @@ export default defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "graduationYear",
+      title: "Graduation Year",
+      type: "string",
+      description: "e.g. '26, '27",
+    }),
+    defineField({
+      name: "quote",
+      title: "Quote / Motto",
+      type: "string",
+      description: "A short personal quote or motto",
+    }),
+    defineField({
+      name: "xUrl",
+      title: "X (Twitter) URL",
+      type: "url",
+      description: "Link to X / Twitter profile",
+    }),
+    defineField({
+      name: "linkedinUrl",
+      title: "LinkedIn URL",
+      type: "url",
+      description: "Link to LinkedIn profile",
+    }),
+    defineField({
       name: "order",
       title: "Display Order",
       type: "number",
