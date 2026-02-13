@@ -252,7 +252,7 @@ const Header = () => {
 
         {pathname === PAGES.home && (
           <div className="w-full">
-            <div className="w-full max-w-5xl mx-auto px-6 py-4 grid grid-cols-3 gap-6">
+            <div className="w-full max-w-5xl mx-auto px-6 py-4 flex items-center justify-center gap-10">
               <Link
                 href="https://www.youtube.com/@babcocktorch"
                 target="_blank"
