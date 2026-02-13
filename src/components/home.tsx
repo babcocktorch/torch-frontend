@@ -19,29 +19,35 @@ import { domine } from "@/lib/fonts";
 
 type HomeProps = {
   posts: PostType[];
-  editorsPickSlug: string | null;
+  editorsPickSlugs: string[];
 };
 
-const Home = ({ posts, editorsPickSlug }: HomeProps) => {
+const Home = ({ posts, editorsPickSlugs }: HomeProps) => {
   // Separate news posts and opinions
   const newsPosts = posts.filter((post) => post.isPost);
   const opinions = posts.filter((post) => !post.isPost);
 
-  // Find editor's pick from backend, or fall back to first post
-  const editorsPickPost = editorsPickSlug
-    ? newsPosts.find((post) => post.slug === editorsPickSlug) || newsPosts[0]
-    : newsPosts[0];
+  // Find editor's picks from backend (slugs are already sorted newest-first)
+  // Fall back to first post if no picks are set
+  const editorsPickPosts: PostType[] =
+    editorsPickSlugs.length > 0
+      ? editorsPickSlugs
+          .map((slug) => newsPosts.find((post) => post.slug === slug))
+          .filter((post): post is PostType => !!post)
+      : newsPosts.slice(0, 1);
 
-  // Get other posts (excluding editor's pick)
-  const otherNewsPosts = newsPosts.filter(
-    (post) => post.slug !== editorsPickPost?.slug,
-  );
+  // Primary pick is the first (newest), secondary picks are the rest
+  const primaryPick = editorsPickPosts[0];
+  const secondaryPicks = editorsPickPosts.slice(1);
+
+  // Get other posts (excluding all editor's picks)
+  const pickSlugs = new Set(editorsPickPosts.map((p) => p.slug));
+  const otherNewsPosts = newsPosts.filter((post) => !pickSlugs.has(post.slug));
 
   // Layout distribution:
-  // - Editor's Pick: 1 featured post (from backend)
+  // - Editor's Picks: 1 primary + up to 2 secondary (from backend)
   // - Additional articles with images: 2 posts
   // - More Top Stories: remaining posts (compressed)
-  const editorsPick = editorsPickPost;
   const additionalArticles = otherNewsPosts.slice(0, 2);
   const moreTopStories = otherNewsPosts.slice(2, 8);
   const moreTopStoriesWithImage = moreTopStories[0];
@@ -53,8 +59,13 @@ const Home = ({ posts, editorsPickSlug }: HomeProps) => {
       <section className="w-full flex flex-col lg:flex-row gap-6">
         {/* Left: Editor's Pick + Additional Articles */}
         <div className="w-full lg:w-3/4 flex flex-col gap-6 lg:border-r lg:pr-6">
-          {/* Editor's Pick */}
-          {editorsPick && <EditorsPick featuredPost={editorsPick} />}
+          {/* Editor's Picks */}
+          {primaryPick && (
+            <EditorsPick
+              featuredPost={primaryPick}
+              secondaryPicks={secondaryPicks}
+            />
+          )}
 
           <Separator />
 
