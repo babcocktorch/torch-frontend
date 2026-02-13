@@ -40,7 +40,8 @@ export const submitIdea = async (details: FormData) => {
  */
 const fetchBackendPublicArticles = async (): Promise<{
   publicSlugs: Set<string>;
-  editorsPickSlug: string | null;
+  editorsPickSlugs: string[];
+  featuredOpinionSlug: string | null;
 }> => {
   try {
     const response = await fetch(
@@ -50,22 +51,42 @@ const fetchBackendPublicArticles = async (): Promise<{
 
     if (!response.ok) {
       console.error("Failed to fetch backend articles");
-      return { publicSlugs: new Set(), editorsPickSlug: null };
+      return {
+        publicSlugs: new Set(),
+        editorsPickSlugs: [],
+        featuredOpinionSlug: null,
+      };
     }
 
     const data = await response.json();
     const articles = (data.data?.articles as AdminArticle[]) || [];
 
     const publicSlugs = new Set(articles.map((a) => a.slug));
-    const editorsPick = articles.find((a) => a.isEditorsPick);
+
+    // Get all editor's picks, sorted by creation date descending (newest first)
+    const editorsPicks = articles
+      .filter((a) => a.isEditorsPick)
+      .sort(
+        (a, b) =>
+          new Date(b.createdAt || b.lastSyncedAt).getTime() -
+          new Date(a.createdAt || a.lastSyncedAt).getTime(),
+      )
+      .map((a) => a.slug);
+
+    const featuredOpinion = articles.find((a) => a.isFeaturedOpinion);
 
     return {
       publicSlugs,
-      editorsPickSlug: editorsPick?.slug || null,
+      editorsPickSlugs: editorsPicks,
+      featuredOpinionSlug: featuredOpinion?.slug || null,
     };
   } catch (error) {
     console.error("Failed to fetch backend articles:", error);
-    return { publicSlugs: new Set(), editorsPickSlug: null };
+    return {
+      publicSlugs: new Set(),
+      editorsPickSlugs: [],
+      featuredOpinionSlug: null,
+    };
   }
 };
 
@@ -87,7 +108,7 @@ export const isArticlePublic = async (slug: string): Promise<boolean> => {
 
 export const getPosts = async (): Promise<{
   posts: PostType[];
-  editorsPickSlug: string | null;
+  editorsPickSlugs: string[];
 }> => {
   const postsQuery = groq`
   *[_type == "Post" && isPublished == true] | order(date desc) {
@@ -125,15 +146,18 @@ export const getPosts = async (): Promise<{
 
     return {
       posts: filteredPosts,
-      editorsPickSlug: backendInfo.editorsPickSlug,
+      editorsPickSlugs: backendInfo.editorsPickSlugs,
     };
   } catch (error) {
     console.error("Failed to fetch posts:", error);
-    return { posts: [], editorsPickSlug: null };
+    return { posts: [], editorsPickSlugs: [] };
   }
 };
 
-export const getOpinions = async (): Promise<PostType[]> => {
+export const getOpinions = async (): Promise<{
+  opinions: PostType[];
+  featuredOpinionSlug: string | null;
+}> => {
   const opinionsQuery = groq`
   *[_type == "Post" && isPublished == true && (isPost == false || !defined(isPost))] | order(date desc) {
     _id,
@@ -168,10 +192,13 @@ export const getOpinions = async (): Promise<PostType[]> => {
       backendInfo.publicSlugs.has(opinion.slug),
     );
 
-    return filteredOpinions;
+    return {
+      opinions: filteredOpinions,
+      featuredOpinionSlug: backendInfo.featuredOpinionSlug,
+    };
   } catch (error) {
     console.error("Failed to fetch opinions:", error);
-    return [];
+    return { opinions: [], featuredOpinionSlug: null };
   }
 };
 
@@ -304,7 +331,7 @@ export const getWeather = async () => {
 
 export const getOpinionAuthors = async (): Promise<OpinionAuthor[]> => {
   // Get all opinions and extract unique authors with their opinion counts
-  const opinions = await getOpinions();
+  const { opinions } = await getOpinions();
 
   const authorMap = new Map<string, OpinionAuthor>();
 
