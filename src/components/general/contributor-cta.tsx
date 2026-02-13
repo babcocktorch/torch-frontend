@@ -13,6 +13,7 @@ interface ContributorCTAProps {
   description: string;
   buttonText: string;
   bgImage: string;
+  href?: string;
 }
 
 const ContributorCTA = ({
@@ -23,6 +24,7 @@ const ContributorCTA = ({
   description,
   buttonText,
   bgImage,
+  href,
 }: ContributorCTAProps) => {
   if (variant === "compact") {
     return (
@@ -76,14 +78,24 @@ const ContributorCTA = ({
         <p className="text-white/80 text-base lg:text-lg mb-6 max-w-md">
           {description}
         </p>
-        <IdeaSubmission
-          trigger={
-            <button className="inline-flex items-center gap-2 bg-gold text-white px-6 py-3 rounded-full font-medium hover:bg-gold/90 transition-colors group">
-              {buttonText}
-              <IoArrowForward className="group-hover:translate-x-1 transition-transform" />
-            </button>
-          }
-        />
+        {href ? (
+          <a
+            href={href}
+            className="inline-flex items-center gap-2 bg-gold text-white px-6 py-3 rounded-full font-medium hover:bg-gold/90 transition-colors group"
+          >
+            {buttonText}
+            <IoArrowForward className="group-hover:translate-x-1 transition-transform" />
+          </a>
+        ) : (
+          <IdeaSubmission
+            trigger={
+              <button className="inline-flex items-center gap-2 bg-gold text-white px-6 py-3 rounded-full font-medium hover:bg-gold/90 transition-colors group">
+                {buttonText}
+                <IoArrowForward className="group-hover:translate-x-1 transition-transform" />
+              </button>
+            }
+          />
+        )}
       </div>
     </div>
   );
