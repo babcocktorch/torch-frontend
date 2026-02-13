@@ -118,7 +118,7 @@ const CommunityPage = async ({
           </h1>
 
           {community.description && (
-            <p className="text-muted-foreground max-w-2xl">
+            <p className="text-muted-foreground max-w-2xl mx-auto">
               {community.description}
             </p>
           )}
@@ -146,7 +146,7 @@ const CommunityPage = async ({
           {community.contactEmail && (
             <a
               href={`mailto:${community.contactEmail}`}
-              className="inline-flex items-center gap-2 text-sm text-gold hover:underline"
+              className="inline-flex items-center gap-2 text-sm text-gold hover:underline mx-auto"
             >
               <Mail className="w-4 h-4" />
               {community.contactEmail}
@@ -158,7 +158,7 @@ const CommunityPage = async ({
         <SubmissionForm
           community={community}
           trigger={
-            <Button className="mt-2">
+            <Button className="mt-2 mx-auto">
               <Send className="w-4 h-4 mr-2" />
               Submit Content
             </Button>
