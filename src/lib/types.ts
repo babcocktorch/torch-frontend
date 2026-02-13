@@ -74,6 +74,7 @@ export type AdminArticle = {
   isPost: boolean;
   visibility: "public" | "private";
   isEditorsPick: boolean;
+  isFeaturedOpinion: boolean;
   lastSyncedAt: string;
   createdAt?: string;
 };
