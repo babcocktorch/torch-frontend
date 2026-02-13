@@ -32,10 +32,16 @@ export const metadata: Metadata = {
 };
 
 const OpinionsPage = async () => {
-  const opinions = await getOpinions();
+  const { opinions, featuredOpinionSlug } = await getOpinions();
   const authors = await getOpinionAuthors();
 
-  return <OpinionsHome opinions={opinions} authors={authors} />;
+  return (
+    <OpinionsHome
+      opinions={opinions}
+      authors={authors}
+      featuredOpinionSlug={featuredOpinionSlug}
+    />
+  );
 };
 
 export default OpinionsPage;
