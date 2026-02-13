@@ -5,9 +5,20 @@ import { domine } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
-import { PAGES } from "@/lib/constants";
-import { Users, ArrowRight } from "lucide-react";
-import React, { useState } from "react";
+import { IMAGES, PAGES } from "@/lib/constants";
+import { Users, ArrowRight, Mail, Search, X, Filter } from "lucide-react";
+import React, { useMemo, useState } from "react";
+import ContributorCTA from "@/components/general/contributor-cta";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const COMMUNITIES_NAV_TABS = [
   { id: "home", label: "Home" },
@@ -19,6 +30,40 @@ const COMMUNITIES_NAV_TABS = [
 
 const CommunitiesHome = ({ communities }: { communities: Community[] }) => {
   const [activeTab, setActiveTab] = useState("home");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+
+  // Derive unique categories from the communities data
+  const categories = useMemo(() => {
+    const cats = communities
+      .map((c) => c.category)
+      .filter((c): c is string => !!c);
+    return [...new Set(cats)].sort();
+  }, [communities]);
+
+  // Filter communities by search + category
+  const filteredCommunities = useMemo(() => {
+    return communities.filter((community) => {
+      const matchesSearch =
+        searchQuery === "" ||
+        community.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        community.description
+          ?.toLowerCase()
+          .includes(searchQuery.toLowerCase());
+
+      const matchesCategory =
+        categoryFilter === "all" || community.category === categoryFilter;
+
+      return matchesSearch && matchesCategory;
+    });
+  }, [communities, searchQuery, categoryFilter]);
+
+  const hasActiveFilters = searchQuery !== "" || categoryFilter !== "all";
+
+  const resetFilters = () => {
+    setSearchQuery("");
+    setCategoryFilter("all");
+  };
 
   return (
     <main className="w-full mb-8">
@@ -71,7 +116,7 @@ const CommunitiesHome = ({ communities }: { communities: Community[] }) => {
             xmlns="http://www.w3.org/2000/svg"
             className="absolute right-0 z-20 w-96 hidden md:block"
           >
-            <g clip-path="url(#clip0_111_35)">
+            <g clipPath="url(#clip0_111_35)">
               <path
                 d="M484 168C490.473 168.489 490.473 168.489 492.832 170.777C496.797 178.322 497.43 185.618 497 194C496.957 195.288 496.915 196.576 496.871 197.902C496.309 211.078 492.899 220.863 486.875 232.625C486.002 234.339 486.002 234.339 485.112 236.088C483.418 239.398 481.71 242.699 480 246C479.568 246.852 479.136 247.703 478.691 248.581C473.659 258.482 468.136 265.437 460 273C458.832 274.293 457.684 275.604 456.562 276.938C453.546 280.477 450.306 283.735 447 287C443.715 290.245 440.493 293.479 437.5 297C434.507 300.521 431.284 303.755 428 307C417.25 316.641 417.25 316.641 411 329C414.466 329.3 416.398 329.396 419.352 327.453C420.102 326.726 420.852 325.999 421.625 325.25C422.48 324.431 423.334 323.613 424.215 322.77C425.134 321.856 426.053 320.942 427 320C428.022 319.003 429.044 318.007 430.066 317.012C435.041 312.132 439.852 307.16 444.367 301.848C446.121 299.863 447.975 298.032 449.875 296.188C454.66 291.448 458.828 286.277 463 281C463.762 280.045 463.762 280.045 464.54 279.07C471.462 270.379 478.176 261.549 484.625 252.5C485.205 251.7 485.784 250.9 486.382 250.076C491.849 242.3 494.947 234.24 497 225C497.66 225 498.32 225 499 225C503.17 230.421 502.522 236.404 502.501 242.908C502.5 244.967 502.541 247.023 502.586 249.082C502.671 258.246 500.959 265.667 497 274C496.572 274.919 496.144 275.839 495.703 276.786C494.438 279.409 493.113 281.989 491.75 284.562C491.27 285.469 490.791 286.376 490.297 287.311C486.444 294.45 482.223 300.771 477 307C476.179 308.021 475.358 309.042 474.512 310.094C467.223 318.997 459.093 327.05 450.858 335.068C449.972 335.938 449.085 336.807 448.172 337.703C446.967 338.873 446.967 338.873 445.737 340.067C443.777 341.815 443.777 341.815 444 344C460.75 351.651 477.677 358.827 494.688 365.875C508.799 371.723 522.874 377.625 536.839 383.815C549.392 389.372 562.066 394.625 574.75 399.875C588.96 405.757 603.105 411.74 617.125 418.062C630.621 424.147 644.24 429.884 657.938 435.5C675.817 442.831 693.59 450.369 711.304 458.091C716.731 460.455 722.169 462.792 727.613 465.117C728.801 465.625 728.801 465.625 730.013 466.142C733.069 467.448 736.125 468.752 739.182 470.054C743.176 471.754 747.166 473.463 751.146 475.194C752.987 475.994 754.829 476.79 756.672 477.585C768.785 482.96 768.785 482.96 772 487C772.762 490.598 772.704 494.025 772.562 497.688C772.561 498.65 772.559 499.612 772.557 500.604C772.458 505.82 772.458 505.82 772 508C769 510 769 510 765.818 509.81C761.631 508.922 757.876 507.622 753.91 506.043C752.757 505.594 752.757 505.594 751.58 505.137C749.929 504.494 748.28 503.848 746.633 503.199C743.143 501.825 739.647 500.467 736.151 499.109C734.366 498.415 732.582 497.72 730.797 497.025C722.516 493.8 714.202 490.666 705.875 487.562C697.571 484.467 689.276 481.348 680.996 478.188C670.744 474.275 660.473 470.413 650.197 466.564C647.071 465.394 643.946 464.223 640.821 463.052C632.84 460.06 624.858 457.07 616.876 454.081C595.509 446.079 574.153 438.049 552.804 430.001C550.858 429.267 548.913 428.534 546.968 427.801C543.235 426.394 539.502 424.986 535.77 423.578C534.557 423.121 533.344 422.663 532.094 422.192C525.761 419.802 519.43 417.405 513.103 414.999C512.452 414.752 511.801 414.504 511.131 414.25C508.033 413.072 504.935 411.893 501.838 410.712C494.63 407.971 487.395 405.323 480.125 402.75C470.177 399.207 460.314 395.465 450.463 391.662C447.946 390.691 445.428 389.721 442.91 388.753C435.595 385.937 428.283 383.115 420.988 380.25C418.076 379.11 415.16 377.983 412.242 376.859C410.893 376.336 409.545 375.807 408.2 375.271C406.341 374.531 404.474 373.814 402.605 373.098C401.045 372.487 401.045 372.487 399.454 371.864C390.941 369.735 384.213 371.138 376.262 374.473C374.411 375.213 372.56 375.953 370.708 376.692C369.765 377.075 368.822 377.458 367.851 377.853C363.266 379.698 358.643 381.438 354.02 383.184C352.172 383.885 350.324 384.587 348.477 385.29C319.399 396.32 319.399 396.32 306.625 400.625C295.404 404.409 284.389 408.664 273.356 412.955C259.207 418.452 244.973 423.682 230.688 428.812C212.502 435.338 212.502 435.338 194.438 442.188C184.538 446.046 174.596 449.77 164.625 453.438C163.836 453.728 163.046 454.018 162.233 454.317C152.152 458.024 142.062 461.708 131.969 465.383C127.687 466.942 123.406 468.502 119.125 470.062C117.504 470.653 117.504 470.653 115.851 471.256C95.7616 478.58 75.7335 486.062 55.731 493.619C44.1077 498.006 32.4629 502.331 20.7812 506.559C19.6068 506.989 18.4323 507.419 17.2223 507.862C6.60879 511.675 6.60879 511.675 1 512C0.67 511.67 0.34 511.34 0 511C0.0387527 508.275 0.14664 505.592 0.3125 502.875C0.347949 502.127 0.383398 501.38 0.419922 500.609C1.09891 488.975 1.09891 488.975 5.60156 484.297C9.23905 481.61 13.2012 479.935 17.375 478.25C19.2438 477.473 21.1123 476.696 22.9805 475.918C24.0612 475.471 25.1419 475.024 26.2554 474.564C30.64 472.741 35.0008 470.863 39.3633 468.988C69.271 456.15 69.271 456.15 82.9375 451.062C96.9043 445.846 110.468 439.726 124.096 433.696C124.973 433.307 125.85 432.919 126.754 432.52C127.629 432.132 128.503 431.745 129.404 431.346C137.408 427.809 145.442 424.348 153.5 420.938C154.156 420.66 154.812 420.382 155.489 420.096C168.653 414.53 181.859 409.067 195.065 403.602C220.634 393.019 246.185 382.389 271.625 371.5C272.331 371.198 273.037 370.896 273.764 370.585C281.962 367.072 290.135 363.507 298.281 359.875C301.562 358.415 304.843 356.957 308.125 355.5C308.944 355.136 309.762 354.772 310.606 354.396C322.012 349.336 333.512 344.541 345.102 339.918C345.749 339.659 346.397 339.4 347.064 339.134C353.536 336.548 360.013 333.972 366.505 331.436C369.502 330.262 372.492 329.073 375.484 327.887C376.575 327.467 377.666 327.046 378.79 326.614C387.007 323.337 391.125 320.356 395.062 312.25C402.447 298.149 412.133 286.231 423.196 274.869C425.671 272.305 428.089 269.689 430.51 267.073C435.584 261.589 440.736 256.217 446.059 250.973C448.567 248.424 450.877 245.73 453.199 243.012C455.146 240.837 457.209 238.835 459.312 236.812C471.675 224.535 486.049 206.098 486.188 188.062C486.141 181.286 485.092 174.676 484 168Z"
                 fill="#987405"
@@ -139,6 +184,52 @@ const CommunitiesHome = ({ communities }: { communities: Community[] }) => {
       </div>
 
       <div className="px-6 max-w-7xl mx-auto">
+        {/* Search & Filter Bar */}
+        {communities.length > 0 && (
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-8">
+            {/* Category filter */}
+            {categories.length > 0 && (
+              <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+                <SelectTrigger className="w-full sm:w-[180px]">
+                  <Filter className="w-4 h-4 mr-2 text-muted-foreground shrink-0" />
+                  <SelectValue placeholder="Category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Categories</SelectItem>
+                  {categories.map((cat) => (
+                    <SelectItem key={cat} value={cat}>
+                      {cat}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+
+            {/* Search */}
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search communities..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+
+            {/* Reset filters */}
+            {hasActiveFilters && (
+              <Button
+                variant="ghost"
+                onClick={resetFilters}
+                className="shrink-0"
+              >
+                <X className="w-4 h-4 mr-2" />
+                Reset
+              </Button>
+            )}
+          </div>
+        )}
+
         {/* Communities Grid */}
         {communities.length === 0 ? (
           <div className="text-center py-16">
@@ -150,90 +241,159 @@ const CommunitiesHome = ({ communities }: { communities: Community[] }) => {
               Check back later for campus organizations and groups.
             </p>
           </div>
+        ) : filteredCommunities.length === 0 ? (
+          <div className="text-center py-16">
+            <Search className="w-12 h-12 mx-auto text-muted-foreground/50 mb-4" />
+            <p className="text-muted-foreground text-lg">
+              No communities match your search.
+            </p>
+            <Button
+              variant="link"
+              onClick={resetFilters}
+              className="mt-2 text-gold"
+            >
+              Clear filters
+            </Button>
+          </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {communities.map((community) => (
-              <Link
-                key={community.id}
-                href={PAGES.community(community.slug)}
-                className="group"
-              >
-                <article className="border rounded-lg p-6 h-full flex flex-col gap-4 hover:border-gold hover:shadow-md transition-all duration-200">
-                  {/* Logo */}
-                  <div className="flex items-center gap-4">
-                    {community.logoUrl ? (
-                      <Image
-                        src={community.logoUrl}
-                        alt={community.name}
-                        width={56}
-                        height={56}
-                        className="rounded-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-14 h-14 rounded-full bg-gold/10 flex items-center justify-center">
-                        <Users className="w-7 h-7 text-gold" />
-                      </div>
-                    )}
-                    <div className="flex-1 min-w-0">
-                      <h2
-                        className={cn(
-                          domine.className,
-                          "text-lg font-semibold group-hover:text-gold transition-colors truncate"
-                        )}
-                      >
-                        {community.name}
-                      </h2>
-                      {community._count && (
-                        <p className="text-sm text-muted-foreground">
-                          {community._count.submissions}{" "}
-                          {community._count.submissions === 1
-                            ? "post"
-                            : "posts"}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Description */}
-                  {community.description && (
-                    <p className="text-muted-foreground text-sm line-clamp-2 flex-1">
-                      {community.description}
-                    </p>
-                  )}
-
-                  {/* View Link */}
-                  <div className="flex items-center text-sm text-gold font-medium mt-auto">
-                    View Community
-                    <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </article>
-              </Link>
+            {filteredCommunities.map((community) => (
+              <CommunityCard key={community.id} community={community} />
             ))}
           </div>
         )}
 
-        {/* Info Section */}
-        <div className="mt-16 border-t pt-12">
-          <div className="max-w-2xl mx-auto text-center">
-            <h2 className={cn(domine.className, "text-2xl font-semibold mb-4")}>
-              Want Your Community Featured?
-            </h2>
-            <p className="text-muted-foreground mb-6">
-              If you&apos;re part of a campus organization, club, or group and
-              want to share your news, events, and announcements with the
-              Babcock community, reach out to The Torch team.
-            </p>
-            <a
-              href="mailto:babcocktorch@gmail.com?subject=Community Feature Request"
-              className="inline-flex items-center gap-2 bg-gold text-white px-6 py-3 rounded-full font-medium hover:bg-gold/90 transition-colors"
-            >
-              Contact Us
-              <ArrowRight className="w-4 h-4" />
-            </a>
-          </div>
-        </div>
+        {/* CTA Section */}
+        <ContributorCTA
+          className="mt-16"
+          lineOne="Is Your Community"
+          lineTwo="Missing?"
+          description="Submit an existing group to be added to the platform, or share your idea for a new community Babcock needs."
+          buttonText="Submit Community"
+          bgImage={IMAGES.contributor_cta.src}
+          href="mailto:babcocktorch@gmail.com?subject=Community Feature Request"
+        />
       </div>
     </main>
+  );
+};
+
+// ——— Community Card ———
+
+const CommunityCard = ({ community }: { community: Community }) => {
+  return (
+    <article className="border rounded-xl overflow-hidden flex flex-col h-full hover:shadow-lg transition-shadow duration-200">
+      {/* Banner image */}
+      <Link
+        href={PAGES.community(community.slug)}
+        className="relative w-full aspect-video bg-muted block"
+      >
+        {community.bannerUrl ? (
+          <Image
+            src={community.bannerUrl}
+            alt={community.name}
+            fill
+            className="object-cover"
+          />
+        ) : community.logoUrl ? (
+          <Image
+            src={community.logoUrl}
+            alt={community.name}
+            fill
+            className="object-cover"
+          />
+        ) : (
+          <div className="w-full h-full bg-linear-to-br from-gold/20 to-gold/5 flex items-center justify-center">
+            <Users className="w-10 h-10 text-gold/40" />
+          </div>
+        )}
+
+        {/* Logo overlay */}
+        {community.logoUrl && (
+          <div className="absolute top-3 left-3 w-10 h-10 rounded-lg overflow-hidden border-2 border-white shadow-md bg-white">
+            <Image
+              src={community.logoUrl}
+              alt=""
+              width={40}
+              height={40}
+              className="object-cover w-full h-full"
+            />
+          </div>
+        )}
+      </Link>
+
+      {/* Card body */}
+      <div className="flex flex-col flex-1 p-5 gap-3">
+        {/* Name */}
+        <Link href={PAGES.community(community.slug)} className="group">
+          <h2
+            className={cn(
+              domine.className,
+              "text-lg font-semibold group-hover:text-gold transition-colors leading-tight",
+            )}
+          >
+            {community.name}
+          </h2>
+        </Link>
+
+        {/* Description */}
+        {community.description && (
+          <p className="text-muted-foreground text-sm line-clamp-2">
+            {community.description}
+          </p>
+        )}
+
+        {/* Badges row: category + open to join */}
+        <div className="flex flex-wrap items-center gap-2">
+          {community.category && (
+            <Badge variant="secondary" className="text-xs font-medium">
+              {community.category}
+            </Badge>
+          )}
+          {community.openToJoin && (
+            <Badge
+              variant="outline"
+              className="text-xs font-medium border-gold/40 text-gold"
+            >
+              Open to Join
+            </Badge>
+          )}
+        </div>
+
+        {/* Footer: member count + contact */}
+        <div className="flex items-center justify-between mt-auto pt-3 border-t">
+          {/* Member count */}
+          <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+            <Users className="w-4 h-4" />
+            <span className="font-medium">
+              {community.memberCount != null
+                ? community.memberCount.toLocaleString()
+                : "—"}
+            </span>
+          </div>
+
+          {/* Contact button */}
+          {community.contactEmail ? (
+            <a
+              href={`mailto:${community.contactEmail}?subject=Inquiry about ${community.name}`}
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-foreground hover:text-gold transition-colors px-3 py-1.5 rounded-md border hover:border-gold"
+            >
+              <Mail className="w-3.5 h-3.5" />
+              Contact
+            </a>
+          ) : (
+            <Link
+              href={PAGES.community(community.slug)}
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-gold hover:underline"
+            >
+              View
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          )}
+        </div>
+      </div>
+    </article>
   );
 };
 
