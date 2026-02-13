@@ -7,6 +7,9 @@ import {
   syncArticles,
   updateArticleVisibility,
   setEditorsPick,
+  removeEditorsPick,
+  setFeaturedOpinion,
+  removeFeaturedOpinion,
 } from "@/lib/admin-requests";
 import { AdminArticle } from "@/lib/types";
 import { Button } from "@/components/ui/button";
@@ -42,9 +45,11 @@ import {
   Eye,
   EyeOff,
   Star,
+  StarOff,
   Search,
   Loader2,
   Filter,
+  MessageSquareQuote,
 } from "lucide-react";
 
 type FilterType = "all" | "public" | "private" | "posts" | "opinions";
@@ -127,14 +132,66 @@ export default function AdminArticlesPage() {
     setActionLoadingId(article.id);
     const result = await setEditorsPick(token, article.id);
     if (result.data) {
-      // Update all articles: remove editor's pick from others, add to this one
+      // Refetch to get accurate state (backend may auto-remove oldest pick)
+      fetchArticles();
+      toast.success("Article set as Editor's Pick");
+    } else if (result.error) {
+      toast.error(result.error);
+    }
+    setActionLoadingId(null);
+  };
+
+  const handleRemoveEditorsPick = async (article: AdminArticle) => {
+    if (!token) return;
+    setActionLoadingId(article.id);
+    const result = await removeEditorsPick(token, article.id);
+    if (result.data) {
+      setArticles((prev) =>
+        prev.map((a) =>
+          a.id === article.id ? { ...a, isEditorsPick: false } : a,
+        ),
+      );
+      toast.success("Removed from Editor's Pick");
+    } else if (result.error) {
+      toast.error(result.error);
+    }
+    setActionLoadingId(null);
+  };
+
+  const handleSetFeaturedOpinion = async (article: AdminArticle) => {
+    if (!token) return;
+    if (article.isPost) {
+      toast.error("Only opinions can be set as Featured Opinion");
+      return;
+    }
+    setActionLoadingId(article.id);
+    const result = await setFeaturedOpinion(token, article.id);
+    if (result.data) {
+      // Backend auto-removes previous featured opinion, refetch for accuracy
       setArticles((prev) =>
         prev.map((a) => ({
           ...a,
-          isEditorsPick: a.id === article.id,
-        }))
+          isFeaturedOpinion: a.id === article.id,
+        })),
       );
-      toast.success("Editor's Pick updated");
+      toast.success("Article set as Featured Opinion");
+    } else if (result.error) {
+      toast.error(result.error);
+    }
+    setActionLoadingId(null);
+  };
+
+  const handleRemoveFeaturedOpinion = async (article: AdminArticle) => {
+    if (!token) return;
+    setActionLoadingId(article.id);
+    const result = await removeFeaturedOpinion(token, article.id);
+    if (result.data) {
+      setArticles((prev) =>
+        prev.map((a) =>
+          a.id === article.id ? { ...a, isFeaturedOpinion: false } : a,
+        ),
+      );
+      toast.success("Removed from Featured Opinion");
     } else if (result.error) {
       toast.error(result.error);
     }
@@ -184,7 +241,8 @@ export default function AdminArticlesPage() {
         <div>
           <h1 className="text-3xl font-bold">Articles</h1>
           <p className="text-muted-foreground">
-            Manage article visibility and Editor&apos;s Pick
+            Manage article visibility, Editor&apos;s Picks, and Featured
+            Opinion
           </p>
         </div>
         <Button onClick={handleSync} disabled={isSyncing}>
@@ -289,6 +347,12 @@ export default function AdminArticlesPage() {
                             Pick
                           </Badge>
                         )}
+                        {article.isFeaturedOpinion && (
+                          <Badge variant="secondary" className="shrink-0">
+                            <MessageSquareQuote className="h-3 w-3 mr-1" />
+                            Featured
+                          </Badge>
+                        )}
                       </div>
                     </TableCell>
                     <TableCell className="text-muted-foreground">
@@ -362,6 +426,32 @@ export default function AdminArticlesPage() {
                             >
                               <Star className="h-4 w-4 mr-2" />
                               Set as Editor&apos;s Pick
+                            </DropdownMenuItem>
+                          )}
+                          {article.isPost && article.isEditorsPick && (
+                            <DropdownMenuItem
+                              onClick={() => handleRemoveEditorsPick(article)}
+                            >
+                              <StarOff className="h-4 w-4 mr-2" />
+                              Remove from Editor&apos;s Pick
+                            </DropdownMenuItem>
+                          )}
+                          {!article.isPost && !article.isFeaturedOpinion && (
+                            <DropdownMenuItem
+                              onClick={() => handleSetFeaturedOpinion(article)}
+                            >
+                              <MessageSquareQuote className="h-4 w-4 mr-2" />
+                              Set as Featured Opinion
+                            </DropdownMenuItem>
+                          )}
+                          {!article.isPost && article.isFeaturedOpinion && (
+                            <DropdownMenuItem
+                              onClick={() =>
+                                handleRemoveFeaturedOpinion(article)
+                              }
+                            >
+                              <MessageSquareQuote className="h-4 w-4 mr-2" />
+                              Remove Featured Opinion
                             </DropdownMenuItem>
                           )}
                         </DropdownMenuContent>
