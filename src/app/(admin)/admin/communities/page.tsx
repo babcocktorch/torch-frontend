@@ -332,7 +332,7 @@ export default function AdminCommunitiesPage() {
                             <Users className="h-4 w-4 text-muted-foreground" />
                           </div>
                         )}
-                        <span className="font-medium">{community.name}</span>
+                        <span className="font-medium">{community.name.length > 30 ? community.name.substring(0, 30) + "..." : community.name}</span>
                       </div>
                     </TableCell>
                     <TableCell className="text-muted-foreground">
