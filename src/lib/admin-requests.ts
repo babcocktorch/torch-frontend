@@ -93,6 +93,45 @@ export async function setEditorsPick(token: string, id: string) {
 }
 
 /**
+ * Remove article from Editor's Pick
+ */
+export async function removeEditorsPick(token: string, id: string) {
+  return authFetch<{ message: string; article: AdminArticle }>(
+    BACKEND_API_ROUTES.admin.editorsPick(id),
+    token,
+    {
+      method: "DELETE",
+    },
+  );
+}
+
+/**
+ * Set article as Featured Opinion
+ */
+export async function setFeaturedOpinion(token: string, id: string) {
+  return authFetch<{ message: string; article: AdminArticle }>(
+    BACKEND_API_ROUTES.admin.featuredOpinion(id),
+    token,
+    {
+      method: "POST",
+    },
+  );
+}
+
+/**
+ * Remove article from Featured Opinion
+ */
+export async function removeFeaturedOpinion(token: string, id: string) {
+  return authFetch<{ message: string; article: AdminArticle }>(
+    BACKEND_API_ROUTES.admin.featuredOpinion(id),
+    token,
+    {
+      method: "DELETE",
+    },
+  );
+}
+
+/**
  * Get public articles (no auth required)
  */
 export async function getPublicArticles() {
