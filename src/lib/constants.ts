@@ -180,6 +180,8 @@ export const BACKEND_API_ROUTES = {
     articleVisibility: (id: string) =>
       `/api/v2/admin/articles/${id}/visibility`,
     editorsPick: (id: string) => `/api/v2/admin/articles/${id}/editors-pick`,
+    featuredOpinion: (id: string) =>
+      `/api/v2/admin/articles/${id}/featured-opinion`,
     // Community management
     communities: "/api/v2/admin/communities",
     community: (id: string) => `/api/v2/admin/communities/${id}`,
