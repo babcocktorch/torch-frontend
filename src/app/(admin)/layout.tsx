@@ -47,7 +47,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
 
   // Dashboard layout with sidebar
   return (
-    <div className="min-h-screen flex bg-background">
+    <div className="min-h-screen flex bg-background w-full">
       <AdminSidebar />
       <main className="flex-1 p-6 overflow-auto">{children}</main>
     </div>
