@@ -25,9 +25,11 @@ const OPINIONS_NAV_TABS = [
 const OpinionsHome = ({
   opinions,
   authors,
+  featuredOpinionSlug,
 }: {
   opinions: PostType[];
   authors: OpinionAuthor[];
+  featuredOpinionSlug: string | null;
 }) => {
   const [activeTab, setActiveTab] = useState("home");
 
@@ -163,103 +165,114 @@ const OpinionsHome = ({
               </p>
             ) : (
               <>
-                {/* Featured Opinion - First opinion */}
-                {opinions.length > 0 && (
-                  <Link
-                    href={PAGES.post(opinions[0].slug)}
-                    className="group mb-6"
-                  >
-                    <article className="w-full cursor-pointer">
-                      {/* FEATURED OPINION label — gold bar + gold text */}
-                      <div className="flex items-center gap-2.5 mb-3">
-                        <span className="w-1 h-4 bg-gold rounded-full" />
-                        <span className="text-gold text-[10px] sm:text-xs font-semibold uppercase tracking-widest">
-                          Featured Opinion
-                        </span>
-                      </div>
-
-                      {/* Image with title + description overlaid */}
-                      <div className="relative w-full aspect-4/3 sm:aspect-16/10 overflow-hidden">
-                        {opinions[0].mainImage ? (
-                          <Image
-                            src={urlFor(opinions[0].mainImage)
-                              .width(800)
-                              .height(500)
-                              .fit("crop")
-                              .url()}
-                            alt={opinions[0].title}
-                            fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-500"
-                          />
-                        ) : (
-                          <div className="w-full h-full bg-linear-to-br from-gold/20 to-gold/5 flex items-center justify-center">
-                            <div className="text-gold/40 text-7xl font-miller">
-                              T
-                            </div>
-                          </div>
-                        )}
-
-                        {/* Bottom gradient overlay with title + description */}
-                        <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/95 via-black/70 to-transparent pt-24 sm:pt-28 pb-5 px-5">
-                          <h2
-                            className={cn(
-                              domine.className,
-                              "text-lg sm:text-2xl lg:text-3xl font-bold text-white leading-tight"
-                            )}
-                          >
-                            {opinions[0].title}
-                          </h2>
-                          <p className="text-white/80 text-xs sm:text-sm mt-2 leading-relaxed line-clamp-2 sm:line-clamp-3">
-                            {opinions[0].description}{" "}
-                            <span className="font-bold text-white text-xs sm:text-sm">
-                              SEE MORE
-                            </span>
-                          </p>
-                        </div>
-                      </div>
-                    </article>
-                  </Link>
-                )}
-
-                <Separator />
-
-                {/* Remaining opinions */}
-                {opinions.slice(1).map((opinion) => {
-                  const opinionUrl = PAGES.post(opinion.slug);
+                {/* Featured Opinion — from backend or fallback to first */}
+                {opinions.length > 0 && (() => {
+                  const featuredOpinion = featuredOpinionSlug
+                    ? opinions.find((o) => o.slug === featuredOpinionSlug) || opinions[0]
+                    : opinions[0];
+                  const remainingOpinions = opinions.filter(
+                    (o) => o.slug !== featuredOpinion.slug,
+                  );
 
                   return (
-                    <React.Fragment key={opinion._id}>
-                      <Link href={opinionUrl}>
-                        <article className="w-full flex flex-col md:flex-row items-start gap-4 py-6 cursor-pointer group">
-                          <p className="text-sm text-muted-foreground whitespace-nowrap pt-1 min-w-[100px]">
-                            {formatDate(opinion.date)}
-                          </p>
+                    <>
+                      <Link
+                        href={PAGES.post(featuredOpinion.slug)}
+                        className="group mb-6"
+                      >
+                        <article className="w-full cursor-pointer">
+                          {/* FEATURED OPINION label — gold bar + gold text */}
+                          <div className="flex items-center gap-2.5 mb-3">
+                            <span className="w-1 h-4 bg-gold rounded-full" />
+                            <span className="text-gold text-[10px] sm:text-xs font-semibold uppercase tracking-widest">
+                              Featured Opinion
+                            </span>
+                          </div>
 
-                          <div className="flex flex-col gap-2 flex-1">
-                            <h2
-                              className={cn(
-                                domine.className,
-                                "text-lg lg:text-xl font-semibold group-hover:text-gold transition-colors"
-                              )}
-                            >
-                              {opinion.title}
-                            </h2>
-                            <p className="text-muted-foreground text-sm lg:text-base">
-                              {opinion.description}
-                            </p>
-                            <p className="text-sm text-muted-foreground">
-                              By{" "}
-                              <span className="font-medium text-foreground">
-                                {opinion.author.name}
-                              </span>
-                            </p>
+                          {/* Image with title + description overlaid */}
+                          <div className="relative w-full aspect-4/3 sm:aspect-16/10 overflow-hidden">
+                            {featuredOpinion.mainImage ? (
+                              <Image
+                                src={urlFor(featuredOpinion.mainImage)
+                                  .width(800)
+                                  .height(500)
+                                  .fit("crop")
+                                  .url()}
+                                alt={featuredOpinion.title}
+                                fill
+                                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                              />
+                            ) : (
+                              <div className="w-full h-full bg-linear-to-br from-gold/20 to-gold/5 flex items-center justify-center">
+                                <div className="text-gold/40 text-7xl font-miller">
+                                  T
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Bottom gradient overlay with title + description */}
+                            <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/95 via-black/70 to-transparent pt-24 sm:pt-28 pb-5 px-5">
+                              <h2
+                                className={cn(
+                                  domine.className,
+                                  "text-lg sm:text-2xl lg:text-3xl font-bold text-white leading-tight"
+                                )}
+                              >
+                                {featuredOpinion.title}
+                              </h2>
+                              <p className="text-white/80 text-xs sm:text-sm mt-2 leading-relaxed line-clamp-2 sm:line-clamp-3">
+                                {featuredOpinion.description}{" "}
+                                <span className="font-bold text-white text-xs sm:text-sm">
+                                  SEE MORE
+                                </span>
+                              </p>
+                            </div>
                           </div>
                         </article>
                       </Link>
+
                       <Separator />
-                    </React.Fragment>
+
+                      {/* Remaining opinions */}
+                      {remainingOpinions.map((opinion) => {
+                        const opinionUrl = PAGES.post(opinion.slug);
+
+                        return (
+                          <React.Fragment key={opinion._id}>
+                            <Link href={opinionUrl}>
+                              <article className="w-full flex flex-col md:flex-row items-start gap-4 py-6 cursor-pointer group">
+                                <p className="text-sm text-muted-foreground whitespace-nowrap pt-1 min-w-[100px]">
+                                  {formatDate(opinion.date)}
+                                </p>
+
+                                <div className="flex flex-col gap-2 flex-1">
+                                  <h2
+                                    className={cn(
+                                      domine.className,
+                                      "text-lg lg:text-xl font-semibold group-hover:text-gold transition-colors",
+                                    )}
+                                  >
+                                    {opinion.title}
+                                  </h2>
+                                  <p className="text-muted-foreground text-sm lg:text-base">
+                                    {opinion.description}
+                                  </p>
+                                  <p className="text-sm text-muted-foreground">
+                                    By{" "}
+                                    <span className="font-medium text-foreground">
+                                      {opinion.author.name}
+                                    </span>
+                                  </p>
+                                </div>
+                              </article>
+                            </Link>
+                            <Separator />
+                          </React.Fragment>
+                        );
+                      })}
+                    </>
                   );
-                })}
+                })()}
               </>
             )}
           </div>
