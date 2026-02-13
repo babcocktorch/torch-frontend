@@ -34,7 +34,7 @@ const Header = () => {
   const logo =
     theme === "dark"
       ? IMAGES.logos.majuyan_fraktur_white
-      : IMAGES.logos.majuyan_fraktur_black;
+      : IMAGES.logos.majuyan_fraktur_gold;
 
   const date = new Date().toLocaleDateString("en-US", {
     year: "numeric",
