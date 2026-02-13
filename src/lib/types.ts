@@ -106,7 +106,11 @@ export type Community = {
   slug: string;
   description?: string | null;
   logoUrl?: string | null;
+  bannerUrl?: string | null;
   contactEmail?: string | null;
+  category?: string | null;
+  memberCount?: number | null;
+  openToJoin?: boolean | null;
   createdAt: string;
   updatedAt?: string;
   _count?: {
