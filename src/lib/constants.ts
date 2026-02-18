@@ -182,6 +182,7 @@ export const BACKEND_API_ROUTES = {
     editorsPick: (id: string) => `/api/v2/admin/articles/${id}/editors-pick`,
     featuredOpinion: (id: string) =>
       `/api/v2/admin/articles/${id}/featured-opinion`,
+    articleStats: (id: string) => `/api/v2/admin/articles/${id}/stats`,
     // Community management
     communities: "/api/v2/admin/communities",
     community: (id: string) => `/api/v2/admin/communities/${id}`,
@@ -194,6 +195,9 @@ export const BACKEND_API_ROUTES = {
   public: {
     articles: "/api/v2/articles",
     article: (slug: string) => `/api/v2/articles/${slug}`,
+    trackRead: (slug: string) => `/api/v2/articles/${slug}/read`,
+    reactions: (slug: string) => `/api/v2/articles/${slug}/reactions`,
+    react: (slug: string) => `/api/v2/articles/${slug}/react`,
     // Public community endpoints
     communities: "/api/v2/communities",
     community: (slug: string) => `/api/v2/communities/${slug}`,
