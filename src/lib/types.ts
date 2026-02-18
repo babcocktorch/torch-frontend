@@ -197,3 +197,21 @@ export type MastheadMember = {
   xUrl?: string;
   linkedinUrl?: string;
 };
+
+// Reaction types
+export type ReactionType = "upvote" | "downvote";
+
+export type ReactionsData = {
+  reactions: { upvote: number; downvote: number };
+  total: number;
+  userReaction: ReactionType | null;
+};
+
+// Admin stats types
+export type ArticleStats = {
+  totalReads: number;
+  uniqueReads: number;
+  readsLast24h: number;
+  readsLast7d: number;
+  readsLast30d: number;
+};
