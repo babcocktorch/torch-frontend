@@ -495,10 +495,109 @@ export const submitCommunityContent = async (
 };
 
 // ============================================
-// Masthead Functions
+// Article Read Tracking & Reactions
 // ============================================
 
-import { MastheadGuard, MastheadMember } from "./types";
+import {
+  MastheadGuard,
+  MastheadMember,
+  ReactionsData,
+  ReactionType,
+} from "./types";
+
+/**
+ * Track an article read (fire-and-forget, silent)
+ */
+export const trackArticleRead = async (slug: string): Promise<void> => {
+  try {
+    await fetch(BACKEND_BASE_URL + BACKEND_API_ROUTES.public.trackRead(slug), {
+      method: "POST",
+    });
+  } catch {
+    // Silently fail — read tracking should never impact UX
+  }
+};
+
+/**
+ * Get reaction counts and user's current reaction for an article
+ */
+export const getArticleReactions = async (
+  slug: string,
+): Promise<ReactionsData> => {
+  try {
+    const response = await fetch(
+      BACKEND_BASE_URL + BACKEND_API_ROUTES.public.reactions(slug),
+    );
+
+    if (!response.ok) {
+      return {
+        reactions: { upvote: 0, downvote: 0 },
+        total: 0,
+        userReaction: null,
+      };
+    }
+
+    const result = await response.json();
+    return result.data as ReactionsData;
+  } catch {
+    return {
+      reactions: { upvote: 0, downvote: 0 },
+      total: 0,
+      userReaction: null,
+    };
+  }
+};
+
+/**
+ * Submit or update a reaction on an article
+ */
+export const submitReaction = async (
+  slug: string,
+  reactionType: ReactionType,
+): Promise<ReactionsData | null> => {
+  try {
+    const response = await fetch(
+      BACKEND_BASE_URL + BACKEND_API_ROUTES.public.react(slug),
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reactionType }),
+      },
+    );
+
+    if (!response.ok) return null;
+
+    const result = await response.json();
+    return result.data as ReactionsData;
+  } catch {
+    return null;
+  }
+};
+
+/**
+ * Remove user's reaction from an article
+ */
+export const removeReaction = async (
+  slug: string,
+): Promise<ReactionsData | null> => {
+  try {
+    const response = await fetch(
+      BACKEND_BASE_URL + BACKEND_API_ROUTES.public.react(slug),
+      { method: "DELETE" },
+    );
+
+    if (!response.ok) return null;
+
+    const result = await response.json();
+    return result.data as ReactionsData;
+  } catch {
+    return null;
+  }
+};
+
+// ============================================
+// Masthead Functions
+// ============================================
 
 /**
  * Get all masthead guards (eras/terms) from Sanity
