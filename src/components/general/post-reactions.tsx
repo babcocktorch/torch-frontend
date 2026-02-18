@@ -1,58 +1,95 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { BiSolidLike, BiSolidDislike, BiLike, BiDislike } from "react-icons/bi";
 import { cn } from "@/lib/utils";
+import {
+  getArticleReactions,
+  submitReaction,
+  removeReaction,
+} from "@/lib/requests";
+import { ReactionType } from "@/lib/types";
 
 interface PostReactionsProps {
-  postId?: string;
+  slug: string;
   className?: string;
 }
 
-const PostReactions = ({ className }: PostReactionsProps) => {
-  // Mock data for UI - will be replaced with real data later
-  const [agreeCount, setAgreeCount] = useState(405);
-  const [disagreeCount, setDisagreeCount] = useState(145);
-  const [userReaction, setUserReaction] = useState<"agree" | "disagree" | null>(
-    null
+const PostReactions = ({ slug, className }: PostReactionsProps) => {
+  const [upvoteCount, setUpvoteCount] = useState(0);
+  const [downvoteCount, setDownvoteCount] = useState(0);
+  const [userReaction, setUserReaction] = useState<ReactionType | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Fetch reactions on mount
+  useEffect(() => {
+    const fetchReactions = async () => {
+      const data = await getArticleReactions(slug);
+      setUpvoteCount(data.reactions.upvote);
+      setDownvoteCount(data.reactions.downvote);
+      setUserReaction(data.userReaction);
+      setIsLoading(false);
+    };
+    fetchReactions();
+  }, [slug]);
+
+  const totalReactions = upvoteCount + downvoteCount;
+  const agreePercentage =
+    totalReactions > 0 ? (upvoteCount / totalReactions) * 100 : 50;
+  const disagreePercentage =
+    totalReactions > 0 ? (downvoteCount / totalReactions) * 100 : 50;
+
+  const handleReaction = useCallback(
+    async (reaction: ReactionType) => {
+      if (isSubmitting) return;
+      setIsSubmitting(true);
+
+      try {
+        if (userReaction === reaction) {
+          // Toggle off — remove reaction
+          const data = await removeReaction(slug);
+          if (data) {
+            setUpvoteCount(data.reactions.upvote);
+            setDownvoteCount(data.reactions.downvote);
+            setUserReaction(data.userReaction);
+          }
+        } else {
+          // Add or change reaction
+          const data = await submitReaction(slug, reaction);
+          if (data) {
+            setUpvoteCount(data.reactions.upvote);
+            setDownvoteCount(data.reactions.downvote);
+            setUserReaction(data.userReaction);
+          }
+        }
+      } finally {
+        setIsSubmitting(false);
+      }
+    },
+    [slug, userReaction, isSubmitting],
   );
 
-  const totalReactions = agreeCount + disagreeCount;
-  const agreePercentage =
-    totalReactions > 0 ? (agreeCount / totalReactions) * 100 : 0;
-  const disagreePercentage =
-    totalReactions > 0 ? (disagreeCount / totalReactions) * 100 : 0;
-
-  const handleReaction = (reaction: "agree" | "disagree") => {
-    // This will be replaced with actual API calls later
-    if (userReaction === reaction) {
-      // Remove reaction
-      setUserReaction(null);
-      if (reaction === "agree") {
-        setAgreeCount((prev) => prev - 1);
-      } else {
-        setDisagreeCount((prev) => prev - 1);
-      }
-    } else if (userReaction) {
-      // Change reaction
-      if (reaction === "agree") {
-        setAgreeCount((prev) => prev + 1);
-        setDisagreeCount((prev) => prev - 1);
-      } else {
-        setDisagreeCount((prev) => prev + 1);
-        setAgreeCount((prev) => prev - 1);
-      }
-      setUserReaction(reaction);
-    } else {
-      // Add new reaction
-      setUserReaction(reaction);
-      if (reaction === "agree") {
-        setAgreeCount((prev) => prev + 1);
-      } else {
-        setDisagreeCount((prev) => prev + 1);
-      }
-    }
-  };
+  if (isLoading) {
+    return (
+      <section className={cn("my-12 py-8 border-y", className)}>
+        <div className="max-w-2xl mx-auto">
+          <div className="text-center mb-6">
+            <h3 className="text-xl font-semibold tracking-tight mb-2">
+              What do you think?
+            </h3>
+            <p className="text-sm text-muted-foreground">
+              Share your reaction to this opinion
+            </p>
+          </div>
+          <div className="flex gap-3 mb-6">
+            <div className="flex-1 h-10 bg-muted rounded-md animate-pulse" />
+            <div className="flex-1 h-10 bg-muted rounded-md animate-pulse" />
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className={cn("my-12 py-8 border-y", className)}>
@@ -69,15 +106,17 @@ const PostReactions = ({ className }: PostReactionsProps) => {
         {/* Reaction Buttons */}
         <div className="flex gap-3 mb-6">
           <button
-            onClick={() => handleReaction("agree")}
+            onClick={() => handleReaction("upvote")}
+            disabled={isSubmitting}
             className={cn(
               "flex items-center gap-2 px-6 py-2.5 rounded-md transition-all flex-1 justify-center font-medium text-sm border",
-              userReaction === "agree"
+              userReaction === "upvote"
                 ? "bg-emerald-100 dark:bg-emerald-950 border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300"
-                : "bg-secondary hover:bg-muted text-foreground border-border"
+                : "bg-secondary hover:bg-muted text-foreground border-border",
+              isSubmitting && "opacity-50 cursor-not-allowed",
             )}
           >
-            {userReaction === "agree" ? (
+            {userReaction === "upvote" ? (
               <BiSolidLike className="text-lg" />
             ) : (
               <BiLike className="text-lg" />
@@ -86,15 +125,17 @@ const PostReactions = ({ className }: PostReactionsProps) => {
           </button>
 
           <button
-            onClick={() => handleReaction("disagree")}
+            onClick={() => handleReaction("downvote")}
+            disabled={isSubmitting}
             className={cn(
               "flex items-center gap-2 px-6 py-2.5 rounded-md transition-all flex-1 justify-center font-medium text-sm border",
-              userReaction === "disagree"
+              userReaction === "downvote"
                 ? "bg-rose-100 dark:bg-rose-950 border-rose-300 dark:border-rose-800 text-rose-700 dark:text-rose-300"
-                : "bg-secondary hover:bg-muted text-foreground border-border"
+                : "bg-secondary hover:bg-muted text-foreground border-border",
+              isSubmitting && "opacity-50 cursor-not-allowed",
             )}
           >
-            {userReaction === "disagree" ? (
+            {userReaction === "downvote" ? (
               <BiSolidDislike className="text-lg" />
             ) : (
               <BiDislike className="text-lg" />
@@ -149,10 +190,10 @@ const PostReactions = ({ className }: PostReactionsProps) => {
           <div className="flex justify-between text-sm text-muted-foreground">
             <span className="flex items-center gap-1.5">
               <BiSolidLike className="text-base text-emerald-600 dark:text-emerald-400" />
-              {agreeCount.toLocaleString()}
+              {upvoteCount.toLocaleString()}
             </span>
             <span className="flex items-center gap-1.5">
-              {disagreeCount.toLocaleString()}
+              {downvoteCount.toLocaleString()}
               <BiSolidDislike className="text-base text-rose-600 dark:text-rose-400" />
             </span>
           </div>
