@@ -327,3 +327,19 @@ export async function deleteSubmission(token: string, id: string) {
     },
   );
 }
+
+// ============================================
+// Article Stats Functions
+// ============================================
+
+import { ArticleStats } from "./types";
+
+/**
+ * Get read statistics for an article (admin)
+ */
+export async function getArticleStats(token: string, id: string) {
+  return authFetch<{ stats: ArticleStats }>(
+    BACKEND_API_ROUTES.admin.articleStats(id),
+    token,
+  );
+}
