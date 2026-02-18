@@ -13,6 +13,7 @@ import { PostType } from "@/lib/types";
 import SharePost from "@/components/general/share-post";
 import FeaturedPosts from "@/components/general/featured-posts";
 import PostReactions from "@/components/general/post-reactions";
+import ReadTracker from "@/components/general/read-tracker";
 import Image from "next/image";
 import Link from "next/link";
 import { isArticlePublic } from "@/lib/requests";
@@ -205,7 +206,10 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
             </div>
           )}
 
-          {!post.isPost && <PostReactions postId={post._id} />}
+          {!post.isPost && <PostReactions slug={slug} />}
+
+          {/* Silent read tracking */}
+          <ReadTracker slug={slug} />
         </div>
 
         <aside className="flex flex-col lg:max-h-full h-max gap-y-6 sticky top-24 bottom-auto right-0 lg:pl-6 pl-0">
