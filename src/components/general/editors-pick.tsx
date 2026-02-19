@@ -11,7 +11,10 @@ interface EditorsPickProps {
   secondaryPicks?: PostType[];
 }
 
-const EditorsPick = ({ featuredPost, secondaryPicks = [] }: EditorsPickProps) => {
+const EditorsPick = ({
+  featuredPost,
+  secondaryPicks = [],
+}: EditorsPickProps) => {
   const postUrl =
     featuredPost.slug === "#" ? "#" : PAGES.post(featuredPost.slug);
 
@@ -20,9 +23,21 @@ const EditorsPick = ({ featuredPost, secondaryPicks = [] }: EditorsPickProps) =>
       {/* Left: Featured Article Text + Secondary Picks */}
       <div className="w-full lg:w-2/5 flex flex-col">
         {/* Editor's Pick Label */}
-        <span className="text-gold text-xs font-semibold tracking-wider uppercase mb-3">
-          Editors Pick
-        </span>
+
+        {/* <div className="h-auto flex items-center mb-3 gap-2">
+          <div className="w-1 h-full bg-gold" />
+
+          <span className="text-gold text-xs font-semibold tracking-wider uppercase my-px">
+            Editors Pick
+          </span>
+        </div> */}
+
+        <div className="flex items-center gap-2.5 mb-3">
+          <span className="w-1 h-4 bg-gold rounded-full" />
+          <span className="text-gold text-[10px] sm:text-xs font-semibold uppercase tracking-widest">
+            Editors Pick
+          </span>
+        </div>
 
         {/* Primary Pick */}
         <Link href={postUrl} className="group">
@@ -49,8 +64,7 @@ const EditorsPick = ({ featuredPost, secondaryPicks = [] }: EditorsPickProps) =>
         {/* Secondary Picks */}
         {secondaryPicks.length > 0 &&
           secondaryPicks.map((pick) => {
-            const pickUrl =
-              pick.slug === "#" ? "#" : PAGES.post(pick.slug);
+            const pickUrl = pick.slug === "#" ? "#" : PAGES.post(pick.slug);
 
             return (
               <div key={pick._id}>
@@ -72,7 +86,10 @@ const EditorsPick = ({ featuredPost, secondaryPicks = [] }: EditorsPickProps) =>
 
       {/* Right: Featured Image — stretches to full height of the left column */}
       <div className="w-full lg:w-3/5">
-        <Link href={postUrl} className="block relative w-full h-full min-h-[250px]">
+        <Link
+          href={postUrl}
+          className="block relative w-full h-full min-h-[250px]"
+        >
           {featuredPost.mainImage ? (
             <Image
               src={urlFor(featuredPost.mainImage)
