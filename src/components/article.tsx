@@ -12,28 +12,22 @@ const Article = ({ post }: PostProps) => {
     <Link href={postUrl}>
       <div className="w-full flex flex-col md:flex-row items-start justify-between gap-6 cursor-pointer group">
         <div className="flex flex-col gap-4 w-full md:w-2/5">
-          <p className={cn("font-miller", "text-2xl font-semibold")}>
-            {post.title}
-          </p>
+          <div>
+            {post.categories?.[0] && (
+              <span className="text-gold text-[10px] sm:text-xs font-bold uppercase tracking-widest block mb-1 truncate">
+                {post.categories[0].title}
+              </span>
+            )}
+            <p className={cn("font-miller", "text-2xl font-semibold")}>
+              {post.title}
+            </p>
+          </div>
           <p className="text-muted-foreground">{post.description}</p>
           <p className="text-sm text-muted-foreground">
             By{" "}
             <span className="font-medium text-primary">{post.author.name}</span>{" "}
             • {formatDate(post.date)}
           </p>
-
-          {post.categories && (
-            <div className="flex items-center justify-start gap-2 flex-wrap">
-              {post.categories.map((category, i) => (
-                <p
-                  key={i}
-                  className="text-xs px-2.5 py-1 rounded-full font-medium border"
-                >
-                  {category.title}
-                </p>
-              ))}
-            </div>
-          )}
         </div>
 
         <div className="w-full md:w-3/5">
