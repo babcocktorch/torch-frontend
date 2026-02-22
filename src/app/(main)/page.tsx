@@ -34,7 +34,21 @@ export const metadata: Metadata = {
 const HomePage = async () => {
   const { posts, editorsPickSlugs } = await getPosts();
 
-  return <Home posts={posts} editorsPickSlugs={editorsPickSlugs} />;
+  // Create dummy posts for layout testing by duplicating existing news posts
+  const newsPosts = posts.filter((p) => p.isPost);
+  let dummyPosts = [...posts];
+
+  // Keep duplicating news posts until we have enough to fill all grids (needs ~14 news posts total)
+  while (dummyPosts.filter((p) => p.isPost).length < 16) {
+    const clonedPosts = newsPosts.map((post, index) => ({
+      ...post,
+      _id: `${post._id}-clone-${dummyPosts.length}-${index}`,
+      slug: `${post.slug}-clone-${dummyPosts.length}-${index}`,
+    }));
+    dummyPosts = [...dummyPosts, ...clonedPosts];
+  }
+
+  return <Home posts={dummyPosts} editorsPickSlugs={editorsPickSlugs} />;
 };
 
 export default HomePage;
