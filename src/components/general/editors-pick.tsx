@@ -110,13 +110,13 @@ const EditorsPick = ({
                   )}
 
                   {/* Category label overlay */}
-                  {categoryLabel && (
+                  {/* {categoryLabel && (
                     <div className="absolute top-3 left-3">
                       <span className="bg-gold text-white text-[10px] font-semibold uppercase tracking-wider px-2 py-1">
                         {categoryLabel}
                       </span>
                     </div>
-                  )}
+                  )} */}
                 </div>
 
                 <h3
