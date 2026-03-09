@@ -7,21 +7,28 @@ import { PAGES } from "@/lib/constants";
 export const TopStoryCard = ({ post }: { post: PostType }) => {
   const postUrl = post.slug === "#" ? "#" : PAGES.post(post.slug);
   const categoryLabel = post.categories?.[0]?.title || "News";
+  const categorySlug = post.categories?.[0]?.slug || "news";
+  const categoryUrl = PAGES.tag(categorySlug);
 
   return (
-    <Link href={postUrl} className="group flex items-start gap-4">
+    <div className="group flex items-start gap-4">
       {/* Left side: content */}
       <div className="flex-1 min-w-0 pr-1">
-        <span className="text-gold text-[10px] sm:text-xs font-bold uppercase tracking-widest block mb-1 truncate">
+        <Link 
+          href={categoryUrl}
+          className="text-gold text-[10px] sm:text-xs font-bold uppercase tracking-widest block mb-1 truncate hover:underline w-fit relative z-10"
+        >
           {categoryLabel}
-        </span>
-        <h3 className="text-[15px] lg:text-[17px] font-medium font-miller group-hover:text-gold transition-colors leading-snug line-clamp-3">
-          {post.title}
-        </h3>
+        </Link>
+        <Link href={postUrl} className="block relative z-0">
+          <h3 className="text-[15px] lg:text-[17px] font-medium font-miller group-hover:text-gold transition-colors leading-snug line-clamp-3">
+            {post.title}
+          </h3>
+        </Link>
       </div>
 
       {/* Right side: image */}
-      <div className="w-24 h-20 lg:w-28 lg:h-20 shrink-0 relative overflow-hidden bg-muted">
+      <Link href={postUrl} className="w-24 h-20 lg:w-28 lg:h-20 shrink-0 relative overflow-hidden bg-muted block z-0">
         {post.mainImage ? (
           <Image
             src={urlFor(post.mainImage)
@@ -38,7 +45,7 @@ export const TopStoryCard = ({ post }: { post: PostType }) => {
             <span className="text-gold/40 text-2xl font-miller">T</span>
           </div>
         )}
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 };
