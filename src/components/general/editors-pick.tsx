@@ -88,10 +88,12 @@ const EditorsPick = ({
           {secondaryPicks.map((pick) => {
             const pickUrl = pick.slug === "#" ? "#" : PAGES.post(pick.slug);
             const categoryLabel = pick.categories?.[0]?.title;
+            const categorySlug = pick.categories?.[0]?.slug || "news";
+            const categoryUrl = PAGES.tag(categorySlug);
 
             return (
-              <Link key={pick._id} href={pickUrl} className="group block">
-                <div className="relative w-full aspect-16/10 overflow-hidden bg-muted">
+              <div key={pick._id} className="group block relative">
+                <Link href={pickUrl} className="block relative w-full aspect-16/10 overflow-hidden bg-muted z-0">
                   {pick.mainImage ? (
                     <Image
                       src={urlFor(pick.mainImage)
@@ -108,26 +110,31 @@ const EditorsPick = ({
                       <div className="text-gold/40 text-4xl font-miller">T</div>
                     </div>
                   )}
+                </Link>
 
-                  {/* Category label overlay */}
-                  {/* {categoryLabel && (
-                    <div className="absolute top-3 left-3">
-                      <span className="bg-gold text-white text-[10px] font-semibold uppercase tracking-wider px-2 py-1">
-                        {categoryLabel}
-                      </span>
-                    </div>
-                  )} */}
-                </div>
+                {/* Category label overlay */}
+                {categoryLabel && (
+                  <div className="absolute top-3 left-3 z-10">
+                    <Link 
+                      href={categoryUrl} 
+                      className="bg-gold text-white text-[10px] font-semibold uppercase tracking-wider px-2 py-1 hover:bg-gold/90 transition-colors"
+                    >
+                      {categoryLabel}
+                    </Link>
+                  </div>
+                )}
 
-                <h3
-                  className={cn(
-                    "text-sm lg:text-base font-semibold mt-2.5 group-hover:text-gold transition-colors leading-snug",
-                    domine.className,
-                  )}
-                >
-                  {pick.title}
-                </h3>
-              </Link>
+                <Link href={pickUrl} className="block z-0 relative">
+                  <h3
+                    className={cn(
+                      "text-sm lg:text-base font-semibold mt-2.5 group-hover:text-gold transition-colors leading-snug",
+                      domine.className,
+                    )}
+                  >
+                    {pick.title}
+                  </h3>
+                </Link>
+              </div>
             );
           })}
         </div>
