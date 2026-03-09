@@ -28,6 +28,7 @@ export type PostType = {
     slug?: string;
   }[];
   body: PortableTextBlock[];
+  readCount?: number;
 };
 
 export type PostProps = {
