@@ -69,7 +69,10 @@ const MemberCard = ({ member }: MemberCardProps) => {
         {/* Gold gradient overlay at bottom */}
         <div
           className="absolute inset-x-0 bottom-0 h-2/5"
-          style={{ background: "linear-gradient(to top, rgba(152, 116, 5, 0.8), rgba(152, 116, 5, 0.3), transparent)" }}
+          style={{
+            background:
+              "linear-gradient(to top, rgba(152, 116, 5, 0.8), rgba(152, 116, 5, 0.3), transparent)",
+          }}
         />
 
         {/* Social icons at bottom of image */}
@@ -188,9 +191,7 @@ type MastheadHomeProps = {
 
 const MastheadHome = ({ guards, members }: MastheadHomeProps) => {
   const [activeTab, setActiveTab] = useState("about");
-  const [activeGuardSlug, setActiveGuardSlug] = useState(
-    guards[0]?.slug ?? ""
-  );
+  const [activeGuardSlug, setActiveGuardSlug] = useState(guards[0]?.slug ?? "");
   const [activeCategory, setActiveCategory] = useState("all");
 
   const activeGuard = guards.find((g) => g.slug === activeGuardSlug);
@@ -220,17 +221,15 @@ const MastheadHome = ({ guards, members }: MastheadHomeProps) => {
           <div className="flex items-center justify-center overflow-x-auto scrollbar-hide">
             {MASTHEAD_NAV_TABS.map((tab, index) => (
               <React.Fragment key={tab.id}>
-                {index > 0 && (
-                  <div className="h-4 w-px bg-border shrink-0" />
-                )}
+                {index > 0 && <div className="h-4 w-px bg-border shrink-0" />}
                 <button
                   onClick={() => setActiveTab(tab.id)}
                   className={cn(
-                    "relative px-4 sm:px-6 py-3 text-sm font-medium whitespace-nowrap transition-colors cursor-pointer",
+                    "relative px-4 sm:px-6 py-3 text-sm md:text-base font-medium whitespace-nowrap transition-colors cursor-pointer",
                     "hover:text-gold",
                     activeTab === tab.id
                       ? "text-gold"
-                      : "text-muted-foreground"
+                      : "text-muted-foreground",
                   )}
                 >
                   {tab.label}
@@ -343,7 +342,7 @@ const MastheadHome = ({ guards, members }: MastheadHomeProps) => {
                 "px-5 py-2 cursor-pointer text-sm font-medium transition-colors border",
                 activeGuardSlug === guard.slug
                   ? "bg-gold text-white border-gold"
-                  : "bg-transparent text-foreground border-border hover:border-gold/50"
+                  : "bg-transparent text-foreground border-border hover:border-gold/50",
               )}
             >
               {guard.label}
@@ -361,7 +360,7 @@ const MastheadHome = ({ guards, members }: MastheadHomeProps) => {
                 "text-sm transition-colors pb-0.5 cursor-pointer",
                 activeCategory === cat.value
                   ? "text-gold underline underline-offset-8 decoration-gold font-medium"
-                  : "text-muted-foreground hover:text-foreground"
+                  : "text-muted-foreground hover:text-foreground",
               )}
             >
               {cat.label}
