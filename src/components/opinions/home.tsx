@@ -64,7 +64,7 @@ const OpinionsHome = ({
 
       <div className="bg-gold dark:bg-gold/10 md:pl-8 mb-8">
         <div className="w-full py-12 max-w-7xl mx-auto relative overflow-hidden flex flex-col gap-8 items-center md:items-start justify-center">
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl z-30 text-white font-semibold font-miller">
+          <h1 className="text-5xl lg:text-7xl z-30 text-white font-semibold font-miller">
             Opinions
           </h1>
 
