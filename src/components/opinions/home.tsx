@@ -183,7 +183,7 @@ const OpinionsHome = ({
                         <article className="w-full cursor-pointer">
                           {/* FEATURED OPINION label — gold bar + gold text */}
                           <div className="flex items-center gap-2.5 mb-3">
-                            <span className="w-1 h-4 bg-gold rounded-full" />
+                            <span className="w-1 h-4 bg-gold" />
                             <span className="text-gold text-[10px] sm:text-xs font-semibold uppercase tracking-widest">
                               Featured Opinion
                             </span>
