@@ -195,10 +195,11 @@ export const BACKEND_API_ROUTES = {
   // Public article endpoints
   public: {
     articles: "/api/v2/articles",
+    articlesSort: "/api/v2/articles/sort",
     article: (slug: string) => `/api/v2/articles/${slug}`,
-    trackRead: (slug: string) => `/api/v2/articles/${slug}/read`,
-    reactions: (slug: string) => `/api/v2/articles/${slug}/reactions`,
-    react: (slug: string) => `/api/v2/articles/${slug}/react`,
+    trackRead: (slug: string) => `/api/v2/reads/${slug}/read`,
+    reactions: (slug: string) => `/api/v2/reactions/${slug}/reactions`,
+    react: (slug: string) => `/api/v2/reactions/${slug}/react`,
     // Public community endpoints
     communities: "/api/v2/communities",
     community: (slug: string) => `/api/v2/communities/${slug}`,
