@@ -26,7 +26,7 @@ const EditorsPick = ({
         <div className="w-full lg:w-2/5 flex flex-col">
           {/* Editor's Pick Label */}
           <div className="flex items-center gap-2.5 mb-3">
-            <span className="w-1 h-4 bg-gold rounded-full" />
+            <span className="w-1 h-4 bg-gold" />
             <span className="text-gold text-[10px] sm:text-xs font-semibold uppercase tracking-widest">
               Editors Pick
             </span>
