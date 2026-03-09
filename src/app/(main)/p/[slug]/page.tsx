@@ -33,7 +33,8 @@ const postQuery = groq`
       image
     },
     "categories": categories[]->{
-      title
+      title,
+      "slug": slug.current
     },
     "slug": slug.current
   }
@@ -260,12 +261,13 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
               </h3>
               <div className="flex flex-wrap items-center gap-2 tracking-tight">
                 {post.categories.map((category, i) => (
-                  <p
+                  <Link
                     key={i}
-                    className="text-sm px-2.5 py-1 rounded-full font-medium border"
+                    href={PAGES.tag(category.slug || category.title.toLowerCase().replace(/\s+/g, '-'))}
+                    className="text-sm px-2.5 py-1 rounded-full font-medium border hover:bg-muted transition-colors"
                   >
                     {category.title}
-                  </p>
+                  </Link>
                 ))}
               </div>
             </section>
