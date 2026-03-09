@@ -73,17 +73,15 @@ const CommunitiesHome = ({ communities }: { communities: Community[] }) => {
           <div className="flex items-center justify-center overflow-x-auto scrollbar-hide">
             {COMMUNITIES_NAV_TABS.map((tab, index) => (
               <React.Fragment key={tab.id}>
-                {index > 0 && (
-                  <div className="h-4 w-px bg-border shrink-0" />
-                )}
+                {index > 0 && <div className="h-4 w-px bg-border shrink-0" />}
                 <button
                   onClick={() => setActiveTab(tab.id)}
                   className={cn(
-                    "relative px-4 sm:px-6 py-3 text-sm font-medium whitespace-nowrap transition-colors cursor-pointer",
+                    "relative px-4 sm:px-6 py-3 text-sm md:text-base font-medium whitespace-nowrap transition-colors cursor-pointer",
                     "hover:text-gold",
                     activeTab === tab.id
                       ? "text-gold"
-                      : "text-muted-foreground"
+                      : "text-muted-foreground",
                   )}
                 >
                   {tab.label}
