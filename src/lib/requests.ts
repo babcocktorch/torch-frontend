@@ -122,7 +122,8 @@ export const getPosts = async (): Promise<{
     featured,
     isPost,
     categories[]->{
-      title
+      title,
+      "slug": slug.current
     },
     author->{
       name
@@ -170,7 +171,8 @@ export const getOpinions = async (): Promise<{
     featured,
     isPost,
     categories[]->{
-      title
+      title,
+      "slug": slug.current
     },
     author->{
       name
@@ -222,7 +224,8 @@ export const searchPosts = async (searchTerm: string): Promise<PostType[]> => {
     featured,
     isPost,
     categories[]->{
-      title
+      title,
+      "slug": slug.current
     },
     author->{
       name
@@ -250,6 +253,49 @@ export const searchPosts = async (searchTerm: string): Promise<PostType[]> => {
   } catch (error) {
     console.error("Failed to search posts:", error);
 
+    return [];
+  }
+};
+
+export const getPostsByTag = async (tagSlug: string): Promise<PostType[]> => {
+  // Query posts where one of the category slugs (lowercase, hyphenated title) matches the tagSlug
+  const tagQuery = groq`
+  *[_type == "Post" && isPublished == true && $tagSlug in categories[]->slug.current] | order(date desc) {
+    _id,
+    title,
+    "slug": slug.current,
+    mainImage,
+    description,
+    date,
+    isPublished,
+    featured,
+    isPost,
+    categories[]->{
+      title,
+      "slug": slug.current
+    },
+    author->{
+      name
+    }
+  }
+`;
+
+  try {
+    const [postsData, backendInfo] = await Promise.all([
+      sanityClient.fetch(tagQuery, { tagSlug }),
+      fetchBackendPublicArticles(),
+    ]);
+
+    const allPosts = postsData as PostType[];
+
+    // Filter results to only include those that are public in backend
+    const filteredResults = allPosts.filter((post) => {
+      return backendInfo.publicSlugs.has(post.slug);
+    });
+
+    return filteredResults;
+  } catch (error) {
+    console.error("Failed to fetch posts by tag:", error);
     return [];
   }
 };
