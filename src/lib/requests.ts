@@ -42,10 +42,11 @@ const fetchBackendPublicArticles = async (): Promise<{
   publicSlugs: Set<string>;
   editorsPickSlugs: string[];
   featuredOpinionSlug: string | null;
+  readCounts: Record<string, number>;
 }> => {
   try {
     const response = await fetch(
-      BACKEND_BASE_URL + BACKEND_API_ROUTES.public.articles,
+      BACKEND_BASE_URL + BACKEND_API_ROUTES.public.articlesSort,
       { next: { revalidate: 60 } }, // Cache for 60 seconds
     );
 
@@ -55,13 +56,20 @@ const fetchBackendPublicArticles = async (): Promise<{
         publicSlugs: new Set(),
         editorsPickSlugs: [],
         featuredOpinionSlug: null,
+        readCounts: {},
       };
     }
 
     const data = await response.json();
-    const articles = (data.data?.articles as AdminArticle[]) || [];
+    const articles = (data.data?.articles as any[]) || [];
 
-    const publicSlugs = new Set(articles.map((a) => a.slug));
+    const publicSlugs = new Set<string>();
+    const readCounts: Record<string, number> = {};
+
+    articles.forEach((a) => {
+      publicSlugs.add(a.slug);
+      readCounts[a.slug] = a.readCount || 0;
+    });
 
     // Get all editor's picks, sorted by creation date descending (newest first)
     const editorsPicks = articles
@@ -79,6 +87,7 @@ const fetchBackendPublicArticles = async (): Promise<{
       publicSlugs,
       editorsPickSlugs: editorsPicks,
       featuredOpinionSlug: featuredOpinion?.slug || null,
+      readCounts,
     };
   } catch (error) {
     console.error("Failed to fetch backend articles:", error);
@@ -86,6 +95,7 @@ const fetchBackendPublicArticles = async (): Promise<{
       publicSlugs: new Set(),
       editorsPickSlugs: [],
       featuredOpinionSlug: null,
+      readCounts: {},
     };
   }
 };
@@ -189,10 +199,13 @@ export const getOpinions = async (): Promise<{
 
     const allOpinions = opinionsData as PostType[];
 
-    // Filter opinions to only include those that are public in backend
-    const filteredOpinions = allOpinions.filter((opinion) =>
-      backendInfo.publicSlugs.has(opinion.slug),
-    );
+    // Filter opinions to only include those that are public in backend, then populate read count
+    const filteredOpinions = allOpinions
+      .filter((opinion) => backendInfo.publicSlugs.has(opinion.slug))
+      .map((opinion) => ({
+        ...opinion,
+        readCount: backendInfo.readCounts[opinion.slug] || 0,
+      }));
 
     return {
       opinions: filteredOpinions,
@@ -556,14 +569,9 @@ import {
  */
 export const trackArticleRead = async (slug: string): Promise<void> => {
   try {
-    const res = await fetch(
-      BACKEND_BASE_URL + BACKEND_API_ROUTES.public.trackRead(slug),
-      {
-        method: "POST",
-      },
-    );
-
-    console.log(res);
+    await fetch(BACKEND_BASE_URL + BACKEND_API_ROUTES.public.trackRead(slug), {
+      method: "POST",
+    });
   } catch {
     // Silently fail — read tracking should never impact UX
   }
