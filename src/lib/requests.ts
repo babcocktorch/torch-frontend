@@ -556,9 +556,14 @@ import {
  */
 export const trackArticleRead = async (slug: string): Promise<void> => {
   try {
-    await fetch(BACKEND_BASE_URL + BACKEND_API_ROUTES.public.trackRead(slug), {
-      method: "POST",
-    });
+    const res = await fetch(
+      BACKEND_BASE_URL + BACKEND_API_ROUTES.public.trackRead(slug),
+      {
+        method: "POST",
+      },
+    );
+
+    console.log(res);
   } catch {
     // Silently fail — read tracking should never impact UX
   }
