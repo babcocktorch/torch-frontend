@@ -8,6 +8,9 @@ import Link from "next/link";
 import Image from "next/image";
 import React, { useState } from "react";
 import OpinionsSidebar from "@/components/opinions/opinions-sidebar";
+import MostControversial from "@/components/opinions/most-controversial";
+import MostRead from "@/components/opinions/most-read";
+import Opinionists from "@/components/opinions/opinionists";
 import IdeaSubmission from "@/components/general/idea-submission";
 import { IoArrowForward } from "react-icons/io5";
 import { OpinionAuthor, PostType } from "@/lib/types";
@@ -153,131 +156,143 @@ const OpinionsHome = ({
       </div>
 
       <div className="flex flex-col lg:flex-row gap-8 px-6 max-w-7xl mx-auto">
-        {/* Main Content: Opinions List */}
-        <div className="w-full lg:w-2/3 lg:border-r lg:pr-8">
-          <div className="flex flex-col">
-            {opinions.length === 0 ? (
-              <p className="text-muted-foreground py-8">
-                No opinions available at the moment.
-              </p>
-            ) : (
-              <>
-                {/* Featured Opinion — from backend or fallback to first */}
-                {opinions.length > 0 &&
-                  (() => {
-                    const featuredOpinion = featuredOpinionSlug
-                      ? opinions.find((o) => o.slug === featuredOpinionSlug) ||
-                        opinions[0]
-                      : opinions[0];
-                    const remainingOpinions = opinions.filter(
-                      (o) => o.slug !== featuredOpinion.slug,
-                    );
+        {/* Render Subpages Based on Active Tab */}
+        {activeTab === "most-controversial" && (
+          <MostControversial opinions={opinions} />
+        )}
+        {activeTab === "most-read" && <MostRead opinions={opinions} />}
+        {activeTab === "opinionists" && <Opinionists authors={authors} />}
 
-                    return (
-                      <>
-                        <Link
-                          href={PAGES.post(featuredOpinion.slug)}
-                          className="group mb-6"
-                        >
-                          <article className="w-full cursor-pointer">
-                            {/* FEATURED OPINION label — gold bar + gold text */}
-                            <div className="flex items-center gap-2.5 mb-3">
-                              <span className="w-1 h-4 bg-gold" />
-                              <span className="text-gold text-[10px] sm:text-xs font-semibold uppercase tracking-widest">
-                                Featured Opinion
-                              </span>
-                            </div>
+        {/* Main Content: Opinions List (Only show on Home tab) */}
+        {activeTab === "home" && (
+          <>
+            <div className="w-full lg:w-2/3 lg:border-r lg:pr-8">
+              <div className="flex flex-col">
+                {opinions.length === 0 ? (
+                  <p className="text-muted-foreground py-8">
+                    No opinions available at the moment.
+                  </p>
+                ) : (
+                  <>
+                    {/* Featured Opinion — from backend or fallback to first */}
+                    {opinions.length > 0 &&
+                      (() => {
+                        const featuredOpinion = featuredOpinionSlug
+                          ? opinions.find(
+                              (o) => o.slug === featuredOpinionSlug,
+                            ) || opinions[0]
+                          : opinions[0];
+                        const remainingOpinions = opinions.filter(
+                          (o) => o.slug !== featuredOpinion.slug,
+                        );
 
-                            {/* Image with title + description overlaid */}
-                            <div className="relative w-full aspect-4/3 sm:aspect-16/10 overflow-hidden">
-                              {featuredOpinion.mainImage ? (
-                                <Image
-                                  src={urlFor(featuredOpinion.mainImage)
-                                    .width(800)
-                                    .height(500)
-                                    .fit("crop")
-                                    .url()}
-                                  alt={featuredOpinion.title}
-                                  fill
-                                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                                />
-                              ) : (
-                                <div className="w-full h-full bg-linear-to-br from-gold/20 to-gold/5 flex items-center justify-center">
-                                  <div className="text-gold/40 text-7xl font-miller">
-                                    T
-                                  </div>
+                        return (
+                          <>
+                            <Link
+                              href={PAGES.post(featuredOpinion.slug)}
+                              className="group mb-6"
+                            >
+                              <article className="w-full cursor-pointer">
+                                {/* FEATURED OPINION label — gold bar + gold text */}
+                                <div className="flex items-center gap-2.5 mb-3">
+                                  <span className="w-1 h-4 bg-gold" />
+                                  <span className="text-gold text-[10px] sm:text-xs font-semibold uppercase tracking-widest">
+                                    Featured Opinion
+                                  </span>
                                 </div>
-                              )}
 
-                              {/* Bottom gradient overlay with title + description */}
-                              <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/95 via-black/70 to-transparent pt-24 sm:pt-28 pb-5 px-5">
-                                <h2
-                                  className={cn(
-                                    domine.className,
-                                    "text-lg sm:text-2xl lg:text-3xl font-bold text-white leading-tight",
+                                {/* Image with title + description overlaid */}
+                                <div className="relative w-full aspect-4/3 sm:aspect-16/10 overflow-hidden">
+                                  {featuredOpinion.mainImage ? (
+                                    <Image
+                                      src={urlFor(featuredOpinion.mainImage)
+                                        .width(800)
+                                        .height(500)
+                                        .fit("crop")
+                                        .url()}
+                                      alt={featuredOpinion.title}
+                                      fill
+                                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                    />
+                                  ) : (
+                                    <div className="w-full h-full bg-linear-to-br from-gold/20 to-gold/5 flex items-center justify-center">
+                                      <div className="text-gold/40 text-7xl font-miller">
+                                        T
+                                      </div>
+                                    </div>
                                   )}
-                                >
-                                  {featuredOpinion.title}
-                                </h2>
-                                <p className="text-white/80 text-xs sm:text-sm mt-2 leading-relaxed line-clamp-2 sm:line-clamp-3">
-                                  {featuredOpinion.description}
-                                </p>
-                              </div>
-                            </div>
-                          </article>
-                        </Link>
 
-                        <Separator />
-
-                        {/* Remaining opinions */}
-                        {remainingOpinions.map((opinion) => {
-                          const opinionUrl = PAGES.post(opinion.slug);
-
-                          return (
-                            <React.Fragment key={opinion._id}>
-                              <Link href={opinionUrl}>
-                                <article className="w-full flex flex-col md:flex-row items-start gap-4 py-6 cursor-pointer group">
-                                  <p className="text-sm text-muted-foreground whitespace-nowrap pt-1 min-w-[100px]">
-                                    {formatDate(opinion.date)}
-                                  </p>
-
-                                  <div className="flex flex-col gap-2 flex-1">
+                                  {/* Bottom gradient overlay with title + description */}
+                                  <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/95 via-black/70 to-transparent pt-24 sm:pt-28 pb-5 px-5">
                                     <h2
                                       className={cn(
                                         domine.className,
-                                        "text-lg lg:text-xl font-semibold group-hover:text-gold transition-colors",
+                                        "text-lg sm:text-2xl lg:text-3xl font-bold text-white leading-tight",
                                       )}
                                     >
-                                      {opinion.title}
+                                      {featuredOpinion.title}
                                     </h2>
-                                    <p className="text-muted-foreground text-sm lg:text-base">
-                                      {opinion.description}
-                                    </p>
-                                    <p className="text-sm text-muted-foreground">
-                                      By{" "}
-                                      <span className="font-medium text-foreground">
-                                        {opinion.author.name}
-                                      </span>
+                                    <p className="text-white/80 text-xs sm:text-sm mt-2 leading-relaxed line-clamp-2 sm:line-clamp-3">
+                                      {featuredOpinion.description}
                                     </p>
                                   </div>
-                                </article>
-                              </Link>
-                              <Separator />
-                            </React.Fragment>
-                          );
-                        })}
-                      </>
-                    );
-                  })()}
-              </>
-            )}
-          </div>
-        </div>
+                                </div>
+                              </article>
+                            </Link>
 
-        {/* Sidebar */}
-        <div className="w-full lg:w-1/3">
-          <OpinionsSidebar opinions={opinions} authors={authors} />
-        </div>
+                            <Separator />
+
+                            {/* Remaining opinions */}
+                            {remainingOpinions.map((opinion) => {
+                              const opinionUrl = PAGES.post(opinion.slug);
+
+                              return (
+                                <React.Fragment key={opinion._id}>
+                                  <Link href={opinionUrl}>
+                                    <article className="w-full flex flex-col md:flex-row items-start gap-4 py-6 cursor-pointer group">
+                                      <p className="text-sm text-muted-foreground whitespace-nowrap pt-1 min-w-[100px]">
+                                        {formatDate(opinion.date)}
+                                      </p>
+
+                                      <div className="flex flex-col gap-2 flex-1">
+                                        <h2
+                                          className={cn(
+                                            domine.className,
+                                            "text-lg lg:text-xl font-semibold group-hover:text-gold transition-colors",
+                                          )}
+                                        >
+                                          {opinion.title}
+                                        </h2>
+                                        <p className="text-muted-foreground text-sm lg:text-base">
+                                          {opinion.description}
+                                        </p>
+                                        <p className="text-sm text-muted-foreground">
+                                          By{" "}
+                                          <span className="font-medium text-foreground">
+                                            {opinion.author.name}
+                                          </span>
+                                        </p>
+                                      </div>
+                                    </article>
+                                  </Link>
+                                  <Separator />
+                                </React.Fragment>
+                              );
+                            })}
+                          </>
+                        );
+                      })()}
+                  </>
+                )}
+              </div>
+            </div>
+
+            {/* Sidebar */}
+            <div className="w-full lg:w-1/3">
+              <OpinionsSidebar opinions={opinions} authors={authors} />
+            </div>
+          </>
+        )}
       </div>
 
       {/* CTA at bottom */}
