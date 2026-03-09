@@ -25,6 +25,7 @@ export type PostType = {
   };
   categories: {
     title: string;
+    slug?: string;
   }[];
   body: PortableTextBlock[];
 };
