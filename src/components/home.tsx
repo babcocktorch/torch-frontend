@@ -12,10 +12,6 @@ import { TopStoryCard } from "./general/top-story-card";
 import { ImpactStoryCard } from "./general/impact-story-card";
 import ContributorCTA from "./general/contributor-cta";
 import EditorsPick from "./general/editors-pick";
-import Image from "next/image";
-import { urlFor } from "@/lib/sanity.client";
-import { cn } from "@/lib/utils";
-import { domine } from "@/lib/fonts";
 
 type HomeProps = {
   posts: PostType[];
