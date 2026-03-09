@@ -98,7 +98,7 @@ const CommunitiesHome = ({ communities }: { communities: Community[] }) => {
       {/* Hero Section */}
       <div className="bg-gold dark:bg-gold/10 px-8 mb-8">
         <div className="w-full py-12 max-w-7xl mx-auto relative overflow-hidden flex flex-col gap-4 items-center md:items-start justify-center">
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl z-30 text-white font-semibold font-miller">
+          <h1 className="text-5xl lg:text-7xl z-30 text-white font-semibold font-miller">
             Communities
           </h1>
           <p className="text-white/90 text-lg max-w-2xl z-30">
