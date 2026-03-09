@@ -91,7 +91,7 @@ const EditorsPick = ({
 
             return (
               <Link key={pick._id} href={pickUrl} className="group block">
-                <div className="relative w-full aspect-[16/10] overflow-hidden bg-muted">
+                <div className="relative w-full aspect-16/10 overflow-hidden bg-muted">
                   {pick.mainImage ? (
                     <Image
                       src={urlFor(pick.mainImage)
