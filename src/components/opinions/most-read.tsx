@@ -7,8 +7,10 @@ import Image from "next/image";
 import { urlFor } from "@/lib/sanity.client";
 
 export default function MostRead({ opinions }: { opinions: PostType[] }) {
-  // Use the same mock selection logic as sidebar for now
-  const popularPosts = opinions?.slice(0, 10) || [];
+  // Sort by real read data and slice top 10
+  const popularPosts = [...(opinions || [])]
+    .sort((a, b) => (b.readCount || 0) - (a.readCount || 0))
+    .slice(0, 10);
 
   return (
     <div className="w-full max-w-7xl mx-auto px-6 py-8">
@@ -29,8 +31,7 @@ export default function MostRead({ opinions }: { opinions: PostType[] }) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {popularPosts.map((opinion, idx) => {
-          // Mock read count descending for demonstration
-          const readCount = 1500 - idx * 125;
+          const readCount = opinion.readCount || 0;
 
           return (
             <article
