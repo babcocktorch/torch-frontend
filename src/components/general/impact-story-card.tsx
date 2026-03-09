@@ -9,14 +9,15 @@ export const ImpactStoryCard = ({ post }: { post: PostType }) => {
   const postUrl = post.slug === "#" ? "#" : PAGES.post(post.slug);
   const categoryLabel = post.categories?.[0]?.title || "News";
   const authorName = post.author?.name || "The Torch";
+  const categorySlug = post.categories?.[0]?.slug || "news";
+  const categoryUrl = PAGES.tag(categorySlug);
 
   return (
-    <Link
-      href={postUrl}
+    <div
       className="group flex flex-col h-full lg:border-r lg:border-border/50 lg:pr-6 lg:last:border-r-0 lg:last:pr-0"
     >
       {/* Image */}
-      <div className="relative w-full aspect-16/10 overflow-hidden bg-muted mb-4">
+      <Link href={postUrl} className="relative w-full aspect-16/10 overflow-hidden bg-muted mb-4 block z-0">
         {post.mainImage ? (
           <Image
             src={urlFor(post.mainImage)
@@ -33,16 +34,21 @@ export const ImpactStoryCard = ({ post }: { post: PostType }) => {
             <span className="text-gold/40 text-4xl font-miller">T</span>
           </div>
         )}
-      </div>
+      </Link>
 
       {/* Content */}
       <div className="flex flex-col flex-1">
-        <span className="text-gold text-[10px] sm:text-xs font-bold uppercase tracking-widest block mb-2">
+        <Link 
+          href={categoryUrl}
+          className="text-gold text-[10px] sm:text-xs font-bold uppercase tracking-widest block mb-2 hover:underline w-fit relative z-10"
+        >
           {categoryLabel}
-        </span>
-        <h3 className="text-base lg:text-lg font-medium group-hover:text-gold transition-colors leading-snug mb-3 font-miller">
-          {post.title}
-        </h3>
+        </Link>
+        <Link href={postUrl} className="block relative z-0">
+          <h3 className="text-base lg:text-lg font-medium group-hover:text-gold transition-colors leading-snug mb-3 font-miller">
+            {post.title}
+          </h3>
+        </Link>
 
         {/* Footer */}
         <div className="mt-auto text-[11px] text-muted-foreground font-medium uppercase tracking-wide pt-2 border-t border-border/30">
@@ -51,6 +57,6 @@ export const ImpactStoryCard = ({ post }: { post: PostType }) => {
           <span>{formatDate(post.date)}</span>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
