@@ -44,7 +44,7 @@ const OpinionsHome = ({
                 <button
                   onClick={() => setActiveTab(tab.id)}
                   className={cn(
-                    "relative px-4 sm:px-6 py-3 text-sm font-medium whitespace-nowrap transition-colors cursor-pointer",
+                    "relative px-4 sm:px-6 py-3 text-sm md:text-base font-medium whitespace-nowrap transition-colors cursor-pointer",
                     "hover:text-gold",
                     activeTab === tab.id
                       ? "text-gold"
