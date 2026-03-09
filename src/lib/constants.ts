@@ -117,6 +117,7 @@ export const PAGES = {
   masthead: "/masthead",
   policy: "/policy",
   search: (query?: string) => "/search" + (query ? `?query=${query}` : ""),
+  tag: (slug: string) => `/tags/${slug}`,
   post: (slug: string) => `/p/${slug}`,
   author: (slug: string) => `/author/${slug}`,
 };
