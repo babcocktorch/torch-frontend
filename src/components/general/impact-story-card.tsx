@@ -1,10 +1,9 @@
-import { cn, formatDate } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import Image from "next/image";
 import { urlFor } from "@/lib/sanity.client";
 import Link from "next/link";
 import { PostType } from "@/lib/types";
 import { PAGES } from "@/lib/constants";
-import { domine } from "@/lib/fonts";
 
 export const ImpactStoryCard = ({ post }: { post: PostType }) => {
   const postUrl = post.slug === "#" ? "#" : PAGES.post(post.slug);
