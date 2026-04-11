@@ -1,18 +1,42 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Plus, ArrowUp, Loader2 } from "lucide-react";
-import { sendTorchAIMessage } from "@/lib/requests";
+import {
+  streamTorchAIMessage,
+  type TorchAIPersona,
+} from "@/lib/requests";
 import ReactMarkdown from "react-markdown";
-import slugify from "slugify";
 
 interface ChatMessage {
   id: string;
   role: "user" | "assistant";
   content: string;
   timestamp: Date;
+  thinking?: string;
+  thinkingComplete?: boolean;
+}
+
+function getOrCreateTorchAiUserId(): string {
+  if (typeof window === "undefined") return "";
+  const key = "torch-ai-user-id";
+  let id = sessionStorage.getItem(key);
+  if (!id) {
+    id = crypto.randomUUID();
+    sessionStorage.setItem(key, id);
+  }
+  return id;
 }
 
 const TorchAIChatInterface = () => {
@@ -20,17 +44,24 @@ const TorchAIChatInterface = () => {
   const [greeting, setGreeting] = useState("Good evening");
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [webSearch, setWebSearch] = useState(false);
+  const [persona, setPersona] = useState<TorchAIPersona>("default");
+  const [streamingId, setStreamingId] = useState<string | null>(null);
+  const [stableUserId, setStableUserId] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const abortRef = useRef<AbortController | null>(null);
 
-  const scrollToBottom = () => {
+  useEffect(() => {
+    setStableUserId(getOrCreateTorchAiUserId());
+  }, []);
+
+  const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const uniqueId = slugify(window.navigator.userAgent) + Date.now();
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, streamingId, scrollToBottom]);
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -43,6 +74,12 @@ const TorchAIChatInterface = () => {
     }
   }, []);
 
+  useEffect(() => {
+    return () => {
+      abortRef.current?.abort();
+    };
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim() || isLoading) return;
@@ -50,40 +87,70 @@ const TorchAIChatInterface = () => {
     const userMessage = message.trim();
     setMessage("");
 
-    // Add user message to chat
     const userChatMessage: ChatMessage = {
       id: `user-${Date.now()}`,
       role: "user",
       content: userMessage,
       timestamp: new Date(),
     };
-    setMessages((prev) => [...prev, userChatMessage]);
+    const assistantId = `assistant-${Date.now()}`;
+    const assistantPlaceholder: ChatMessage = {
+      id: assistantId,
+      role: "assistant",
+      content: "",
+      timestamp: new Date(),
+      thinkingComplete: false,
+    };
 
+    setMessages((prev) => [...prev, userChatMessage, assistantPlaceholder]);
     setIsLoading(true);
+    setStreamingId(assistantId);
 
-    const response = await sendTorchAIMessage(userMessage, uniqueId);
+    abortRef.current?.abort();
+    abortRef.current = new AbortController();
 
-    if (response.error) {
-      // Add error message as assistant response
-      const errorMessage: ChatMessage = {
-        id: `assistant-${Date.now()}`,
-        role: "assistant",
-        content: response.error,
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, errorMessage]);
-    } else if (response.data) {
-      // Add AI response to chat
-      const assistantMessage: ChatMessage = {
-        id: `assistant-${Date.now()}`,
-        role: "assistant",
-        content: response.data.response,
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, assistantMessage]);
+    const userId = stableUserId || getOrCreateTorchAiUserId();
+
+    const { error } = await streamTorchAIMessage({
+      message: userMessage,
+      userId,
+      webSearch,
+      persona,
+      signal: abortRef.current.signal,
+      onEvent: (ev) => {
+        setMessages((prev) =>
+          prev.map((m) => {
+            if (m.id !== assistantId) return m;
+            if (ev.type === "thinking") {
+              return {
+                ...m,
+                thinking: (m.thinking ?? "") + ev.text,
+              };
+            }
+            if (ev.type === "thought_end") {
+              return { ...m, thinkingComplete: true };
+            }
+            if (ev.type === "content") {
+              return { ...m, content: m.content + ev.text };
+            }
+            return m;
+          }),
+        );
+      },
+    });
+
+    if (error) {
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.id === assistantId
+            ? { ...m, content: error, thinkingComplete: true }
+            : m,
+        ),
+      );
     }
 
     setIsLoading(false);
+    setStreamingId(null);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -100,7 +167,6 @@ const TorchAIChatInterface = () => {
       {/* Chat Messages Area */}
       <div className="flex-1 overflow-y-auto min-h-0">
         {!hasMessages ? (
-          // Welcome screen when no messages
           <div className="flex flex-col items-center justify-center h-full px-4 py-36">
             <div className="text-center mb-12">
               <h1 className="text-4xl sm:text-5xl mb-3 font-miller">
@@ -112,50 +178,66 @@ const TorchAIChatInterface = () => {
             </div>
           </div>
         ) : (
-          // Chat messages
           <div className="max-w-3xl mx-auto px-4 py-6 space-y-6">
-            {messages.map((msg) => (
-              <div
-                key={msg.id}
-                className={cn(
-                  "flex",
-                  msg.role === "user" ? "justify-end" : "justify-start",
-                )}
-              >
+            {messages.map((msg) => {
+              const isStreamingThis = streamingId === msg.id;
+              return (
                 <div
+                  key={msg.id}
                   className={cn(
-                    "max-w-[85%] sm:max-w-[75%] px-4 py-3 rounded-2xl",
-                    msg.role === "user"
-                      ? "bg-gold text-white rounded-br-md"
-                      : "bg-muted rounded-bl-md",
+                    "flex",
+                    msg.role === "user" ? "justify-end" : "justify-start",
                   )}
                 >
-                  {msg.role === "user" ? (
-                    <p className="text-sm sm:text-base whitespace-pre-wrap">
-                      {msg.content}
-                    </p>
-                  ) : (
-                    <div className="text-sm sm:text-base prose prose-sm dark:prose-invert max-w-none prose-p:my-1 prose-ul:my-2 prose-ol:my-2 prose-li:my-0.5 prose-headings:my-2 prose-strong:font-semibold">
-                      <ReactMarkdown>{msg.content}</ReactMarkdown>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-
-            {/* Loading indicator */}
-            {isLoading && (
-              <div className="flex justify-start">
-                <div className="bg-muted px-4 py-3 rounded-2xl rounded-bl-md">
-                  <div className="flex items-center gap-2">
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    <span className="text-sm text-muted-foreground">
-                      Thinking...
-                    </span>
+                  <div
+                    className={cn(
+                      "max-w-[85%] sm:max-w-[75%] px-4 py-3 rounded-2xl",
+                      msg.role === "user"
+                        ? "bg-gold text-white rounded-br-md"
+                        : "bg-muted rounded-bl-md",
+                    )}
+                  >
+                    {msg.role === "user" ? (
+                      <p className="text-sm sm:text-base whitespace-pre-wrap">
+                        {msg.content}
+                      </p>
+                    ) : (
+                      <div className="space-y-2">
+                        {msg.thinking ? (
+                          <details
+                            className="rounded-md bg-background/60 border border-border/60 px-3 py-2 text-left"
+                            open={
+                              isStreamingThis &&
+                              !msg.thinkingComplete &&
+                              !msg.content
+                            }
+                          >
+                            <summary className="cursor-pointer text-xs font-medium text-muted-foreground select-none">
+                              Thinking
+                            </summary>
+                            <p className="mt-2 text-xs italic text-muted-foreground whitespace-pre-wrap leading-relaxed">
+                              {msg.thinking}
+                            </p>
+                          </details>
+                        ) : null}
+                        {msg.content ? (
+                          <div className="text-sm sm:text-base prose prose-sm dark:prose-invert max-w-none prose-p:my-1 prose-ul:my-2 prose-ol:my-2 prose-li:my-0.5 prose-headings:my-2 prose-strong:font-semibold">
+                            <ReactMarkdown>{msg.content}</ReactMarkdown>
+                          </div>
+                        ) : isStreamingThis ? (
+                          <div className="flex items-center gap-2 py-1">
+                            <Loader2 className="w-4 h-4 animate-spin shrink-0" />
+                            <span className="text-sm text-muted-foreground">
+                              {msg.thinking ? "Writing answer…" : "Thinking…"}
+                            </span>
+                          </div>
+                        ) : null}
+                      </div>
+                    )}
                   </div>
                 </div>
-              </div>
-            )}
+              );
+            })}
 
             <div ref={messagesEndRef} />
           </div>
@@ -165,7 +247,42 @@ const TorchAIChatInterface = () => {
       {/* Input Section - Fixed at bottom */}
       <div className="border-t bg-background px-4 py-4">
         <div className="max-w-3xl mx-auto">
-          <form onSubmit={handleSubmit} className="w-full">
+          <form onSubmit={handleSubmit} className="w-full space-y-3">
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
+              <div className="flex items-center gap-2">
+                <Switch
+                  id="torch-web-search"
+                  checked={webSearch}
+                  onCheckedChange={setWebSearch}
+                  disabled={isLoading}
+                />
+                <Label
+                  htmlFor="torch-web-search"
+                  className="text-muted-foreground font-normal cursor-pointer"
+                >
+                  Web search
+                </Label>
+              </div>
+              <div className="flex items-center gap-2">
+                <Label htmlFor="torch-persona" className="text-muted-foreground font-normal shrink-0">
+                  Tone
+                </Label>
+                <Select
+                  value={persona}
+                  onValueChange={(v) => setPersona(v as TorchAIPersona)}
+                  disabled={isLoading}
+                >
+                  <SelectTrigger id="torch-persona" className="h-9 w-[180px]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="default">Friendly</SelectItem>
+                    <SelectItem value="authoritative">Direct</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
             <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-2xl border">
               <Plus className="w-5 h-5 text-muted-foreground shrink-0" />
 
@@ -199,7 +316,6 @@ const TorchAIChatInterface = () => {
             </div>
           </form>
 
-          {/* Disclaimer */}
           <p className="text-xs text-muted-foreground text-center mt-3">
             The Torch&apos;s AI is in beta and can make mistakes, as time goes
             on it&apos;ll get better. But for now, verify information by
