@@ -415,22 +415,103 @@ export const getOpinionAuthors = async (): Promise<OpinionAuthor[]> => {
   );
 };
 
-// Torch AI Chat
+// Torch AI Chat (legacy JSON body from older deployments)
 export interface TorchAIAPIResponse {
   response: string;
   tool_used: string;
   vibe: string;
 }
 
-export interface TorchAIChatResponse {
-  data?: TorchAIAPIResponse;
-  error?: string;
+export type TorchAIPersona = "default" | "authoritative";
+
+export type TorchAISseEvent =
+  | { type: "thinking"; text: string }
+  | { type: "thought_end" }
+  | { type: "content"; text: string };
+
+export interface StreamTorchAIMessageParams {
+  message: string;
+  userId: string;
+  webSearch: boolean;
+  persona: TorchAIPersona;
+  signal?: AbortSignal;
+  onEvent: (event: TorchAISseEvent) => void;
 }
 
-export const sendTorchAIMessage = async (
-  message: string,
-  uniqueId: string,
-): Promise<TorchAIChatResponse> => {
+async function parseTorchAISseStream(
+  response: Response,
+  onEvent: (event: TorchAISseEvent) => void,
+): Promise<void> {
+  const reader = response.body?.getReader();
+  if (!reader) return;
+
+  const decoder = new TextDecoder();
+  let buffer = "";
+
+  const handleLine = (raw: string) => {
+    const line = raw.replace(/\r$/, "");
+    if (!line.startsWith("data: ")) return;
+    const payload = line.slice(6).trim();
+    if (!payload || payload === "[DONE]") return;
+    try {
+      const data = JSON.parse(payload) as { type?: string; text?: string };
+      const t = data.type;
+      if (t === "thinking") {
+        onEvent({ type: "thinking", text: data.text ?? "" });
+      } else if (t === "thought_end") {
+        onEvent({ type: "thought_end" });
+      } else if (t === "content") {
+        onEvent({ type: "content", text: data.text ?? "" });
+      }
+    } catch {
+      // ignore malformed SSE payloads
+    }
+  };
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+    const lines = buffer.split("\n");
+    buffer = lines.pop() ?? "";
+    for (const line of lines) {
+      handleLine(line);
+    }
+  }
+
+  if (buffer.trim()) {
+    for (const line of buffer.split("\n")) {
+      handleLine(line);
+    }
+  }
+}
+
+async function readTorchAiError(response: Response): Promise<string> {
+  try {
+    const text = await response.text();
+    const parsed = JSON.parse(text) as {
+      detail?: Array<{ msg?: string }>;
+      message?: string;
+    };
+    if (Array.isArray(parsed.detail) && parsed.detail[0]?.msg) {
+      return parsed.detail[0].msg;
+    }
+    if (parsed.message) return parsed.message;
+    return text || "Request failed.";
+  } catch {
+    return "Failed to get response. Please try again.";
+  }
+}
+
+/**
+ * Streams Torch AI chat via SSE (`text/event-stream`) or falls back to a single JSON body
+ * (`TorchAIAPIResponse`) for legacy backends.
+ */
+export async function streamTorchAIMessage(
+  params: StreamTorchAIMessageParams,
+): Promise<{ error?: string }> {
+  const { message, userId, webSearch, persona, signal, onEvent } = params;
+
   try {
     const response = await fetch(TORCH_AI.endpoint, {
       method: "POST",
@@ -438,31 +519,44 @@ export const sendTorchAIMessage = async (
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        user_id: uniqueId,
-        message: message,
+        user_id: userId,
+        message,
+        web_search: webSearch,
+        persona,
         profile: TORCH_AI.default_profile,
-        persona: TORCH_AI.default_persona,
       }),
+      signal,
     });
 
     if (!response.ok) {
       if (response.status === 422) {
-        const errorData = await response.json();
-        const errorMessage =
-          errorData.detail?.[0]?.msg || "Invalid request. Please try again.";
-        return { error: errorMessage };
+        const err = await readTorchAiError(response);
+        return { error: err };
       }
       return { error: "Failed to get response. Please try again." };
     }
 
-    const text = await response.text();
-    const data: TorchAIAPIResponse = JSON.parse(text);
-    return { data };
+    const contentType = response.headers.get("content-type") ?? "";
+
+    if (contentType.includes("application/json")) {
+      const text = await response.text();
+      const data = JSON.parse(text) as TorchAIAPIResponse;
+      if (data.response) {
+        onEvent({ type: "content", text: data.response });
+      }
+      return {};
+    }
+
+    await parseTorchAISseStream(response, onEvent);
+    return {};
   } catch (error) {
+    if (error instanceof Error && error.name === "AbortError") {
+      return {};
+    }
     console.error("Torch AI chat error:", error);
     return { error: "Failed to connect to Torch AI. Please try again." };
   }
-};
+}
 
 // ============================================
 // Community Public Functions
