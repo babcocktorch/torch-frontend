@@ -45,6 +45,7 @@ const TorchAIChatInterface = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [webSearch, setWebSearch] = useState(false);
+  const [fastMode, setFastMode] = useState(false);
   const [persona, setPersona] = useState<TorchAIPersona>("default");
   const [streamingId, setStreamingId] = useState<string | null>(null);
   const [stableUserId, setStableUserId] = useState("");
@@ -115,6 +116,7 @@ const TorchAIChatInterface = () => {
       message: userMessage,
       userId,
       webSearch,
+      fastMode,
       persona,
       signal: abortRef.current.signal,
       onEvent: (ev) => {
@@ -261,6 +263,21 @@ const TorchAIChatInterface = () => {
                   className="text-muted-foreground font-normal cursor-pointer"
                 >
                   Web search
+                </Label>
+              </div>
+              <div className="flex items-center gap-2">
+                <Switch
+                  id="torch-fast-mode"
+                  checked={fastMode}
+                  onCheckedChange={setFastMode}
+                  disabled={isLoading}
+                />
+                <Label
+                  htmlFor="torch-fast-mode"
+                  className="text-muted-foreground font-normal cursor-pointer"
+                  title="Skips extended thinking for speed. Answers may be less precise."
+                >
+                  Fast mode
                 </Label>
               </div>
               <div className="flex items-center gap-2">
