@@ -433,6 +433,8 @@ export interface StreamTorchAIMessageParams {
   message: string;
   userId: string;
   webSearch: boolean;
+  /** Skips extended reasoning for speed; less precise answers. Sent as `fast_mode`. */
+  fastMode: boolean;
   persona: TorchAIPersona;
   signal?: AbortSignal;
   onEvent: (event: TorchAISseEvent) => void;
@@ -510,7 +512,8 @@ async function readTorchAiError(response: Response): Promise<string> {
 export async function streamTorchAIMessage(
   params: StreamTorchAIMessageParams,
 ): Promise<{ error?: string }> {
-  const { message, userId, webSearch, persona, signal, onEvent } = params;
+  const { message, userId, webSearch, fastMode, persona, signal, onEvent } =
+    params;
 
   try {
     const response = await fetch(TORCH_AI.endpoint, {
@@ -522,6 +525,7 @@ export async function streamTorchAIMessage(
         user_id: userId,
         message,
         web_search: webSearch,
+        fast: fastMode,
         persona,
         profile: TORCH_AI.default_profile,
       }),
