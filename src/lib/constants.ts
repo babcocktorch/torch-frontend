@@ -253,5 +253,5 @@ export const TORCH_AI = {
     program: "General",
     hall: "N/A",
   },
-  default_persona: "default",
+  default_persona: "default" as const,
 };
