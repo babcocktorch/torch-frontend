@@ -19,6 +19,8 @@ import {
 } from "@/lib/requests";
 import ReactMarkdown from "react-markdown";
 
+type ThinkingMode = "thinking" | "fast";
+
 interface ChatMessage {
   id: string;
   role: "user" | "assistant";
@@ -28,36 +30,24 @@ interface ChatMessage {
   thinkingComplete?: boolean;
 }
 
-function getOrCreateTorchAiUserId(): string {
-  if (typeof window === "undefined") return "";
-  const key = "torch-ai-user-id";
-  let id = sessionStorage.getItem(key);
-  if (!id) {
-    id = crypto.randomUUID();
-    sessionStorage.setItem(key, id);
-  }
-  return id;
-}
-
 const TorchAIChatInterface = () => {
   const [message, setMessage] = useState("");
   const [greeting, setGreeting] = useState("Good evening");
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [webSearch, setWebSearch] = useState(false);
-  const [fastMode, setFastMode] = useState(false);
+  const [thinkingMode, setThinkingMode] = useState<ThinkingMode>("thinking");
   const [persona, setPersona] = useState<TorchAIPersona>("default");
   const [streamingId, setStreamingId] = useState<string | null>(null);
-  const [stableUserId, setStableUserId] = useState("");
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
 
-  useEffect(() => {
-    setStableUserId(getOrCreateTorchAiUserId());
-  }, []);
-
   const scrollToBottom = useCallback(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+    }
   }, []);
 
   useEffect(() => {
@@ -110,13 +100,10 @@ const TorchAIChatInterface = () => {
     abortRef.current?.abort();
     abortRef.current = new AbortController();
 
-    const userId = stableUserId || getOrCreateTorchAiUserId();
-
     const { error } = await streamTorchAIMessage({
       message: userMessage,
-      userId,
       webSearch,
-      fastMode,
+      fastMode: thinkingMode === "fast",
       persona,
       signal: abortRef.current.signal,
       onEvent: (ev) => {
@@ -167,7 +154,7 @@ const TorchAIChatInterface = () => {
   return (
     <div className="flex flex-col flex-1 w-full h-full min-h-0 overflow-hidden">
       {/* Chat Messages Area */}
-      <div className="flex-1 overflow-y-auto min-h-0">
+      <div ref={scrollContainerRef} className="flex-1 overflow-y-auto min-h-0">
         {!hasMessages ? (
           <div className="flex flex-col items-center justify-center h-full px-4 py-36">
             <div className="text-center mb-12">
@@ -266,19 +253,22 @@ const TorchAIChatInterface = () => {
                 </Label>
               </div>
               <div className="flex items-center gap-2">
-                <Switch
-                  id="torch-fast-mode"
-                  checked={fastMode}
-                  onCheckedChange={setFastMode}
-                  disabled={isLoading}
-                />
-                <Label
-                  htmlFor="torch-fast-mode"
-                  className="text-muted-foreground font-normal cursor-pointer"
-                  title="Skips extended thinking for speed. Answers may be less precise."
-                >
-                  Fast mode
+                <Label htmlFor="torch-thinking-mode" className="text-muted-foreground font-normal shrink-0">
+                  Mode
                 </Label>
+                <Select
+                  value={thinkingMode}
+                  onValueChange={(v) => setThinkingMode(v as ThinkingMode)}
+                  disabled={isLoading}
+                >
+                  <SelectTrigger id="torch-thinking-mode" className="h-9 w-[140px]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="thinking">Thinking</SelectItem>
+                    <SelectItem value="fast">Fast</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div className="flex items-center gap-2">
                 <Label htmlFor="torch-persona" className="text-muted-foreground font-normal shrink-0">
@@ -289,7 +279,7 @@ const TorchAIChatInterface = () => {
                   onValueChange={(v) => setPersona(v as TorchAIPersona)}
                   disabled={isLoading}
                 >
-                  <SelectTrigger id="torch-persona" className="h-9 w-[180px]">
+                  <SelectTrigger id="torch-persona" className="h-9 w-[140px]">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
