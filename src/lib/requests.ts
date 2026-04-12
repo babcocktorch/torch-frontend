@@ -4,7 +4,6 @@ import {
   BACKEND_API_ROUTES,
   BACKEND_BASE_URL,
   BASE_URL,
-  TORCH_AI,
 } from "./constants";
 import { sanityClient } from "./sanity.client";
 import {
@@ -431,7 +430,6 @@ export type TorchAISseEvent =
 
 export interface StreamTorchAIMessageParams {
   message: string;
-  userId: string;
   webSearch: boolean;
   /** Skips extended reasoning for speed; less precise answers. Sent as `fast_mode`. */
   fastMode: boolean;
@@ -506,28 +504,26 @@ async function readTorchAiError(response: Response): Promise<string> {
 }
 
 /**
- * Streams Torch AI chat via SSE (`text/event-stream`) or falls back to a single JSON body
- * (`TorchAIAPIResponse`) for legacy backends.
+ * Streams Torch AI chat via the local `/api/torch-ai` proxy, which derives
+ * a stable user_id from the caller's IP. Handles SSE (`text/event-stream`)
+ * or falls back to a single JSON body for legacy backends.
  */
 export async function streamTorchAIMessage(
   params: StreamTorchAIMessageParams,
 ): Promise<{ error?: string }> {
-  const { message, userId, webSearch, fastMode, persona, signal, onEvent } =
-    params;
+  const { message, webSearch, fastMode, persona, signal, onEvent } = params;
 
   try {
-    const response = await fetch(TORCH_AI.endpoint, {
+    const response = await fetch(API_ROUTES.torch_ai, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        user_id: userId,
         message,
         web_search: webSearch,
-        fast: fastMode,
+        fast_mode: fastMode,
         persona,
-        profile: TORCH_AI.default_profile,
       }),
       signal,
     });
