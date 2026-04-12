@@ -7,7 +7,6 @@ import {
 } from "./constants";
 import { sanityClient } from "./sanity.client";
 import {
-  AdminArticle,
   AuthorType,
   Community,
   CommunitySubmission,
