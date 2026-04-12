@@ -155,6 +155,7 @@ export const MINOR_CATEGORIES = [
 export const API_ROUTES = {
   submit_idea: "/api/submit-idea",
   weather: "/api/weather",
+  torch_ai: "/api/torch-ai",
 };
 
 export const ADMIN_PAGES = {
