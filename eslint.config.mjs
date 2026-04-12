@@ -1,14 +1,12 @@
-import nextCoreWebVitals from "eslint-config-next/core-web-vitals";
-import nextTypescript from "eslint-config-next/typescript";
+import { FlatCompat } from "@eslint/eslintrc";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+const compat = new FlatCompat({ baseDirectory: __dirname });
 
 const eslintConfig = [
-  ...nextCoreWebVitals,
-  ...nextTypescript,
   {
     ignores: [
       "node_modules/**",
@@ -17,10 +15,13 @@ const eslintConfig = [
       "build/**",
       "next-env.d.ts",
     ],
+  },
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
     rules: {
-      "@typescript-eslint/no-explicit-any": "off", // Disable the rule
-      "react-hooks/exhaustive-deps": "off", // Disable the exhaustive-deps rule
-      "@next/next/no-img-element": "off", // Disable the no-img-element rule
+      "@typescript-eslint/no-explicit-any": "off",
+      "react-hooks/exhaustive-deps": "off",
+      "@next/next/no-img-element": "off",
     },
   },
 ];
