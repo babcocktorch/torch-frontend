@@ -14,15 +14,15 @@ import {
  */
 async function authFetch<T>(
   endpoint: string,
-  token: string,
+  token: string, // kept for backward compatibility with component calls
   options: RequestInit = {},
 ): Promise<{ data?: T; error?: string }> {
   try {
-    const response = await fetch(BACKEND_BASE_URL + endpoint, {
+    const proxyEndpoint = endpoint.replace("/api/v2/admin/", "/api/admin/");
+    const response = await fetch(proxyEndpoint, {
       ...options,
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
         ...options.headers,
       },
     });
