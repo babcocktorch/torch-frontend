@@ -4,12 +4,12 @@ import { CREDENTIALS } from "@/lib/constants";
 export const GET = async () => {
   try {
     const response = await fetch(
-      `http://api.weatherapi.com/v1/current.json?key=${CREDENTIALS.weather_api_key}&q=Ilishan`,
+      `https://api.weatherapi.com/v1/current.json?key=${CREDENTIALS.weather_api_key}&q=Ilishan`,
       {
         next: {
           revalidate: 3600, // Cache for 1 hour
         },
-      }
+      },
     );
 
     if (!response.ok) {
