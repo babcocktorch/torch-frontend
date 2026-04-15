@@ -9,10 +9,8 @@ import {
   ReactNode,
 } from "react";
 import { useRouter } from "next/navigation";
-import { ADMIN_PAGES, BACKEND_API_ROUTES, BACKEND_BASE_URL } from "./constants";
+import { ADMIN_PAGES } from "./constants";
 import { AdminUser, AuthResponse } from "./types";
-
-const AUTH_TOKEN_KEY = "torch-admin-token";
 
 type AuthContextType = {
   admin: AdminUser | null;
@@ -32,58 +30,41 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
-  // Check for existing token on mount
+  // Check for existing session via HTTP-only cookie on mount
   useEffect(() => {
-    const storedToken = localStorage.getItem(AUTH_TOKEN_KEY);
-    if (storedToken) {
-      setToken(storedToken);
-      fetchCurrentAdmin(storedToken);
-    } else {
-      setIsLoading(false);
-    }
-  }, []);
-
-  const fetchCurrentAdmin = async (authToken: string) => {
-    try {
-      const response = await fetch(
-        BACKEND_BASE_URL + BACKEND_API_ROUTES.auth.me,
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        },
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        setAdmin(data.data.admin);
-      } else {
-        // Token is invalid, clear it
-        localStorage.removeItem(AUTH_TOKEN_KEY);
+    const fetchMe = async () => {
+      try {
+        const response = await fetch("/api/auth/me");
+        if (response.ok) {
+          const data = await response.json();
+          setToken("cookie-session"); // Dummy token to indicate auth state
+          setAdmin(data.data.admin);
+        } else {
+          setToken(null);
+          setAdmin(null);
+        }
+      } catch (error) {
+        console.error("Failed to fetch admin:", error);
         setToken(null);
+        setAdmin(null);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      console.error("Failed to fetch admin:", error);
-      localStorage.removeItem(AUTH_TOKEN_KEY);
-      setToken(null);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    };
+
+    fetchMe();
+  }, []);
 
   const login = useCallback(
     async (email: string, password: string): Promise<{ error?: string }> => {
       try {
-        const response = await fetch(
-          BACKEND_BASE_URL + BACKEND_API_ROUTES.auth.login,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email, password }),
+        const response = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-        );
+          body: JSON.stringify({ email, password }),
+        });
 
         const data = await response.json();
 
@@ -100,8 +81,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
 
         const authData = data as AuthResponse;
-        localStorage.setItem(AUTH_TOKEN_KEY, authData.data.token);
-        setToken(authData.data.token);
+        setToken("cookie-session");
         setAdmin(authData.data.admin);
         router.push(ADMIN_PAGES.dashboard);
         return {};
@@ -116,16 +96,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const setup = useCallback(
     async (email: string, password: string): Promise<{ error?: string }> => {
       try {
-        const response = await fetch(
-          BACKEND_BASE_URL + BACKEND_API_ROUTES.auth.setup,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email, password }),
+        const response = await fetch("/api/auth/setup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-        );
+          body: JSON.stringify({ email, password }),
+        });
 
         const data = await response.json();
 
@@ -145,8 +122,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
 
         const authData = data as AuthResponse;
-        localStorage.setItem(AUTH_TOKEN_KEY, authData.data.token);
-        setToken(authData.data.token);
+        setToken("cookie-session");
         setAdmin(authData.data.admin);
         router.push(ADMIN_PAGES.dashboard);
         return {};
@@ -158,8 +134,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [router],
   );
 
-  const logout = useCallback(() => {
-    localStorage.removeItem(AUTH_TOKEN_KEY);
+  const logout = useCallback(async () => {
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+    } catch (e) {
+      console.error(e);
+    }
     setToken(null);
     setAdmin(null);
     router.push(ADMIN_PAGES.login);
