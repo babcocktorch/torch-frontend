@@ -39,7 +39,10 @@ const HomePage = async () => {
   let dummyPosts = [...posts];
 
   // Keep duplicating news posts until we have enough to fill all grids (needs ~14 news posts total)
-  while (dummyPosts.filter((p) => p.isPost).length < 16) {
+  while (
+    newsPosts.length > 0 &&
+    dummyPosts.filter((p) => p.isPost).length < 16
+  ) {
     const clonedPosts = newsPosts.map((post, index) => ({
       ...post,
       _id: `${post._id}-clone-${dummyPosts.length}-${index}`,
