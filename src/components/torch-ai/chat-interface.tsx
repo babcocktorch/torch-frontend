@@ -13,10 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Plus, ArrowUp, Loader2 } from "lucide-react";
-import {
-  streamTorchAIMessage,
-  type TorchAIPersona,
-} from "@/lib/requests";
+import { streamTorchAIMessage, type TorchAIPersona } from "@/lib/requests";
 import ReactMarkdown from "react-markdown";
 
 type ThinkingMode = "thinking" | "fast";
@@ -211,7 +208,28 @@ const TorchAIChatInterface = () => {
                         ) : null}
                         {msg.content ? (
                           <div className="text-sm sm:text-base prose prose-sm dark:prose-invert max-w-none prose-p:my-1 prose-ul:my-2 prose-ol:my-2 prose-li:my-0.5 prose-headings:my-2 prose-strong:font-semibold">
-                            <ReactMarkdown>{msg.content}</ReactMarkdown>
+                            <ReactMarkdown
+                              components={{
+                                a: ({ href, children, ...props }) => {
+                                  const isSafe =
+                                    href && /^https?:\/\//i.test(href);
+                                  return isSafe ? (
+                                    <a
+                                      href={href}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      {...props}
+                                    >
+                                      {children}
+                                    </a>
+                                  ) : (
+                                    <span {...props}>{children}</span>
+                                  );
+                                },
+                              }}
+                            >
+                              {msg.content}
+                            </ReactMarkdown>
                           </div>
                         ) : isStreamingThis ? (
                           <div className="flex items-center gap-2 py-1">
@@ -253,7 +271,10 @@ const TorchAIChatInterface = () => {
                 </Label>
               </div>
               <div className="flex items-center gap-2">
-                <Label htmlFor="torch-thinking-mode" className="text-muted-foreground font-normal shrink-0">
+                <Label
+                  htmlFor="torch-thinking-mode"
+                  className="text-muted-foreground font-normal shrink-0"
+                >
                   Mode
                 </Label>
                 <Select
@@ -261,7 +282,10 @@ const TorchAIChatInterface = () => {
                   onValueChange={(v) => setThinkingMode(v as ThinkingMode)}
                   disabled={isLoading}
                 >
-                  <SelectTrigger id="torch-thinking-mode" className="h-9 w-[140px]">
+                  <SelectTrigger
+                    id="torch-thinking-mode"
+                    className="h-9 w-[140px]"
+                  >
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -271,7 +295,10 @@ const TorchAIChatInterface = () => {
                 </Select>
               </div>
               <div className="flex items-center gap-2">
-                <Label htmlFor="torch-persona" className="text-muted-foreground font-normal shrink-0">
+                <Label
+                  htmlFor="torch-persona"
+                  className="text-muted-foreground font-normal shrink-0"
+                >
                   Tone
                 </Label>
                 <Select
