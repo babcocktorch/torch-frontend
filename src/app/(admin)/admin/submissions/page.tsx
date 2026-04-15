@@ -129,7 +129,8 @@ export default function AdminSubmissionsPage() {
 
     const filters: SubmissionFilters = {};
     if (filterCommunity !== "all") filters.community_id = filterCommunity;
-    if (filterStatus !== "all") filters.status = filterStatus as SubmissionStatus;
+    if (filterStatus !== "all")
+      filters.status = filterStatus as SubmissionStatus;
     if (filterType !== "all")
       filters.submission_type = filterType as SubmissionType;
 
@@ -159,7 +160,7 @@ export default function AdminSubmissionsPage() {
 
   const handleUpdateStatus = async (
     submission: CommunitySubmission,
-    status: "reviewed" | "rejected"
+    status: "reviewed" | "rejected",
   ) => {
     if (!token) return;
     setIsSubmitting(true);
@@ -167,14 +168,14 @@ export default function AdminSubmissionsPage() {
     const result = await updateSubmissionStatus(token, submission.id, status);
     if (result.data) {
       toast.success(
-        status === "reviewed"
-          ? "Submission approved!"
-          : "Submission rejected"
+        status === "reviewed" ? "Submission approved!" : "Submission rejected",
       );
       setSubmissions((prev) =>
         prev.map((s) =>
-          s.id === submission.id ? { ...s, status: result.data!.submission.status } : s
-        )
+          s.id === submission.id
+            ? { ...s, status: result.data!.submission.status }
+            : s,
+        ),
       );
       setViewDialogOpen(false);
     } else if (result.error) {
@@ -191,7 +192,7 @@ export default function AdminSubmissionsPage() {
     if (result.data) {
       toast.success("Submission deleted");
       setSubmissions((prev) =>
-        prev.filter((s) => s.id !== selectedSubmission.id)
+        prev.filter((s) => s.id !== selectedSubmission.id),
       );
       setDeleteDialogOpen(false);
       setViewDialogOpen(false);
@@ -221,19 +222,28 @@ export default function AdminSubmissionsPage() {
     switch (status) {
       case "pending":
         return (
-          <Badge variant="secondary" className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
+          <Badge
+            variant="secondary"
+            className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
+          >
             Pending
           </Badge>
         );
       case "reviewed":
         return (
-          <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+          <Badge
+            variant="secondary"
+            className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+          >
             Approved
           </Badge>
         );
       case "rejected":
         return (
-          <Badge variant="secondary" className="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
+          <Badge
+            variant="secondary"
+            className="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+          >
             Rejected
           </Badge>
         );
@@ -252,7 +262,10 @@ export default function AdminSubmissionsPage() {
         );
       case "announcement":
         return (
-          <Badge variant="outline" className="border-purple-500 text-purple-600">
+          <Badge
+            variant="outline"
+            className="border-purple-500 text-purple-600"
+          >
             Announcement
           </Badge>
         );
@@ -264,12 +277,21 @@ export default function AdminSubmissionsPage() {
     if (Array.isArray(urls)) return urls;
     if (typeof urls === "string") {
       try {
-        return JSON.parse(urls);
+        return JSON.parse(urls) as string[];
       } catch {
         return [];
       }
     }
     return [];
+  };
+
+  const isSafeUrl = (url: string): boolean => {
+    try {
+      const parsed = new URL(url);
+      return parsed.protocol === "https:" || parsed.protocol === "http:";
+    } catch {
+      return false;
+    }
   };
 
   return (
@@ -289,7 +311,9 @@ export default function AdminSubmissionsPage() {
             <Filter className="h-4 w-4" />
             Filters
           </CardTitle>
-          <CardDescription>Filter submissions by community, status, or type</CardDescription>
+          <CardDescription>
+            Filter submissions by community, status, or type
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col sm:flex-row gap-4">
@@ -373,7 +397,9 @@ export default function AdminSubmissionsPage() {
                     <TableCell className="text-muted-foreground">
                       {submission.community?.name || "Unknown"}
                     </TableCell>
-                    <TableCell>{getTypeBadge(submission.submissionType)}</TableCell>
+                    <TableCell>
+                      {getTypeBadge(submission.submissionType)}
+                    </TableCell>
                     <TableCell className="text-muted-foreground">
                       {submission.authorName}
                     </TableCell>
@@ -472,7 +498,9 @@ export default function AdminSubmissionsPage() {
 
               {/* Title */}
               <div>
-                <h3 className="text-xl font-semibold">{fullSubmission.title}</h3>
+                <h3 className="text-xl font-semibold">
+                  {fullSubmission.title}
+                </h3>
                 <p className="text-sm text-muted-foreground">
                   From: {fullSubmission.community?.name || "Unknown Community"}
                 </p>
@@ -482,7 +510,9 @@ export default function AdminSubmissionsPage() {
               <div className="bg-muted/50 rounded-lg p-4 space-y-2">
                 <div className="flex items-center gap-2 text-sm">
                   <User className="h-4 w-4 text-muted-foreground" />
-                  <span className="font-medium">{fullSubmission.authorName}</span>
+                  <span className="font-medium">
+                    {fullSubmission.authorName}
+                  </span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <Mail className="h-4 w-4 text-muted-foreground" />
@@ -514,17 +544,19 @@ export default function AdminSubmissionsPage() {
                 <div>
                   <h4 className="font-medium mb-2">Media</h4>
                   <div className="space-y-2">
-                    {parseMediaUrls(fullSubmission.mediaUrls).map((url, idx) => (
-                      <a
-                        key={idx}
-                        href={url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm text-blue-600 hover:underline block truncate"
-                      >
-                        {url}
-                      </a>
-                    ))}
+                    {parseMediaUrls(fullSubmission.mediaUrls)
+                      .filter(isSafeUrl)
+                      .map((url, idx) => (
+                        <a
+                          key={idx}
+                          href={url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-blue-600 hover:underline block truncate"
+                        >
+                          {url}
+                        </a>
+                      ))}
                   </div>
                 </div>
               )}
@@ -565,7 +597,10 @@ export default function AdminSubmissionsPage() {
               </>
             )}
             {fullSubmission?.status !== "pending" && (
-              <Button variant="outline" onClick={() => setViewDialogOpen(false)}>
+              <Button
+                variant="outline"
+                onClick={() => setViewDialogOpen(false)}
+              >
                 Close
               </Button>
             )}
@@ -579,8 +614,8 @@ export default function AdminSubmissionsPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Submission?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete &quot;{selectedSubmission?.title}&quot;.
-              This action cannot be undone.
+              This will permanently delete &quot;{selectedSubmission?.title}
+              &quot;. This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
