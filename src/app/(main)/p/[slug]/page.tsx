@@ -59,7 +59,7 @@ export const generateMetadata = async ({
     title: post.title,
     metadataBase: new URL(BASE_URL + url),
     description: post.description,
-    publisher: post.author.name,
+    publisher: post.author?.name || "Unknown Author",
     keywords: post.categories?.map((category: any) => category.title) || [],
     alternates: {
       canonical: BASE_URL + url,
@@ -73,7 +73,7 @@ export const generateMetadata = async ({
       description: post.description,
       type: "article",
       siteName: "The Babcock Torch",
-      authors: post.author.name,
+      authors: post.author?.name || "Unknown Author",
       tags: post.categories?.map((category: any) => category.title) || [],
       publishedTime: post.date,
     },
@@ -220,18 +220,18 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
               <div className="relative w-10 h-10">
                 <img
                   src={
-                    post.author.image
+                    post.author?.image
                       ? urlFor(post.author.image).width(80).height(80).url()
-                      : `https://api.dicebear.com/9.x/lorelei-neutral/png?seed=${post.author.name}`
+                      : `https://api.dicebear.com/9.x/lorelei-neutral/png?seed=${post.author?.name || "Unknown"}`
                   }
-                  alt={post.author.name}
+                  alt={post.author?.name || "Unknown Author"}
                   width={40}
                   height={40}
                   className="rounded-full object-cover border"
                 />
               </div>
               <div rel="author">
-                {post.author.slug ? (
+                {post.author?.slug ? (
                   <Link href={PAGES.author(post.author.slug)}>
                     <h3 className="font-medium text-lg tracking-tight hover:text-primary transition-colors cursor-pointer">
                       {post.author.name}
@@ -239,7 +239,7 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
                   </Link>
                 ) : (
                   <h3 className="font-medium text-lg tracking-tight">
-                    {post.author.name}
+                    {post.author?.name || "Unknown Author"}
                   </h3>
                 )}
                 {/* <a
@@ -263,7 +263,10 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
                 {post.categories.map((category, i) => (
                   <Link
                     key={i}
-                    href={PAGES.tag(category.slug || category.title.toLowerCase().replace(/\s+/g, '-'))}
+                    href={PAGES.tag(
+                      category.slug ||
+                        category.title.toLowerCase().replace(/\s+/g, "-"),
+                    )}
                     className="text-sm px-2.5 py-1 rounded-full font-medium border hover:bg-muted transition-colors"
                   >
                     {category.title}
