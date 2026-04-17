@@ -13,7 +13,7 @@ const TorchAIHeader = () => {
 
   const logo = isLargeScreen
     ? IMAGES.logos.logo_gold
-    : IMAGES.logos.big_moore_gold;
+    : IMAGES.logos.osgard_gold;
 
   useEffect(() => {
     const handleResize = () => {
