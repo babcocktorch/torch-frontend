@@ -20,9 +20,7 @@ const Footer = () => {
   //     : IMAGES.logos.big_moore_gold;
 
   const logo =
-    theme === "dark"
-      ? IMAGES.logos.majuyan_fraktur_white
-      : IMAGES.logos.majuyan_fraktur_gold;
+    theme === "dark" ? IMAGES.logos.osgard_white : IMAGES.logos.osgard_gold;
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
