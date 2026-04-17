@@ -1,6 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 import { BASE_URL, PAGES } from "@/lib/constants";
-import { domine } from "@/lib/fonts";
+import { georgia } from "@/lib/fonts";
 import { getAuthor, getAuthorPosts } from "@/lib/requests";
 import { urlFor } from "@/lib/sanity.client";
 import { cn, formatDate } from "@/lib/utils";
@@ -158,8 +158,8 @@ const AuthorPage = async ({
 
                             <p
                               className={cn(
-                                domine.className,
-                                "sm:text-lg lg:text-xl font-semibold group-hover:text-primary transition-colors"
+                                georgia.className,
+                                "sm:text-lg lg:text-xl font-semibold group-hover:text-primary transition-colors",
                               )}
                             >
                               {post.title}
