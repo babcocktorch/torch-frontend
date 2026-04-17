@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Users, Mail, ArrowLeft, Calendar, Send } from "lucide-react";
-import { domine } from "@/lib/fonts";
+import { georgia } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import SubmissionForm from "@/components/communities/submission-form";
 import { Button } from "@/components/ui/button";
@@ -75,7 +75,7 @@ const CommunityPage = async ({
     {
       year: "numeric",
       month: "long",
-    }
+    },
   );
 
   return (
@@ -110,8 +110,8 @@ const CommunityPage = async ({
         <div className="flex flex-col gap-4">
           <h1
             className={cn(
-              domine.className,
-              "text-2xl sm:text-3xl lg:text-4xl font-semibold"
+              georgia.className,
+              "text-2xl sm:text-3xl lg:text-4xl font-semibold",
             )}
           >
             {community.name}
@@ -170,7 +170,10 @@ const CommunityPage = async ({
       <div className="py-12">
         <div className="text-center">
           <h2
-            className={cn(domine.className, "text-xl sm:text-2xl font-semibold mb-4")}
+            className={cn(
+              georgia.className,
+              "text-xl sm:text-2xl font-semibold mb-4",
+            )}
           >
             Community Updates
           </h2>
