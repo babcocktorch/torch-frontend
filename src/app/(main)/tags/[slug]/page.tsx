@@ -1,5 +1,5 @@
 import { BASE_URL, IMAGES, PAGES } from "@/lib/constants";
-import { domine } from "@/lib/fonts";
+import { georgia } from "@/lib/fonts";
 import { getPostsByTag } from "@/lib/requests";
 import { cn, formatDate } from "@/lib/utils";
 import { Metadata } from "next";
@@ -9,12 +9,18 @@ import { Separator } from "@/components/ui/separator";
 
 export const dynamic = "force-dynamic";
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
   const resolvedParams = await params;
   const { slug } = resolvedParams;
-  const tagTitle = slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+  const tagTitle = slug
+    .replace(/-/g, " ")
+    .replace(/\b\w/g, (l) => l.toUpperCase());
   const title = `${tagTitle} Tag | The Babcock Torch`;
-  
+
   return {
     title,
     metadataBase: new URL(BASE_URL),
@@ -42,12 +48,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 const TagPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const resolvedParams = await params;
   const { slug } = resolvedParams;
-  
+
   // Format the slug for display if needed
-  const tagTitle = slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-  
+  const tagTitle = slug
+    .replace(/-/g, " ")
+    .replace(/\b\w/g, (l) => l.toUpperCase());
+
   const results = await getPostsByTag(slug);
-  
+
   const posts = results.filter((post) => post.isPost);
   const opinions = results.filter((post) => !post.isPost);
 
@@ -92,8 +100,8 @@ const TagPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
                             <div className="flex flex-col gap-2">
                               <p
                                 className={cn(
-                                  domine.className,
-                                  "sm:text-lg lg:text-xl font-semibold group-hover:text-primary transition-colors"
+                                  georgia.className,
+                                  "sm:text-lg lg:text-xl font-semibold group-hover:text-primary transition-colors",
                                 )}
                               >
                                 {post.title}
@@ -141,8 +149,8 @@ const TagPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
                             <div className="flex flex-col gap-2">
                               <p
                                 className={cn(
-                                  domine.className,
-                                  "sm:text-lg lg:text-xl font-semibold group-hover:text-primary transition-colors"
+                                  georgia.className,
+                                  "sm:text-lg lg:text-xl font-semibold group-hover:text-primary transition-colors",
                                 )}
                               >
                                 {opinion.title}
