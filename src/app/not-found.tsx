@@ -1,7 +1,7 @@
 "use client";
 
 import { IMAGES, PAGES } from "@/lib/constants";
-import { domine } from "@/lib/fonts";
+import { georgia } from "@/lib/fonts";
 import { app_theme } from "@/lib/atoms";
 import { useAtomValue } from "jotai";
 import Image from "next/image";
@@ -35,7 +35,7 @@ const NotFound = () => {
           <div className="flex items-center justify-center gap-4">
             <div className="h-px w-16 bg-border" />
             <p
-              className={cn("text-sm text-muted-foreground", domine.className)}
+              className={cn("text-sm text-muted-foreground", georgia.className)}
             >
               PAGE NOT FOUND
             </p>
