@@ -2,7 +2,7 @@
 
 import { Separator } from "@/components/ui/separator";
 import { IMAGES, PAGES } from "@/lib/constants";
-import { domine } from "@/lib/fonts";
+import { georgia } from "@/lib/fonts";
 import { cn, formatDate } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
@@ -226,7 +226,7 @@ const OpinionsHome = ({
                                   <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/95 via-black/70 to-transparent pt-24 sm:pt-28 pb-5 px-5">
                                     <h2
                                       className={cn(
-                                        domine.className,
+                                        georgia.className,
                                         "text-lg sm:text-2xl lg:text-3xl font-bold text-white leading-tight",
                                       )}
                                     >
@@ -257,7 +257,7 @@ const OpinionsHome = ({
                                       <div className="flex flex-col gap-2 flex-1">
                                         <h2
                                           className={cn(
-                                            domine.className,
+                                            georgia.className,
                                             "text-lg lg:text-xl font-semibold group-hover:text-gold transition-colors",
                                           )}
                                         >
