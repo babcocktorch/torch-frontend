@@ -3,7 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { PAGES } from "@/lib/constants";
-import { domine } from "@/lib/fonts";
+import { georgia } from "@/lib/fonts";
 import { searchPosts } from "@/lib/requests";
 import { PostType } from "@/lib/types";
 import { cn, formatDate } from "@/lib/utils";
@@ -123,8 +123,8 @@ const SearchContent = () => {
                             <div className="flex flex-col gap-2">
                               <p
                                 className={cn(
-                                  domine.className,
-                                  "sm:text-lg lg:text-xl font-semibold group-hover:text-primary transition-colors"
+                                  georgia.className,
+                                  "sm:text-lg lg:text-xl font-semibold group-hover:text-primary transition-colors",
                                 )}
                               >
                                 {post.title}
@@ -172,8 +172,8 @@ const SearchContent = () => {
                             <div className="flex flex-col gap-2">
                               <p
                                 className={cn(
-                                  domine.className,
-                                  "sm:text-lg lg:text-xl font-semibold group-hover:text-primary transition-colors"
+                                  georgia.className,
+                                  "sm:text-lg lg:text-xl font-semibold group-hover:text-primary transition-colors",
                                 )}
                               >
                                 {opinion.title}
