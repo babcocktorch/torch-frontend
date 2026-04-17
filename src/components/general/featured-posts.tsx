@@ -1,5 +1,5 @@
 import { PAGES } from "@/lib/constants";
-import { domine } from "@/lib/fonts";
+import { georgia } from "@/lib/fonts";
 import { getPosts } from "@/lib/requests";
 import { urlFor } from "@/lib/sanity.client";
 import { cn } from "@/lib/utils";
@@ -34,7 +34,7 @@ const FeaturedPosts = async ({ slug }: { slug: string }) => {
               />
               <div className="max-w-lg">
                 <h2
-                  className={cn("text-lg font-medium mb-4", domine.className)}
+                  className={cn("text-lg font-medium mb-4", georgia.className)}
                 >
                   {post.title}
                 </h2>
@@ -44,7 +44,7 @@ const FeaturedPosts = async ({ slug }: { slug: string }) => {
               </div>
             </Link>
           </article>
-        ) : null
+        ) : null,
       )}
     </div>
   );
