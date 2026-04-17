@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { PostType } from "@/lib/types";
 import { PAGES } from "@/lib/constants";
-import { domine } from "@/lib/fonts";
+import { georgia } from "@/lib/fonts";
 
 interface MostReadProps {
   posts: PostType[];
@@ -33,7 +33,7 @@ const MostRead = ({ posts, limit = 5 }: MostReadProps) => {
                 <h4
                   className={cn(
                     "text-sm lg:text-base font-medium group-hover:text-gold transition-colors leading-snug",
-                    domine.className
+                    georgia.className,
                   )}
                 >
                   {post.title}
