@@ -29,14 +29,16 @@ export const POST = async (request: NextRequest) => {
     }
 
     const formData = await request.formData();
+    const submissionType = formData.get("submissionType") as string;
     const name = formData.get("name") as string;
-    const email = formData.get("email") as string;
-    const idea = formData.get("idea") as string;
+    const contact = formData.get("contact") as string;
+    const summary = formData.get("summary") as string;
+    const details = formData.get("details") as string;
     const attachment = formData.get("attachment") as File | null;
 
-    if (!name || !email || !idea) {
+    if (!submissionType || !summary || !details) {
       return NextResponse.json(
-        { message: "Name, email, and idea are required." },
+        { message: "Submission type, summary, and details are required." },
         { status: 400 },
       );
     }
@@ -73,8 +75,8 @@ export const POST = async (request: NextRequest) => {
     const createTaskUrl = `https://api.clickup.com/api/v2/list/${clickUpListId}/task`;
 
     const taskData = {
-      name: "New Article Idea",
-      description: `Submitted by: ${name} (${email})\n\n--- IDEA ---\n${idea}`,
+      name: `[${submissionType}] ${summary}`,
+      description: `Submitted by: ${name || "Anonymous"} (${contact || "No contact provided"})\nType: ${submissionType}\n\n--- DETAILS ---\n${details}`,
     };
 
     const taskResponse = await fetch(createTaskUrl, {
