@@ -7,7 +7,7 @@ import Image from "next/image";
 import ThemeToggle from "./general/theme-toggle";
 import Sidebar from "./general/sidebar";
 import { cn } from "@/lib/utils";
-import { domine } from "@/lib/fonts";
+import { georgia } from "@/lib/fonts";
 import Link from "next/link";
 import IdeaSubmission from "./general/idea-submission";
 import { useEffect, useRef, useState } from "react";
@@ -32,9 +32,7 @@ const Header = () => {
   //     : IMAGES.logos.big_moore_gold;
 
   const logo =
-    theme === "dark"
-      ? IMAGES.logos.majuyan_fraktur_white
-      : IMAGES.logos.majuyan_fraktur_gold;
+    theme === "dark" ? IMAGES.logos.osgard_white : IMAGES.logos.osgard_gold;
 
   const date = new Date().toLocaleDateString("en-US", {
     year: "numeric",
@@ -140,7 +138,7 @@ const Header = () => {
             <p
               className={cn(
                 "text-xs text-muted-foreground hidden sm:block",
-                domine.className,
+                georgia.className,
               )}
             >
               The University Daily, Est. 2025
@@ -208,7 +206,7 @@ const Header = () => {
                   )}
                 />
               </Link>
-              <p className={cn("text-sm", domine.className)}>
+              <p className={cn("text-sm", georgia.className)}>
                 The University Daily, Est. 2025
               </p>
             </div>
