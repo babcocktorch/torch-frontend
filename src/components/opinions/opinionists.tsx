@@ -1,5 +1,5 @@
 import { OpinionAuthor } from "@/lib/types";
-import { domine } from "@/lib/fonts";
+import { georgia } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { PAGES } from "@/lib/constants";
@@ -16,7 +16,7 @@ export default function Opinionists({ authors }: { authors: OpinionAuthor[] }) {
       <div className="mb-12 text-center">
         <h2
           className={cn(
-            domine.className,
+            georgia.className,
             "text-3xl md:text-5xl font-bold mb-4",
           )}
         >
@@ -49,7 +49,7 @@ export default function Opinionists({ authors }: { authors: OpinionAuthor[] }) {
 
               <h3
                 className={cn(
-                  domine.className,
+                  georgia.className,
                   "text-xl font-bold mb-2 group-hover:text-gold transition-colors",
                 )}
               >
