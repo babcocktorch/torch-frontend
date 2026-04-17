@@ -4,7 +4,7 @@ import { urlFor } from "@/lib/sanity.client";
 import Link from "next/link";
 import { PostType } from "@/lib/types";
 import { PAGES } from "@/lib/constants";
-import { domine } from "@/lib/fonts";
+import { georgia } from "@/lib/fonts";
 
 interface EditorsPickProps {
   featuredPost: PostType;
@@ -93,7 +93,10 @@ const EditorsPick = ({
 
             return (
               <div key={pick._id} className="group block relative">
-                <Link href={pickUrl} className="block relative w-full aspect-16/10 overflow-hidden bg-muted z-0">
+                <Link
+                  href={pickUrl}
+                  className="block relative w-full aspect-16/10 overflow-hidden bg-muted z-0"
+                >
                   {pick.mainImage ? (
                     <Image
                       src={urlFor(pick.mainImage)
@@ -115,8 +118,8 @@ const EditorsPick = ({
                 {/* Category label overlay */}
                 {categoryLabel && (
                   <div className="absolute top-3 left-3 z-10">
-                    <Link 
-                      href={categoryUrl} 
+                    <Link
+                      href={categoryUrl}
                       className="bg-gold text-white text-[10px] font-semibold uppercase tracking-wider px-2 py-1 hover:bg-gold/90 transition-colors"
                     >
                       {categoryLabel}
@@ -128,7 +131,7 @@ const EditorsPick = ({
                   <h3
                     className={cn(
                       "text-sm lg:text-base font-semibold mt-2.5 group-hover:text-gold transition-colors leading-snug",
-                      domine.className,
+                      georgia.className,
                     )}
                   >
                     {pick.title}
