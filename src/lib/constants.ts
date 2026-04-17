@@ -73,6 +73,21 @@ export const IMAGES = {
       width: 100,
       height: 100,
     },
+    osgard_black: {
+      src: "/logos/torch_logotype_osgard_stencil_black_horizontal.svg",
+      width: 100,
+      height: 100,
+    },
+    osgard_white: {
+      src: "/logos/torch_logotype_osgard_stencil_white_horizontal.svg",
+      width: 100,
+      height: 100,
+    },
+    osgard_gold: {
+      src: "/logos/torch_logotype_osgard_stencil_gold_horizontal.svg",
+      width: 100,
+      height: 100,
+    },
     logo_white: {
       src: "/logos/torch_white.svg",
       width: 100,
