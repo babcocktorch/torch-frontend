@@ -1,6 +1,6 @@
 import { OpinionAuthor, PostType } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { domine } from "@/lib/fonts";
+import { georgia } from "@/lib/fonts";
 import Link from "next/link";
 import { PAGES } from "@/lib/constants";
 
@@ -41,7 +41,7 @@ const OpinionsSidebar = ({ opinions, authors }: OpinionsSidebarProps) => {
                   <h4
                     className={cn(
                       "text-sm font-medium group-hover:text-gold transition-colors leading-snug",
-                      domine.className
+                      georgia.className,
                     )}
                   >
                     {opinion.title}
@@ -71,7 +71,7 @@ const OpinionsSidebar = ({ opinions, authors }: OpinionsSidebarProps) => {
                   <h4
                     className={cn(
                       "text-sm font-medium group-hover:text-gold transition-colors leading-snug",
-                      domine.className
+                      georgia.className,
                     )}
                   >
                     {opinion.title}
