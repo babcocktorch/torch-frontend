@@ -1,7 +1,7 @@
 "use client";
 
 import { Community } from "@/lib/types";
-import { domine } from "@/lib/fonts";
+import { georgia } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
@@ -326,7 +326,7 @@ const CommunityCard = ({ community }: { community: Community }) => {
         <Link href={PAGES.community(community.slug)} className="group">
           <h2
             className={cn(
-              domine.className,
+              georgia.className,
               "text-lg font-semibold group-hover:text-gold transition-colors leading-tight",
             )}
           >
