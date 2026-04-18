@@ -148,7 +148,7 @@ export const CREDENTIALS = {
 };
 
 export const MAJOR_CATEGORIES = [
-  { name: "Torch AI", href: PAGES.ask_the_torch_ai },
+  // { name: "Torch AI", href: PAGES.ask_the_torch_ai },
   { name: "News", href: PAGES.home },
   { name: "Opinions", href: PAGES.opinions },
   // { name: "Blogs", href: PAGES.blogs },
@@ -164,7 +164,7 @@ export const MAJOR_CATEGORIES = [
 export const MINOR_CATEGORIES = [
   { name: "Top Stories", href: PAGES.top_stories },
   { name: "Blogs", href: PAGES.blogs },
-  { name: "Ask the Torch AI", href: PAGES.ask_the_torch_ai },
+  // { name: "Ask the Torch AI", href: PAGES.ask_the_torch_ai },
 ];
 
 export const API_ROUTES = {
