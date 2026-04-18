@@ -223,7 +223,9 @@ const IdeaSubmission = ({ trigger }: IdeaSubmissionProps) => {
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="summary">In one line, what's this about?</Label>
+            <Label htmlFor="summary">
+              In one line, what&apos;s this about?
+            </Label>
             <Input
               name="summary"
               placeholder="A short summary of your submission"
