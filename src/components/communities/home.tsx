@@ -1,14 +1,15 @@
 "use client";
 
-import { Community } from "@/lib/types";
+import { Community, ImpactStoryType } from "@/lib/types";
 import { georgia } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
 import { IMAGES, PAGES } from "@/lib/constants";
-import { Users, ArrowRight, Mail, Search, X, Filter } from "lucide-react";
+import { Users, Mail, Search, X, Filter } from "lucide-react";
 import React, { useMemo, useState } from "react";
 import ContributorCTA from "@/components/general/contributor-cta";
+import ImpactStoriesFeed from "@/components/communities/impact-stories-feed";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -25,10 +26,15 @@ const COMMUNITIES_NAV_TABS = [
   { id: "featured-communities", label: "Featured Communities" },
   { id: "discover-communities", label: "Discover Communities" },
   { id: "impact-stories", label: "Impact Stories" },
-  { id: "gallery", label: "Gallery" },
 ];
 
-const CommunitiesHome = ({ communities }: { communities: Community[] }) => {
+const CommunitiesHome = ({
+  communities,
+  impactStories,
+}: {
+  communities: Community[];
+  impactStories: ImpactStoryType[];
+}) => {
   const [activeTab, setActiveTab] = useState("home");
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
@@ -68,7 +74,7 @@ const CommunitiesHome = ({ communities }: { communities: Community[] }) => {
   return (
     <main className="w-full mb-8">
       {/* Communities Sub-Navigation Bar */}
-      <nav className="w-full border-b border-border">
+      <nav className="w-full border-b border-border mt-2">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-center overflow-x-auto scrollbar-hide">
             {COMMUNITIES_NAV_TABS.map((tab, index) => (
@@ -181,97 +187,105 @@ const CommunitiesHome = ({ communities }: { communities: Community[] }) => {
         </div>
       </div>
 
-      <div className="px-6 max-w-7xl mx-auto">
-        {/* Search & Filter Bar */}
-        {communities.length > 0 && (
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-8">
-            {/* Category filter */}
-            {categories.length > 0 && (
-              <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                <SelectTrigger className="w-full sm:w-[180px]">
-                  <Filter className="w-4 h-4 mr-2 text-muted-foreground shrink-0" />
-                  <SelectValue placeholder="Category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
-                  {categories.map((cat) => (
-                    <SelectItem key={cat} value={cat}>
-                      {cat}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            )}
+      {/* Tab Content */}
+      {activeTab === "impact-stories" ? (
+        <ImpactStoriesFeed stories={impactStories} />
+      ) : (
+        <div className="px-6 max-w-7xl mx-auto">
+          {/* Search & Filter Bar */}
+          {communities.length > 0 && (
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-8">
+              {/* Category filter */}
+              {categories.length > 0 && (
+                <Select
+                  value={categoryFilter}
+                  onValueChange={setCategoryFilter}
+                >
+                  <SelectTrigger className="w-full sm:w-[180px]">
+                    <Filter className="w-4 h-4 mr-2 text-muted-foreground shrink-0" />
+                    <SelectValue placeholder="Category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Categories</SelectItem>
+                    {categories.map((cat) => (
+                      <SelectItem key={cat} value={cat}>
+                        {cat}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
 
-            {/* Search */}
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search communities..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
-              />
+              {/* Search */}
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search communities..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+
+              {/* Reset filters */}
+              {hasActiveFilters && (
+                <Button
+                  variant="ghost"
+                  onClick={resetFilters}
+                  className="shrink-0"
+                >
+                  <X className="w-4 h-4 mr-2" />
+                  Reset
+                </Button>
+              )}
             </div>
+          )}
 
-            {/* Reset filters */}
-            {hasActiveFilters && (
+          {/* Communities Grid */}
+          {communities.length === 0 ? (
+            <div className="text-center py-16">
+              <Users className="w-16 h-16 mx-auto text-muted-foreground/50 mb-4" />
+              <p className="text-muted-foreground text-lg">
+                No communities available at the moment.
+              </p>
+              <p className="text-muted-foreground text-sm mt-2">
+                Check back later for campus organizations and groups.
+              </p>
+            </div>
+          ) : filteredCommunities.length === 0 ? (
+            <div className="text-center py-16">
+              <Search className="w-12 h-12 mx-auto text-muted-foreground/50 mb-4" />
+              <p className="text-muted-foreground text-lg">
+                No communities match your search.
+              </p>
               <Button
-                variant="ghost"
+                variant="link"
                 onClick={resetFilters}
-                className="shrink-0"
+                className="mt-2 text-gold"
               >
-                <X className="w-4 h-4 mr-2" />
-                Reset
+                Clear filters
               </Button>
-            )}
-          </div>
-        )}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredCommunities.map((community) => (
+                <CommunityCard key={community.id} community={community} />
+              ))}
+            </div>
+          )}
 
-        {/* Communities Grid */}
-        {communities.length === 0 ? (
-          <div className="text-center py-16">
-            <Users className="w-16 h-16 mx-auto text-muted-foreground/50 mb-4" />
-            <p className="text-muted-foreground text-lg">
-              No communities available at the moment.
-            </p>
-            <p className="text-muted-foreground text-sm mt-2">
-              Check back later for campus organizations and groups.
-            </p>
-          </div>
-        ) : filteredCommunities.length === 0 ? (
-          <div className="text-center py-16">
-            <Search className="w-12 h-12 mx-auto text-muted-foreground/50 mb-4" />
-            <p className="text-muted-foreground text-lg">
-              No communities match your search.
-            </p>
-            <Button
-              variant="link"
-              onClick={resetFilters}
-              className="mt-2 text-gold"
-            >
-              Clear filters
-            </Button>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredCommunities.map((community) => (
-              <CommunityCard key={community.id} community={community} />
-            ))}
-          </div>
-        )}
-
-        {/* CTA Section */}
-        <ContributorCTA
-          className="mt-16"
-          lineOne="Is Your Community"
-          lineTwo="Missing?"
-          description="Submit an existing group to be added to the platform, or share your idea for a new community Babcock needs."
-          buttonText="Submit Community"
-          bgImage={IMAGES.contributor_cta.src}
-          href="mailto:babcocktorch@gmail.com?subject=Community Feature Request"
-        />
-      </div>
+          {/* CTA Section */}
+          <ContributorCTA
+            className="mt-16"
+            lineOne="Is Your Community"
+            lineTwo="Missing?"
+            description="Submit an existing group to be added to the platform, or share your idea for a new community Babcock needs."
+            buttonText="Submit Community"
+            bgImage={IMAGES.contributor_cta.src}
+            href="mailto:babcocktorch@gmail.com?subject=Community Feature Request"
+          />
+        </div>
+      )}
     </main>
   );
 };
@@ -280,11 +294,11 @@ const CommunitiesHome = ({ communities }: { communities: Community[] }) => {
 
 const CommunityCard = ({ community }: { community: Community }) => {
   return (
-    <article className="border rounded-xl overflow-hidden flex flex-col h-full hover:shadow-lg transition-shadow duration-200">
-      {/* Banner image */}
+    <article className="border rounded-xl overflow-hidden flex flex-col h-full bg-card hover:shadow-lg transition-shadow duration-200">
+      {/* Cover image — ~60% of card */}
       <Link
         href={PAGES.community(community.slug)}
-        className="relative w-full aspect-video bg-muted block"
+        className="relative w-full aspect-4/3 bg-muted block"
       >
         {community.bannerUrl ? (
           <Image
@@ -302,18 +316,18 @@ const CommunityCard = ({ community }: { community: Community }) => {
           />
         ) : (
           <div className="w-full h-full bg-linear-to-br from-gold/20 to-gold/5 flex items-center justify-center">
-            <Users className="w-10 h-10 text-gold/40" />
+            <Users className="w-12 h-12 text-gold/40" />
           </div>
         )}
 
-        {/* Logo overlay */}
+        {/* Logo overlay badge */}
         {community.logoUrl && (
-          <div className="absolute top-3 left-3 w-10 h-10 rounded-lg overflow-hidden border-2 border-white shadow-md bg-white">
+          <div className="absolute top-3 left-3 w-11 h-11 rounded-lg overflow-hidden border-2 border-white shadow-md bg-white">
             <Image
               src={community.logoUrl}
               alt=""
-              width={40}
-              height={40}
+              width={44}
+              height={44}
               className="object-cover w-full h-full"
             />
           </div>
@@ -321,7 +335,7 @@ const CommunityCard = ({ community }: { community: Community }) => {
       </Link>
 
       {/* Card body */}
-      <div className="flex flex-col flex-1 p-5 gap-3">
+      <div className="flex flex-col flex-1 p-5 gap-2.5">
         {/* Name */}
         <Link href={PAGES.community(community.slug)} className="group">
           <h2
@@ -334,33 +348,24 @@ const CommunityCard = ({ community }: { community: Community }) => {
           </h2>
         </Link>
 
-        {/* Description */}
+        {/* Tagline / Description */}
         {community.description && (
-          <p className="text-muted-foreground text-sm line-clamp-2">
+          <p className="text-muted-foreground text-sm line-clamp-2 leading-relaxed">
             {community.description}
           </p>
         )}
 
-        {/* Badges row: category + open to join */}
-        <div className="flex flex-wrap items-center gap-2">
+        {/* Category + Member count row */}
+        <div className="flex items-center justify-between mt-auto pt-2">
           {community.category && (
-            <Badge variant="secondary" className="text-xs font-medium">
+            <Badge
+              variant="secondary"
+              className="text-xs font-medium rounded-full px-3"
+            >
               {community.category}
             </Badge>
           )}
-          {community.openToJoin && (
-            <Badge
-              variant="outline"
-              className="text-xs font-medium border-gold/40 text-gold"
-            >
-              Open to Join
-            </Badge>
-          )}
-        </div>
 
-        {/* Footer: member count + contact */}
-        <div className="flex items-center justify-between mt-auto pt-3 border-t">
-          {/* Member count */}
           <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
             <Users className="w-4 h-4" />
             <span className="font-medium">
@@ -369,27 +374,57 @@ const CommunityCard = ({ community }: { community: Community }) => {
                 : "—"}
             </span>
           </div>
-
-          {/* Contact button */}
-          {community.contactEmail ? (
-            <a
-              href={`mailto:${community.contactEmail}?subject=Inquiry about ${community.name}`}
-              onClick={(e) => e.stopPropagation()}
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-foreground hover:text-gold transition-colors px-3 py-1.5 rounded-md border hover:border-gold"
-            >
-              <Mail className="w-3.5 h-3.5" />
-              Contact
-            </a>
-          ) : (
-            <Link
-              href={PAGES.community(community.slug)}
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-gold hover:underline"
-            >
-              View
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          )}
         </div>
+      </div>
+
+      {/* Footer: Contact button */}
+      <div className="border-t px-5 py-3">
+        {community.contactEmail ? (
+          <a
+            href={`mailto:${community.contactEmail}?subject=Inquiry about ${community.name}`}
+            onClick={(e) => e.stopPropagation()}
+            className="flex items-center justify-center gap-2 w-full text-sm font-medium text-foreground hover:text-gold transition-colors py-1"
+          >
+            <Mail className="w-3.5 h-3.5" />
+            Contact
+            <svg
+              className="w-3 h-3"
+              viewBox="0 0 12 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M3 5L6 8L9 5"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </a>
+        ) : (
+          <Link
+            href={PAGES.community(community.slug)}
+            className="flex items-center justify-center gap-2 w-full text-sm font-medium text-foreground hover:text-gold transition-colors py-1"
+          >
+            <Mail className="w-3.5 h-3.5" />
+            Contact
+            <svg
+              className="w-3 h-3"
+              viewBox="0 0 12 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M3 5L6 8L9 5"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </Link>
+        )}
       </div>
     </article>
   );
