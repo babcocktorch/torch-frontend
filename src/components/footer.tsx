@@ -82,18 +82,18 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href={PAGES.business}
+                  href={PAGES.gallery}
                   className="hover:opacity-70 transition"
                 >
-                  Business
+                  Gallery
                 </Link>
               </li>
               <li>
                 <Link
-                  href={PAGES.vendors}
+                  href={PAGES.streaming}
                   className="hover:opacity-70 transition"
                 >
-                  Vendors
+                  Streaming
                 </Link>
               </li>
               <li>
@@ -104,11 +104,6 @@ const Footer = () => {
                   Masthead
                 </Link>
               </li>
-              {/* <li>
-                <Link href="#" className="hover:opacity-70 transition">
-                  Ask the Torch AI
-                </Link>
-              </li> */}
             </ul>
           </div>
 
