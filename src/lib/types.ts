@@ -217,3 +217,23 @@ export type ArticleStats = {
   readsLast7d: number;
   readsLast30d: number;
 };
+
+// Impact Story types
+export type ImpactStoryType = {
+  _id: string;
+  title: string;
+  slug: string;
+  description?: string;
+  communitySlug?: string;
+  communityName?: string;
+  date: string;
+  mainImage?: any;
+  author?: {
+    name: string;
+    slug?: string;
+    image?: any;
+  };
+  body?: PortableTextBlock[];
+  isPublished: boolean;
+  featured: boolean;
+};
