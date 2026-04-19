@@ -129,12 +129,15 @@ export const PAGES = {
   alumni: "/alumni",
   calendar: "/calendar",
   maps: "/maps",
+  gallery: "/gallery",
+  streaming: "/streaming",
   masthead: "/masthead",
   policy: "/policy",
   search: (query?: string) => "/search" + (query ? `?query=${query}` : ""),
   tag: (slug: string) => `/tags/${slug}`,
   post: (slug: string) => `/p/${slug}`,
   author: (slug: string) => `/author/${slug}`,
+  impactStory: (slug: string) => `/communities/stories/${slug}`,
 };
 
 export const CREDENTIALS = {
@@ -153,18 +156,29 @@ export const MAJOR_CATEGORIES = [
   { name: "Opinions", href: PAGES.opinions },
   // { name: "Blogs", href: PAGES.blogs },
   { name: "Communities", href: PAGES.communities },
-  // { name: "Business", href: PAGES.business },
-  // { name: "Vendors", href: PAGES.vendors },
-  // { name: "Alumni", href: PAGES.alumni },
+  { name: "Gallery", href: PAGES.gallery },
+  { name: "Streaming", href: PAGES.streaming },
   // { name: "Calendar", href: PAGES.calendar },
   // { name: "Maps", href: PAGES.maps },
   { name: "Masthead", href: PAGES.masthead },
 ];
 
 export const MINOR_CATEGORIES = [
-  { name: "Top Stories", href: PAGES.top_stories },
-  { name: "Blogs", href: PAGES.blogs },
-  // { name: "Ask the Torch AI", href: PAGES.ask_the_torch_ai },
+  {
+    name: "Subscribe to The Torch",
+    href: "https://www.youtube.com/@babcocktorch",
+    external: true,
+  },
+  {
+    name: "Submit a Story",
+    href: "#submit",
+    external: false,
+  },
+  {
+    name: "View Communities at Babcock",
+    href: PAGES.communities,
+    external: false,
+  },
 ];
 
 export const API_ROUTES = {
