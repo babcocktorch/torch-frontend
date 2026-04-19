@@ -114,10 +114,12 @@ const Home = ({ posts, editorsPickSlugs }: HomeProps) => {
       {impactStories.length > 0 && (
         <section className="w-full">
           <div className="border-b border-border/50 flex flex-col md:flex-row md:items-center justify-between mb-8 pb-1">
-            <h6 className="flex items-center justify-start gap-1 font-semibold hover:gap-1.5 cursor-pointer transition-all border-b-2 border-gold pb-1 md:pb-2 -mb-[2px] md:-mb-[5px]">
-              <span className="text-sm lg:text-base">Impact Stories</span>
-              <IoIosArrowForward className="text-muted-foreground ml-1 text-sm" />
-            </h6>
+            <Link href={`${PAGES.communities}?tab=impact-stories`}>
+              <h6 className="flex items-center justify-start gap-1 font-semibold hover:gap-1.5 cursor-pointer transition-all border-b-2 border-gold pb-1 md:pb-2 -mb-[2px] md:-mb-[5px]">
+                <span className="text-sm lg:text-base">Impact Stories</span>
+                <IoIosArrowForward className="text-muted-foreground ml-1 text-sm" />
+              </h6>
+            </Link>
           </div>
 
           {/* Uses border-r for items on larger screens to match visual lines */}
