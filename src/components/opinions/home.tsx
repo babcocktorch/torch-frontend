@@ -38,7 +38,7 @@ const OpinionsHome = ({
   return (
     <main className="w-full mb-8">
       {/* Opinions Sub-Navigation Bar */}
-      <nav className="w-full border-b border-border">
+      <nav className="w-full border-b border-border mt-2">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-center overflow-x-auto scrollbar-hide">
             {OPINIONS_NAV_TABS.map((tab, index) => (
