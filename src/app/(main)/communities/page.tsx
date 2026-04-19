@@ -1,7 +1,7 @@
 import CommunitiesHome from "@/components/communities/home";
 // import ComingSoon from "@/components/general/coming-soon";
 import { BASE_URL, IMAGES, PAGES } from "@/lib/constants";
-import { getCommunities } from "@/lib/requests";
+import { getCommunities, getImpactStories } from "@/lib/requests";
 import { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -33,17 +33,17 @@ export const metadata: Metadata = {
 };
 
 const CommunitiesPage = async () => {
-  const { data: communities } = await getCommunities();
+  const [{ data: communities }, impactStories] = await Promise.all([
+    getCommunities(),
+    getImpactStories(),
+  ]);
 
-  return <CommunitiesHome communities={communities || []} />;
-
-  // return (
-  //   <ComingSoon
-  //     title="Communities"
-  //     description="The Communities page is currently under construction. Please check back soon for updates."
-  //     showReturnButton={true}
-  //   />
-  // );
+  return (
+    <CommunitiesHome
+      communities={communities || []}
+      impactStories={impactStories}
+    />
+  );
 };
 
 export default CommunitiesPage;
