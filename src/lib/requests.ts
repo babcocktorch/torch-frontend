@@ -11,6 +11,7 @@ import {
   Community,
   CommunitySubmission,
   CreateSubmissionRequest,
+  ImpactStoryType,
   OpinionAuthor,
   PostType,
 } from "./types";
@@ -804,5 +805,87 @@ export const getMastheadMembers = async (): Promise<MastheadMember[]> => {
   } catch (error) {
     console.error("Failed to fetch masthead members:", error);
     return [];
+  }
+};
+
+// ============================================
+// Impact Stories Functions
+// ============================================
+
+const IMPACT_STORY_PROJECTION = `{
+  _id,
+  title,
+  "slug": slug.current,
+  description,
+  communitySlug,
+  communityName,
+  date,
+  mainImage,
+  author->{
+    name,
+    "slug": slug.current,
+    image
+  },
+  body,
+  isPublished,
+  featured
+}`;
+
+/**
+ * Get all published impact stories, ordered by date descending.
+ * Featured stories appear first.
+ */
+export const getImpactStories = async (): Promise<ImpactStoryType[]> => {
+  const query = groq`
+  *[_type == "impactStory" && isPublished == true] | order(featured desc, date desc) ${IMPACT_STORY_PROJECTION}
+`;
+
+  try {
+    const stories = await sanityClient.fetch(query);
+    return stories as ImpactStoryType[];
+  } catch (error) {
+    console.error("Failed to fetch impact stories:", error);
+    return [];
+  }
+};
+
+/**
+ * Get published impact stories for a specific community.
+ */
+export const getImpactStoriesByCommunity = async (
+  communitySlug: string,
+): Promise<ImpactStoryType[]> => {
+  const query = groq`
+  *[_type == "impactStory" && isPublished == true && communitySlug == $communitySlug] | order(featured desc, date desc) ${IMPACT_STORY_PROJECTION}
+`;
+
+  try {
+    const stories = await sanityClient.fetch(query, { communitySlug });
+    return stories as ImpactStoryType[];
+  } catch (error) {
+    console.error(
+      `Failed to fetch impact stories for community ${communitySlug}:`,
+      error,
+    );
+    return [];
+  }
+};
+
+/**
+ * Get a single impact story by its slug.
+ */
+export const getImpactStory = async (
+  slug: string,
+): Promise<ImpactStoryType | null> => {
+  const query = groq`
+  *[_type == "impactStory" && slug.current == $slug][0] ${IMPACT_STORY_PROJECTION}
+`;
+
+  try {
+    const story = await sanityClient.fetch(query, { slug });
+    return story as ImpactStoryType | null;
+  } catch (error) {
+    console.error(`Failed to fetch impact story ${slug}:`, error);
+    return null;
   }
 };
