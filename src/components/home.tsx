@@ -93,10 +93,13 @@ const Home = ({ posts, editorsPickSlugs }: HomeProps) => {
       {moreTopStories.length > 0 && (
         <section className="w-full">
           <div className="border-b border-border/50 flex flex-col md:flex-row md:items-center justify-between mb-8 pb-1">
-            <h6 className="flex items-center justify-start gap-1 font-semibold hover:gap-1.5 cursor-pointer transition-all border-b-2 border-gold pb-1 md:pb-2 -mb-[2px] md:-mb-[5px]">
+            <Link
+              href={PAGES.top_stories}
+              className="flex items-center justify-start gap-1 font-semibold hover:gap-1.5 cursor-pointer transition-all border-b-2 border-gold pb-1 md:pb-2 -mb-[2px] md:-mb-[5px]"
+            >
               <span className="text-sm lg:text-base">More Top Stories</span>
               <IoIosArrowForward className="text-muted-foreground ml-1 text-sm" />
-            </h6>
+            </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10">
