@@ -1,14 +1,18 @@
 import { BASE_URL, IMAGES, PAGES } from "@/lib/constants";
-import { getCommunityBySlug } from "@/lib/requests";
+import {
+  getCommunityBySlug,
+  getImpactStoriesByCommunity,
+} from "@/lib/requests";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { Users, Mail, ArrowLeft, Calendar, Send } from "lucide-react";
+import { Users, Mail, ArrowLeft, Calendar, Send, BookOpen } from "lucide-react";
 import { georgia } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import SubmissionForm from "@/components/communities/submission-form";
 import { Button } from "@/components/ui/button";
+import ImpactStoryCard from "@/components/communities/impact-story-card";
 
 export const dynamic = "force-dynamic";
 
@@ -64,7 +68,11 @@ const CommunityPage = async ({
   params: Promise<{ slug: string }>;
 }) => {
   const { slug } = await params;
-  const { data: community, error } = await getCommunityBySlug(slug);
+
+  const [{ data: community, error }, stories] = await Promise.all([
+    getCommunityBySlug(slug),
+    getImpactStoriesByCommunity(slug),
+  ]);
 
   if (!community || error) {
     return notFound();
@@ -166,31 +174,32 @@ const CommunityPage = async ({
         />
       </div>
 
-      {/* Content Section */}
+      {/* Impact Stories Section */}
       <div className="py-12">
-        <div className="text-center">
-          <h2
-            className={cn(
-              georgia.className,
-              "text-xl sm:text-2xl font-semibold mb-4",
-            )}
-          >
-            Community Updates
-          </h2>
-          <p className="text-muted-foreground mb-8">
-            News, events, and announcements from {community.name} will appear
-            here once approved.
-          </p>
+        <h2
+          className={cn(
+            georgia.className,
+            "text-xl sm:text-2xl font-semibold mb-6",
+          )}
+        >
+          Impact Stories
+        </h2>
 
-          {/* Placeholder for future content */}
-          <div className="border border-dashed rounded-lg p-12 text-muted-foreground">
-            <Users className="w-12 h-12 mx-auto mb-4 opacity-50" />
-            <p>No published content yet.</p>
+        {stories.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {stories.map((story) => (
+              <ImpactStoryCard key={story._id} story={story} />
+            ))}
+          </div>
+        ) : (
+          <div className="border border-dashed rounded-lg p-12 text-center text-muted-foreground">
+            <BookOpen className="w-12 h-12 mx-auto mb-4 opacity-50" />
+            <p>No published stories yet.</p>
             <p className="text-sm mt-2">
               Be the first to submit news or an event!
             </p>
           </div>
-        </div>
+        )}
       </div>
     </main>
   );
