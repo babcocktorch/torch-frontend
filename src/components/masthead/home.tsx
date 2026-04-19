@@ -216,7 +216,7 @@ const MastheadHome = ({ guards, members }: MastheadHomeProps) => {
   return (
     <main className="w-full mb-8">
       {/* Masthead Sub-Navigation Bar */}
-      <nav className="w-full border-b border-border">
+      <nav className="w-full border-b border-border mt-2">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-center overflow-x-auto scrollbar-hide">
             {MASTHEAD_NAV_TABS.map((tab, index) => (
@@ -245,7 +245,7 @@ const MastheadHome = ({ guards, members }: MastheadHomeProps) => {
 
       {/* Banner */}
       <div className="bg-gold dark:bg-gold/10 px-2 md:pl-8 mb-8">
-        <div className="w-full py-12 max-w-7xl mx-auto relative overflow-hidden flex flex-col gap-4 items-center md:items-start justify-center">
+        <div className="w-full py-16 lg:py-20 max-w-7xl mx-auto relative overflow-hidden flex flex-col gap-4 items-center md:items-start justify-center">
           <h1 className="text-4xl sm:text-5xl lg:text-7xl z-30 text-white font-semibold font-miller">
             Masthead
           </h1>
