@@ -7,6 +7,7 @@ export async function POST() {
     cookieStore.delete("torch-admin-token");
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },
