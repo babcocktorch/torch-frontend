@@ -8,6 +8,7 @@ import Image from "next/image";
 import { IMAGES, PAGES } from "@/lib/constants";
 import { Users, Mail, Search, X, Filter } from "lucide-react";
 import React, { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import ContributorCTA from "@/components/general/contributor-cta";
 import ImpactStoriesFeed from "@/components/communities/impact-stories-feed";
 import { Badge } from "@/components/ui/badge";
@@ -35,7 +36,9 @@ const CommunitiesHome = ({
   communities: Community[];
   impactStories: ImpactStoryType[];
 }) => {
-  const [activeTab, setActiveTab] = useState("home");
+  const searchParams = useSearchParams();
+  const initialTab = searchParams.get("tab") || "home";
+  const [activeTab, setActiveTab] = useState(initialTab);
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
 
