@@ -3,7 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { PAGES } from "@/lib/constants";
-import { georgia } from "@/lib/fonts";
+import { miller } from "@/lib/fonts";
 import { searchPosts } from "@/lib/requests";
 import { PostType } from "@/lib/types";
 import { cn, formatDate } from "@/lib/utils";
@@ -123,7 +123,7 @@ const SearchContent = () => {
                             <div className="flex flex-col gap-2">
                               <p
                                 className={cn(
-                                  georgia.className,
+                                  miller.className,
                                   "sm:text-lg lg:text-xl font-semibold group-hover:text-primary transition-colors",
                                 )}
                               >
@@ -172,7 +172,7 @@ const SearchContent = () => {
                             <div className="flex flex-col gap-2">
                               <p
                                 className={cn(
-                                  georgia.className,
+                                  miller.className,
                                   "sm:text-lg lg:text-xl font-semibold group-hover:text-primary transition-colors",
                                 )}
                               >
