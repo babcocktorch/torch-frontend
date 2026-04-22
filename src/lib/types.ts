@@ -108,11 +108,11 @@ export type Community = {
   slug: string;
   description?: string | null;
   logoUrl?: string | null;
-  bannerUrl?: string | null;
+  bannerURL?: string | null;
   contactEmail?: string | null;
   category?: string | null;
-  memberCount?: number | null;
-  openToJoin?: boolean | null;
+  memberCount: number;
+  openToJoin: boolean;
   createdAt: string;
   updatedAt?: string;
   _count?: {
@@ -152,6 +152,9 @@ export type CreateCommunityRequest = {
   description?: string;
   logoUrl?: string;
   contactEmail?: string;
+  category?: string;
+  openToJoin?: boolean;
+  bannerURL?: string;
 };
 
 export type UpdateCommunityRequest = {
@@ -160,6 +163,9 @@ export type UpdateCommunityRequest = {
   description?: string | null;
   logoUrl?: string | null;
   contactEmail?: string | null;
+  category?: string | null;
+  openToJoin?: boolean;
+  bannerURL?: string | null;
 };
 
 export type CreateSubmissionRequest = {
