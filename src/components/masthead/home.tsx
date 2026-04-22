@@ -140,7 +140,7 @@ const BoardSection = ({ title, members, isAdvisory }: BoardSectionProps) => {
   if (isAdvisory && featuredMember) {
     return (
       <section className="mb-12">
-        <div className="flex flex-col md:flex-row md:items-end gap-6">
+        <div className="flex flex-col md:flex-row items-start gap-6">
           {/* Featured member on left - larger card */}
           <div className="w-full md:w-1/3">
             <MemberCard member={featuredMember} />
