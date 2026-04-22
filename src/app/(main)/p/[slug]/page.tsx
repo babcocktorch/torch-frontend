@@ -2,7 +2,7 @@ import { sanityClient, urlFor } from "@/lib/sanity.client";
 import { groq } from "next-sanity";
 import { PortableText, toPlainText } from "@portabletext/react";
 import { cn, readTime } from "@/lib/utils";
-import { georgia } from "@/lib/fonts";
+import { miller } from "@/lib/fonts";
 import React from "react";
 import { notFound } from "next/navigation";
 import { HiCalendar } from "react-icons/hi";
@@ -202,7 +202,7 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
           </div>
 
           {post.body && (
-            <div className={cn(georgia.className, "text-sm lg:text-base")}>
+            <div className={cn(miller.className, "text-sm lg:text-base")}>
               <PortableText value={post.body} components={ptComponents} />
             </div>
           )}
