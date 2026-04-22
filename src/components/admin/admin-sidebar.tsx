@@ -40,12 +40,17 @@ const navItems = [
   },
 ];
 
-export function AdminSidebar() {
+export function AdminSidebar({ className }: { className?: string }) {
   const pathname = usePathname();
   const { admin, logout } = useAuth();
 
   return (
-    <aside className="w-64 border-r border-border bg-card flex flex-col h-screen sticky top-0">
+    <aside
+      className={cn(
+        "w-64 border-r border-border bg-card flex flex-col h-screen sticky top-0",
+        className,
+      )}
+    >
       {/* Logo */}
       <div className="p-6">
         <Link href={ADMIN_PAGES.dashboard} className="flex items-center gap-3">
@@ -76,7 +81,7 @@ export function AdminSidebar() {
                 "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors",
                 isActive
                   ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                  : "text-muted-foreground hover:text-foreground hover:bg-accent",
               )}
             >
               <item.icon className="h-4 w-4" />
