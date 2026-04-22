@@ -1,7 +1,7 @@
 import { urlFor } from "@/lib/sanity.client";
 import { PortableText } from "@portabletext/react";
 import { cn } from "@/lib/utils";
-import { georgia } from "@/lib/fonts";
+import { miller } from "@/lib/fonts";
 import React from "react";
 import { notFound } from "next/navigation";
 import { HiCalendar } from "react-icons/hi";
@@ -215,7 +215,7 @@ const ImpactStoryPage = async ({
 
         {/* Body */}
         {story.body && (
-          <div className={cn(georgia.className, "text-sm lg:text-base")}>
+          <div className={cn(miller.className, "text-sm lg:text-base")}>
             <PortableText value={story.body} components={ptComponents} />
           </div>
         )}
