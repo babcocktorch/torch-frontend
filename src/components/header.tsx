@@ -7,7 +7,7 @@ import Image from "next/image";
 import ThemeToggle from "./general/theme-toggle";
 import Sidebar from "./general/sidebar";
 import { cn } from "@/lib/utils";
-import { georgia } from "@/lib/fonts";
+import { miller } from "@/lib/fonts";
 import Link from "next/link";
 import IdeaSubmission from "./general/idea-submission";
 import { useEffect, useRef, useState } from "react";
@@ -138,7 +138,7 @@ const Header = () => {
             <p
               className={cn(
                 "text-xs text-muted-foreground hidden sm:block",
-                georgia.className,
+                miller.className,
               )}
             >
               The University Daily, Est. 2025
@@ -206,7 +206,7 @@ const Header = () => {
                   )}
                 />
               </Link>
-              <p className={cn("text-sm", georgia.className)}>
+              <p className={cn("text-sm", miller.className)}>
                 The University Daily, Est. 2025
               </p>
             </div>
