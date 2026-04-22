@@ -1,7 +1,7 @@
 "use client";
 
 import { IMAGES, PAGES } from "@/lib/constants";
-import { georgia } from "@/lib/fonts";
+import { miller } from "@/lib/fonts";
 import { app_theme } from "@/lib/atoms";
 import { useAtomValue } from "jotai";
 import Image from "next/image";
@@ -40,7 +40,7 @@ const ComingSoon = ({
           <div className="flex items-center justify-center gap-4">
             <div className="h-px w-16 bg-border" />
             <p
-              className={cn("text-sm text-muted-foreground", georgia.className)}
+              className={cn("text-sm text-muted-foreground", miller.className)}
             >
               IN DEVELOPMENT
             </p>
