@@ -1,6 +1,6 @@
 import { ImpactStoryType } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { georgia } from "@/lib/fonts";
+import { miller } from "@/lib/fonts";
 import { BookOpen } from "lucide-react";
 import ImpactStoryCard from "./impact-story-card";
 
@@ -11,7 +11,7 @@ const ImpactStoriesFeed = ({ stories }: { stories: ImpactStoryType[] }) => {
         <BookOpen className="w-16 h-16 mx-auto text-muted-foreground/50 mb-4" />
         <h2
           className={cn(
-            georgia.className,
+            miller.className,
             "text-xl sm:text-2xl font-semibold mb-3",
           )}
         >
@@ -35,7 +35,7 @@ const ImpactStoriesFeed = ({ stories }: { stories: ImpactStoryType[] }) => {
     <div className="px-6 max-w-7xl mx-auto py-8">
       <h2
         className={cn(
-          georgia.className,
+          miller.className,
           "text-2xl sm:text-3xl font-semibold mb-8",
         )}
       >
