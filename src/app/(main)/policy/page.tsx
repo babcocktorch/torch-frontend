@@ -1,4 +1,4 @@
-import ComingSoon from "@/components/general/coming-soon";
+import Policy from "@/components/masthead/policy";
 import { BASE_URL, IMAGES, PAGES } from "@/lib/constants";
 import { Metadata } from "next";
 
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   description: "The Policy is the editorial policy of The Babcock Torch.",
   alternates: {
-    canonical: BASE_URL,
+    canonical: BASE_URL + PAGES.policy,
   },
   openGraph: {
     images: BASE_URL + IMAGES.logos.logo.src,
@@ -28,13 +28,7 @@ export const metadata: Metadata = {
 };
 
 const PolicyPage = () => {
-  return (
-    <ComingSoon
-      title="Policy"
-      description="The Policy is the editorial policy of The Babcock Torch."
-      showReturnButton={true}
-    />
-  );
+  return <Policy />;
 };
 
 export default PolicyPage;
