@@ -2,7 +2,7 @@ import { cn, formatDate } from "@/lib/utils";
 import Link from "next/link";
 import { PostProps } from "@/lib/types";
 import { PAGES } from "@/lib/constants";
-import { georgia } from "@/lib/fonts";
+import { miller } from "@/lib/fonts";
 
 const CompressedArticle = ({ post }: PostProps) => {
   const postUrl = post.slug === "#" ? "#" : PAGES.post(post.slug);
@@ -13,7 +13,7 @@ const CompressedArticle = ({ post }: PostProps) => {
         <h3
           className={cn(
             "text-base lg:text-lg font-medium group-hover:text-gold transition-colors",
-            georgia.className,
+            miller.className,
           )}
         >
           {post.title}
