@@ -8,7 +8,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Users, Mail, ArrowLeft, Calendar, Send, BookOpen } from "lucide-react";
-import { georgia } from "@/lib/fonts";
+import { miller } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import SubmissionForm from "@/components/communities/submission-form";
 import { Button } from "@/components/ui/button";
@@ -118,7 +118,7 @@ const CommunityPage = async ({
         <div className="flex flex-col gap-4">
           <h1
             className={cn(
-              georgia.className,
+              miller.className,
               "text-2xl sm:text-3xl lg:text-4xl font-semibold",
             )}
           >
@@ -178,7 +178,7 @@ const CommunityPage = async ({
       <div className="py-12">
         <h2
           className={cn(
-            georgia.className,
+            miller.className,
             "text-xl sm:text-2xl font-semibold mb-6",
           )}
         >
