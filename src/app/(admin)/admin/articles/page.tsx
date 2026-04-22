@@ -87,7 +87,7 @@ export default function AdminArticlesPage() {
     const result = await syncArticles(token);
     if (result.data) {
       toast.success(
-        `Synced successfully! Created: ${result.data.created}, Updated: ${result.data.updated}`
+        `Synced successfully! Created: ${result.data.created}, Updated: ${result.data.updated}`,
       );
       fetchArticles();
     } else if (result.error) {
@@ -104,18 +104,18 @@ export default function AdminArticlesPage() {
     const result = await updateArticleVisibility(
       token,
       article.id,
-      newVisibility
+      newVisibility,
     );
     if (result.data) {
       setArticles((prev) =>
         prev.map((a) =>
           a.id === article.id
             ? { ...a, visibility: result.data!.article.visibility }
-            : a
-        )
+            : a,
+        ),
       );
       toast.success(
-        `Article is now ${newVisibility === "public" ? "visible" : "hidden"}`
+        `Article is now ${newVisibility === "public" ? "visible" : "hidden"}`,
       );
     } else if (result.error) {
       toast.error(result.error);
@@ -237,15 +237,18 @@ export default function AdminArticlesPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold">Articles</h1>
           <p className="text-muted-foreground">
-            Manage article visibility, Editor&apos;s Picks, and Featured
-            Opinion
+            Manage article visibility, Editor&apos;s Picks, and Featured Opinion
           </p>
         </div>
-        <Button onClick={handleSync} disabled={isSyncing}>
+        <Button
+          onClick={handleSync}
+          disabled={isSyncing}
+          className="w-full sm:w-auto"
+        >
           {isSyncing ? (
             <Loader2 className="h-4 w-4 mr-2 animate-spin" />
           ) : (
@@ -259,9 +262,7 @@ export default function AdminArticlesPage() {
       <Card>
         <CardHeader>
           <CardTitle className="text-lg">Filters</CardTitle>
-          <CardDescription>
-            Search and filter articles
-          </CardDescription>
+          <CardDescription>Search and filter articles</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col sm:flex-row gap-4">
@@ -310,7 +311,7 @@ export default function AdminArticlesPage() {
 
       {/* Articles Table */}
       <Card>
-        <CardContent className="p-0">
+        <CardContent className="p-0 overflow-x-auto">
           {isLoading ? (
             <div className="flex items-center justify-center py-12">
               <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
