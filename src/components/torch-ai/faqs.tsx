@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { georgia } from "@/lib/fonts";
+import { miller } from "@/lib/fonts";
 
 interface TorchAIFAQsProps {
   open: boolean;
@@ -53,7 +53,7 @@ const TorchAIFAQs = ({ open, onOpenChange }: TorchAIFAQsProps) => {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className={cn("text-2xl", georgia.className)}>
+          <DialogTitle className={cn("text-2xl", miller.className)}>
             Frequently Asked Questions
           </DialogTitle>
           <DialogDescription>
