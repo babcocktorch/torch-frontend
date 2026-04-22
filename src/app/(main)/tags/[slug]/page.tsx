@@ -1,5 +1,5 @@
 import { BASE_URL, IMAGES, PAGES } from "@/lib/constants";
-import { georgia } from "@/lib/fonts";
+import { miller } from "@/lib/fonts";
 import { getPostsByTag } from "@/lib/requests";
 import { cn, formatDate } from "@/lib/utils";
 import { Metadata } from "next";
@@ -100,7 +100,7 @@ const TagPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
                             <div className="flex flex-col gap-2">
                               <p
                                 className={cn(
-                                  georgia.className,
+                                  miller.className,
                                   "sm:text-lg lg:text-xl font-semibold group-hover:text-primary transition-colors",
                                 )}
                               >
@@ -149,7 +149,7 @@ const TagPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
                             <div className="flex flex-col gap-2">
                               <p
                                 className={cn(
-                                  georgia.className,
+                                  miller.className,
                                   "sm:text-lg lg:text-xl font-semibold group-hover:text-primary transition-colors",
                                 )}
                               >
