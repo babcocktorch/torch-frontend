@@ -1,5 +1,5 @@
 import { PostType } from "@/lib/types";
-import { georgia } from "@/lib/fonts";
+import { miller } from "@/lib/fonts";
 import { cn, formatDate } from "@/lib/utils";
 import Link from "next/link";
 import { PAGES } from "@/lib/constants";
@@ -17,7 +17,7 @@ export default function MostRead({ opinions }: { opinions: PostType[] }) {
       <div className="mb-12 text-center">
         <h2
           className={cn(
-            georgia.className,
+            miller.className,
             "text-3xl md:text-5xl font-bold mb-4",
           )}
         >
@@ -89,7 +89,7 @@ export default function MostRead({ opinions }: { opinions: PostType[] }) {
                 <Link href={PAGES.post(opinion.slug)}>
                   <h3
                     className={cn(
-                      georgia.className,
+                      miller.className,
                       "text-xl font-bold mb-2 group-hover:text-gold transition-colors line-clamp-2",
                     )}
                   >
