@@ -56,7 +56,7 @@ export default function AdminDashboardPage() {
     const result = await syncArticles(token);
     if (result.data) {
       toast.success(
-        `Synced successfully! Created: ${result.data.created}, Updated: ${result.data.updated}`
+        `Synced successfully! Created: ${result.data.created}, Updated: ${result.data.updated}`,
       );
       fetchArticles();
     } else if (result.error) {
@@ -76,14 +76,18 @@ export default function AdminDashboardPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold">Dashboard</h1>
           <p className="text-muted-foreground">
             Welcome back, {admin?.name || "Admin"}
           </p>
         </div>
-        <Button onClick={handleSync} disabled={isSyncing}>
+        <Button
+          onClick={handleSync}
+          disabled={isSyncing}
+          className="w-full sm:w-auto"
+        >
           {isSyncing ? (
             <Loader2 className="h-4 w-4 mr-2 animate-spin" />
           ) : (
@@ -121,9 +125,7 @@ export default function AdminDashboardPage() {
             <div className="text-2xl font-bold">
               {isLoading ? "..." : stats.public}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Visible to readers
-            </p>
+            <p className="text-xs text-muted-foreground">Visible to readers</p>
           </CardContent>
         </Card>
 
@@ -136,9 +138,7 @@ export default function AdminDashboardPage() {
             <div className="text-2xl font-bold">
               {isLoading ? "..." : stats.private}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Hidden from readers
-            </p>
+            <p className="text-xs text-muted-foreground">Hidden from readers</p>
           </CardContent>
         </Card>
 
