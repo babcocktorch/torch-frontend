@@ -4,7 +4,7 @@ import { urlFor } from "@/lib/sanity.client";
 import Link from "next/link";
 import { PostType } from "@/lib/types";
 import { PAGES } from "@/lib/constants";
-import { georgia } from "@/lib/fonts";
+import { miller } from "@/lib/fonts";
 
 interface EditorsPickProps {
   featuredPost: PostType;
@@ -131,7 +131,7 @@ const EditorsPick = ({
                   <h3
                     className={cn(
                       "text-sm lg:text-base font-semibold mt-2.5 group-hover:text-gold transition-colors leading-snug",
-                      georgia.className,
+                      miller.className,
                     )}
                   >
                     {pick.title}
