@@ -1,7 +1,7 @@
 "use client";
 
 import { Community, ImpactStoryType } from "@/lib/types";
-import { georgia } from "@/lib/fonts";
+import { miller } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
@@ -303,9 +303,9 @@ const CommunityCard = ({ community }: { community: Community }) => {
         href={PAGES.community(community.slug)}
         className="relative w-full aspect-4/3 bg-muted block"
       >
-        {community.bannerUrl ? (
+        {community.bannerURL ? (
           <Image
-            src={community.bannerUrl}
+            src={community.bannerURL}
             alt={community.name}
             fill
             className="object-cover"
@@ -343,7 +343,7 @@ const CommunityCard = ({ community }: { community: Community }) => {
         <Link href={PAGES.community(community.slug)} className="group">
           <h2
             className={cn(
-              georgia.className,
+              miller.className,
               "text-lg font-semibold group-hover:text-gold transition-colors leading-tight",
             )}
           >
