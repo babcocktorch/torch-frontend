@@ -564,7 +564,7 @@ export default function AdminCommunitiesPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold">Communities</h1>
           <p className="text-muted-foreground">
@@ -573,7 +573,7 @@ export default function AdminCommunitiesPage() {
         </div>
         <Dialog open={createDialogOpen} onOpenChange={setCreateDialogOpen}>
           <DialogTrigger asChild>
-            <Button onClick={() => resetForm()}>
+            <Button onClick={() => resetForm()} className="w-full sm:w-auto">
               <Plus className="h-4 w-4 mr-2" />
               Add Community
             </Button>
@@ -627,7 +627,7 @@ export default function AdminCommunitiesPage() {
 
       {/* Communities Table */}
       <Card>
-        <CardContent className="p-0">
+        <CardContent className="p-0 overflow-x-auto">
           {isLoading ? (
             <div className="flex items-center justify-center py-12">
               <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
