@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useAuth } from "@/lib/auth-context";
 import {
   getAdminCommunities,
@@ -9,10 +9,20 @@ import {
   deleteCommunity,
 } from "@/lib/admin-requests";
 import { Community, CreateCommunityRequest } from "@/lib/types";
+import { uploadCommunityImage } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -64,7 +74,303 @@ import {
   Loader2,
   Users,
   Search,
+  X,
+  ImageIcon,
 } from "lucide-react";
+
+// ============================================
+// Constants
+// ============================================
+
+const COMMUNITY_CATEGORIES = [
+  "Arts",
+  "Sports",
+  "Religious",
+  "Cultural",
+  "Tech",
+  "Academic",
+  "Social",
+  "Media",
+  "Health",
+  "Business",
+  "Other",
+] as const;
+
+const NONE_VALUE = "__none__";
+
+// ============================================
+// Extended form state type (includes all fields)
+// ============================================
+
+type CommunityFormData = {
+  name: string;
+  slug: string;
+  description: string;
+  logoUrl: string;
+  contactEmail: string;
+  category: string;
+  openToJoin: boolean;
+  bannerURL: string;
+};
+
+const EMPTY_FORM: CommunityFormData = {
+  name: "",
+  slug: "",
+  description: "",
+  logoUrl: "",
+  contactEmail: "",
+  category: "",
+  openToJoin: false,
+  bannerURL: "",
+};
+
+// ============================================
+// Image Upload Zone Component
+// ============================================
+
+function ImageUploadZone({
+  label,
+  currentUrl,
+  type,
+  onUpload,
+  onClear,
+  id,
+}: {
+  label: string;
+  currentUrl: string;
+  type: "logo" | "banner";
+  onUpload: (url: string) => void;
+  onClear: () => void;
+  id: string;
+}) {
+  const [isUploading, setIsUploading] = useState(false);
+  const [isDragOver, setIsDragOver] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFile = useCallback(
+    async (file: File) => {
+      setIsUploading(true);
+      try {
+        const url = await uploadCommunityImage(file, type);
+        onUpload(url);
+        toast.success(`${label} uploaded successfully`);
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : "Upload failed";
+        toast.error(msg);
+      } finally {
+        setIsUploading(false);
+      }
+    },
+    [type, label, onUpload],
+  );
+
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      setIsDragOver(false);
+      const file = e.dataTransfer.files[0];
+      if (file) handleFile(file);
+    },
+    [handleFile],
+  );
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) handleFile(file);
+    // Reset so re-uploading the same file works
+    e.target.value = "";
+  };
+
+  const aspectClass =
+    type === "logo" ? "aspect-square w-24" : "aspect-[3/1] w-full";
+  const sizeHint = type === "logo" ? "Max 2 MB" : "Max 5 MB";
+
+  return (
+    <div className="space-y-2">
+      <Label htmlFor={id}>{label}</Label>
+
+      {currentUrl ? (
+        <div className="relative group">
+          <img
+            src={currentUrl}
+            alt=""
+            className={`${aspectClass} rounded-lg object-cover border border-border bg-muted`}
+          />
+          <button
+            type="button"
+            onClick={onClear}
+            className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+            aria-label="Remove image"
+          >
+            <X className="h-3 w-3" />
+          </button>
+        </div>
+      ) : (
+        <div
+          onDragOver={(e) => {
+            e.preventDefault();
+            setIsDragOver(true);
+          }}
+          onDragLeave={() => setIsDragOver(false)}
+          onDrop={handleDrop}
+          onClick={() => fileInputRef.current?.click()}
+          className={`
+            ${aspectClass} max-h-32 rounded-lg border-2 border-dashed cursor-pointer
+            flex flex-col items-center justify-center gap-1 text-muted-foreground
+            transition-colors
+            ${isDragOver ? "border-primary bg-primary/5" : "border-border hover:border-primary/50"}
+          `}
+        >
+          {isUploading ? (
+            <Loader2 className="h-5 w-5 animate-spin" />
+          ) : (
+            <>
+              <ImageIcon className="h-5 w-5" />
+              <span className="text-xs">Drop or click · {sizeHint}</span>
+            </>
+          )}
+        </div>
+      )}
+
+      <input
+        ref={fileInputRef}
+        id={id}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={handleChange}
+      />
+    </div>
+  );
+}
+
+// ============================================
+// Reusable Community Form Component
+// ============================================
+
+function CommunityForm({
+  formData,
+  setFormData,
+}: {
+  formData: CommunityFormData;
+  setFormData: React.Dispatch<React.SetStateAction<CommunityFormData>>;
+}) {
+  return (
+    <div className="space-y-4 py-4 max-h-[60vh] overflow-y-auto pr-2">
+      <div className="space-y-2">
+        <Label htmlFor="name">Name *</Label>
+        <Input
+          id="name"
+          value={formData.name}
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          placeholder="e.g., Robotics Club"
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="slug">Slug (optional)</Label>
+        <Input
+          id="slug"
+          value={formData.slug}
+          onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+          placeholder="e.g., robotics-club (auto-generated if empty)"
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="description">Description (optional)</Label>
+        <Textarea
+          id="description"
+          value={formData.description}
+          onChange={(e) =>
+            setFormData({ ...formData, description: e.target.value })
+          }
+          placeholder="Brief description of the community..."
+          rows={3}
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="category">Category</Label>
+          <Select
+            value={formData.category || NONE_VALUE}
+            onValueChange={(v) =>
+              setFormData({ ...formData, category: v === NONE_VALUE ? "" : v })
+            }
+          >
+            <SelectTrigger id="category">
+              <SelectValue placeholder="Select category" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value={NONE_VALUE}>None</SelectItem>
+              {COMMUNITY_CATEGORIES.map((cat) => (
+                <SelectItem key={cat} value={cat}>
+                  {cat}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="contactEmail">Contact Email</Label>
+          <Input
+            id="contactEmail"
+            type="email"
+            value={formData.contactEmail}
+            onChange={(e) =>
+              setFormData({ ...formData, contactEmail: e.target.value })
+            }
+            placeholder="contact@example.com"
+          />
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between rounded-lg border border-border p-3">
+        <div className="space-y-0.5">
+          <Label htmlFor="openToJoin" className="cursor-pointer">
+            Open to Join
+          </Label>
+          <p className="text-xs text-muted-foreground">
+            Allow members to join freely
+          </p>
+        </div>
+        <Switch
+          id="openToJoin"
+          checked={formData.openToJoin}
+          onCheckedChange={(checked) =>
+            setFormData({ ...formData, openToJoin: checked })
+          }
+        />
+      </div>
+
+      <div className="grid grid-cols-[auto_1fr] gap-4 items-start">
+        <ImageUploadZone
+          id="logoUpload"
+          label="Logo"
+          type="logo"
+          currentUrl={formData.logoUrl}
+          onUpload={(url) => setFormData({ ...formData, logoUrl: url })}
+          onClear={() => setFormData({ ...formData, logoUrl: "" })}
+        />
+
+        <ImageUploadZone
+          id="bannerUpload"
+          label="Banner"
+          type="banner"
+          currentUrl={formData.bannerURL}
+          onUpload={(url) => setFormData({ ...formData, bannerURL: url })}
+          onClear={() => setFormData({ ...formData, bannerURL: "" })}
+        />
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// Main Page Component
+// ============================================
 
 export default function AdminCommunitiesPage() {
   const { token } = useAuth();
@@ -77,17 +383,13 @@ export default function AdminCommunitiesPage() {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedCommunity, setSelectedCommunity] = useState<Community | null>(
-    null
+    null,
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Form state
-  const [formData, setFormData] = useState<CreateCommunityRequest>({
-    name: "",
-    slug: "",
-    description: "",
-    logoUrl: "",
-    contactEmail: "",
+  const [formData, setFormData] = useState<CommunityFormData>({
+    ...EMPTY_FORM,
   });
 
   useEffect(() => {
@@ -115,13 +417,18 @@ export default function AdminCommunitiesPage() {
     }
 
     setIsSubmitting(true);
-    const result = await createCommunity(token, {
+    const payload: CreateCommunityRequest = {
       name: formData.name.trim(),
       slug: formData.slug?.trim() || undefined,
       description: formData.description?.trim() || undefined,
       logoUrl: formData.logoUrl?.trim() || undefined,
       contactEmail: formData.contactEmail?.trim() || undefined,
-    });
+      category: formData.category?.trim() || undefined,
+      openToJoin: formData.openToJoin,
+      bannerURL: formData.bannerURL?.trim() || undefined,
+    };
+
+    const result = await createCommunity(token, payload);
 
     if (result.data) {
       toast.success("Community created successfully");
@@ -147,14 +454,17 @@ export default function AdminCommunitiesPage() {
       description: formData.description?.trim() || null,
       logoUrl: formData.logoUrl?.trim() || null,
       contactEmail: formData.contactEmail?.trim() || null,
+      category: formData.category?.trim() || null,
+      openToJoin: formData.openToJoin,
+      bannerURL: formData.bannerURL?.trim() || null,
     });
 
     if (result.data) {
       toast.success("Community updated successfully");
       setCommunities((prev) =>
         prev.map((c) =>
-          c.id === selectedCommunity.id ? result.data!.community : c
-        )
+          c.id === selectedCommunity.id ? result.data!.community : c,
+        ),
       );
       setEditDialogOpen(false);
       resetForm();
@@ -172,10 +482,10 @@ export default function AdminCommunitiesPage() {
 
     if (result.data) {
       toast.success(
-        `Community deleted. ${result.data.deletedSubmissions} submissions removed.`
+        `Community deleted. ${result.data.deletedSubmissions} submissions removed.`,
       );
       setCommunities((prev) =>
-        prev.filter((c) => c.id !== selectedCommunity.id)
+        prev.filter((c) => c.id !== selectedCommunity.id),
       );
       setDeleteDialogOpen(false);
       setSelectedCommunity(null);
@@ -193,6 +503,9 @@ export default function AdminCommunitiesPage() {
       description: community.description || "",
       logoUrl: community.logoUrl || "",
       contactEmail: community.contactEmail || "",
+      category: community.category || "",
+      openToJoin: community.openToJoin ?? false,
+      bannerURL: community.bannerURL || "",
     });
     setEditDialogOpen(true);
   };
@@ -203,13 +516,7 @@ export default function AdminCommunitiesPage() {
   };
 
   const resetForm = () => {
-    setFormData({
-      name: "",
-      slug: "",
-      description: "",
-      logoUrl: "",
-      contactEmail: "",
-    });
+    setFormData({ ...EMPTY_FORM });
     setSelectedCommunity(null);
   };
 
@@ -218,7 +525,10 @@ export default function AdminCommunitiesPage() {
     (community) =>
       searchQuery === "" ||
       community.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      community.slug.toLowerCase().includes(searchQuery.toLowerCase())
+      community.slug.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (community.category || "")
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase()),
   );
 
   const formatDate = (dateString: string) => {
@@ -246,7 +556,7 @@ export default function AdminCommunitiesPage() {
               Add Community
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="sm:max-w-[550px]">
             <DialogHeader>
               <DialogTitle>Create Community</DialogTitle>
               <DialogDescription>
@@ -276,7 +586,9 @@ export default function AdminCommunitiesPage() {
       <Card>
         <CardHeader>
           <CardTitle className="text-lg">Search</CardTitle>
-          <CardDescription>Find communities by name or slug</CardDescription>
+          <CardDescription>
+            Find communities by name, slug, or category
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="relative">
@@ -309,8 +621,10 @@ export default function AdminCommunitiesPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[30%]">Name</TableHead>
-                  <TableHead>Slug</TableHead>
+                  <TableHead className="w-[25%]">Name</TableHead>
+                  <TableHead>Category</TableHead>
+                  <TableHead>Members</TableHead>
+                  <TableHead>Status</TableHead>
                   <TableHead>Submissions</TableHead>
                   <TableHead>Created</TableHead>
                   <TableHead className="w-[50px]"></TableHead>
@@ -332,11 +646,32 @@ export default function AdminCommunitiesPage() {
                             <Users className="h-4 w-4 text-muted-foreground" />
                           </div>
                         )}
-                        <span className="font-medium">{community.name.length > 30 ? community.name.substring(0, 30) + "..." : community.name}</span>
+                        <span className="font-medium">
+                          {community.name.length > 25
+                            ? community.name.substring(0, 25) + "..."
+                            : community.name}
+                        </span>
                       </div>
                     </TableCell>
-                    <TableCell className="text-muted-foreground">
-                      {community.slug}
+                    <TableCell>
+                      {community.category ? (
+                        <Badge variant="secondary">{community.category}</Badge>
+                      ) : (
+                        <span className="text-muted-foreground text-sm">—</span>
+                      )}
+                    </TableCell>
+                    <TableCell>{community.memberCount ?? 0}</TableCell>
+                    <TableCell>
+                      {community.openToJoin ? (
+                        <Badge
+                          variant="default"
+                          className="bg-emerald-600 hover:bg-emerald-700"
+                        >
+                          Open
+                        </Badge>
+                      ) : (
+                        <Badge variant="outline">Closed</Badge>
+                      )}
                     </TableCell>
                     <TableCell>{community._count?.submissions || 0}</TableCell>
                     <TableCell className="text-muted-foreground">
@@ -386,12 +721,10 @@ export default function AdminCommunitiesPage() {
 
       {/* Edit Dialog */}
       <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-[550px]">
           <DialogHeader>
             <DialogTitle>Edit Community</DialogTitle>
-            <DialogDescription>
-              Update community information.
-            </DialogDescription>
+            <DialogDescription>Update community information.</DialogDescription>
           </DialogHeader>
           <CommunityForm formData={formData} setFormData={setFormData} />
           <DialogFooter>
@@ -433,73 +766,6 @@ export default function AdminCommunitiesPage() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
-  );
-}
-
-// Reusable form component
-function CommunityForm({
-  formData,
-  setFormData,
-}: {
-  formData: CreateCommunityRequest;
-  setFormData: React.Dispatch<React.SetStateAction<CreateCommunityRequest>>;
-}) {
-  return (
-    <div className="space-y-4 py-4">
-      <div className="space-y-2">
-        <Label htmlFor="name">Name *</Label>
-        <Input
-          id="name"
-          value={formData.name}
-          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          placeholder="e.g., Robotics Club"
-        />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="slug">Slug (optional)</Label>
-        <Input
-          id="slug"
-          value={formData.slug}
-          onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-          placeholder="e.g., robotics-club (auto-generated if empty)"
-        />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="description">Description (optional)</Label>
-        <Textarea
-          id="description"
-          value={formData.description}
-          onChange={(e) =>
-            setFormData({ ...formData, description: e.target.value })
-          }
-          placeholder="Brief description of the community..."
-          rows={3}
-        />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="logoUrl">Logo URL (optional)</Label>
-        <Input
-          id="logoUrl"
-          value={formData.logoUrl}
-          onChange={(e) =>
-            setFormData({ ...formData, logoUrl: e.target.value })
-          }
-          placeholder="https://example.com/logo.png"
-        />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="contactEmail">Contact Email (optional)</Label>
-        <Input
-          id="contactEmail"
-          type="email"
-          value={formData.contactEmail}
-          onChange={(e) =>
-            setFormData({ ...formData, contactEmail: e.target.value })
-          }
-          placeholder="contact@example.com"
-        />
-      </div>
     </div>
   );
 }
