@@ -9,7 +9,7 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-
+import IdeaSubmission from "./general/idea-submission";
 const Footer = () => {
   const theme = useAtomValue(app_theme);
   const [email, setEmail] = useState("");
@@ -125,13 +125,17 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:opacity-70 transition">
-                  Send an Anonymous News Tip
-                </Link>
+                <IdeaSubmission
+                  trigger={
+                    <button className="hover:opacity-70 transition cursor-pointer text-left">
+                      Send an Anonymous News Tip
+                    </button>
+                  }
+                />
               </li>
               <li>
                 <Link
-                  href="mailto:editorial@babcocktorch.com"
+                  href="mailto:editor@babcocktorch.com"
                   className="hover:opacity-70 transition"
                 >
                   Contact the Newsroom
@@ -139,7 +143,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="mailto:opinions@babcocktorch.com"
+                  href="mailto:editor@babcocktorch.com"
                   className="hover:opacity-70 transition"
                 >
                   Contact the Opinions Team
@@ -147,7 +151,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="mailto:dev@babcocktorch.com"
+                  href="mailto:support@babcocktorch.com"
                   className="hover:opacity-70 transition"
                 >
                   Report a Vulnerability
