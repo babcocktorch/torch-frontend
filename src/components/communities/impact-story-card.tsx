@@ -1,5 +1,5 @@
 import { PAGES } from "@/lib/constants";
-import { georgia } from "@/lib/fonts";
+import { miller } from "@/lib/fonts";
 import { urlFor } from "@/lib/sanity.client";
 import { ImpactStoryType } from "@/lib/types";
 import { cn, formatDate } from "@/lib/utils";
@@ -49,7 +49,7 @@ const ImpactStoryCard = ({ story }: { story: ImpactStoryType }) => {
         <div className="flex flex-col flex-1 p-5 gap-2">
           <h3
             className={cn(
-              georgia.className,
+              miller.className,
               "text-lg font-semibold group-hover:text-gold transition-colors leading-tight line-clamp-2",
             )}
           >
