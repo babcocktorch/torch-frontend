@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { georgia } from "@/lib/fonts";
+import { miller } from "@/lib/fonts";
 import { ExternalLink, Images, Calendar, Filter, X } from "lucide-react";
 import { useState, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
@@ -306,7 +306,7 @@ const AlbumCard = ({ album }: { album: GalleryAlbum }) => {
       <div className="p-4 flex flex-col gap-2">
         <h3
           className={cn(
-            georgia.className,
+            miller.className,
             "text-base font-semibold leading-tight group-hover:text-gold transition-colors",
           )}
         >
