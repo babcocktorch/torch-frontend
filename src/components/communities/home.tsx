@@ -204,7 +204,7 @@ const CommunitiesHome = ({
                   value={categoryFilter}
                   onValueChange={setCategoryFilter}
                 >
-                  <SelectTrigger className="w-full sm:w-[180px]">
+                  <SelectTrigger className="w-full sm:w-45">
                     <Filter className="w-4 h-4 mr-2 text-muted-foreground shrink-0" />
                     <SelectValue placeholder="Category" />
                   </SelectTrigger>
