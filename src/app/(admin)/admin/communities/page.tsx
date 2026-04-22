@@ -111,6 +111,7 @@ type CommunityFormData = {
   category: string;
   openToJoin: boolean;
   bannerURL: string;
+  memberCount: number;
 };
 
 const EMPTY_FORM: CommunityFormData = {
@@ -122,6 +123,7 @@ const EMPTY_FORM: CommunityFormData = {
   category: "",
   openToJoin: false,
   bannerURL: "",
+  memberCount: 0,
 };
 
 // ============================================
@@ -325,6 +327,23 @@ function CommunityForm({
             placeholder="contact@example.com"
           />
         </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="memberCount">Member Count</Label>
+          <Input
+            id="memberCount"
+            type="number"
+            min={0}
+            value={formData.memberCount}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                memberCount: parseInt(e.target.value) || 0,
+              })
+            }
+            placeholder="e.g., 50"
+          />
+        </div>
       </div>
 
       <div className="flex items-center justify-between rounded-lg border border-border p-3">
@@ -426,6 +445,7 @@ export default function AdminCommunitiesPage() {
       category: formData.category?.trim() || undefined,
       openToJoin: formData.openToJoin,
       bannerURL: formData.bannerURL?.trim() || undefined,
+      memberCount: formData.memberCount,
     };
 
     const result = await createCommunity(token, payload);
@@ -457,6 +477,7 @@ export default function AdminCommunitiesPage() {
       category: formData.category?.trim() || null,
       openToJoin: formData.openToJoin,
       bannerURL: formData.bannerURL?.trim() || null,
+      memberCount: formData.memberCount,
     });
 
     if (result.data) {
@@ -506,6 +527,7 @@ export default function AdminCommunitiesPage() {
       category: community.category || "",
       openToJoin: community.openToJoin ?? false,
       bannerURL: community.bannerURL || "",
+      memberCount: community.memberCount || 0,
     });
     setEditDialogOpen(true);
   };
