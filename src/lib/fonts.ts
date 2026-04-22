@@ -1,3 +1,3 @@
-export const georgia = {
-  className: "font-georgia",
+export const miller = {
+  className: "font-miller",
 };
