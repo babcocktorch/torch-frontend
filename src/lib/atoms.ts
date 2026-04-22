@@ -1,6 +1,6 @@
 import { atom } from "jotai";
 
-const app_theme = atom<"light" | "dark">("light");
+const app_theme = atom<"light" | "dark">("dark");
 
 // Torch AI sidebar state - open by default
 const torch_ai_sidebar_open = atom<boolean>(false);
