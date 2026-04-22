@@ -155,6 +155,7 @@ export type CreateCommunityRequest = {
   category?: string;
   openToJoin?: boolean;
   bannerURL?: string;
+  memberCount?: number;
 };
 
 export type UpdateCommunityRequest = {
@@ -166,6 +167,7 @@ export type UpdateCommunityRequest = {
   category?: string | null;
   openToJoin?: boolean;
   bannerURL?: string | null;
+  memberCount?: number;
 };
 
 export type CreateSubmissionRequest = {
