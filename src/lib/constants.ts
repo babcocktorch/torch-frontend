@@ -10,9 +10,9 @@ import { FaXTwitter } from "react-icons/fa6";
 export const BASE_URL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
-    : "https://torch-frontend.vercel.app";
+    : "https://babcocktorch.com";
 
-export const BACKEND_BASE_URL = "https://torch-backend.vercel.app";
+export const BACKEND_BASE_URL = "https://api.babcocktorch.com";
 
 export const THEME_KEY = "the-babcock-torch-theme";
 
