@@ -17,7 +17,6 @@ const YT_PLAYER_STATE_PLAYING = 1;
 
 type BroadcastStatus = "loading" | "live" | "offline";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 declare global {
   interface Window {
     YT: any;
@@ -138,7 +137,6 @@ const StreamingPage = () => {
         clearInterval(cooldownTimerRef.current);
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Handle "Check Again" with cooldown
@@ -259,12 +257,7 @@ const StreamingPage = () => {
                       : "bg-gold text-white hover:bg-gold/90 hover:gap-3",
                   )}
                 >
-                  <IoReloadOutline
-                    className={cn(
-                      "transition-transform",
-                      status === "loading" && "animate-spin",
-                    )}
-                  />
+                  <IoReloadOutline className="transition-transform" />
                   {cooldown > 0 ? `Check again in ${cooldown}s` : "Check Again"}
                 </button>
               </div>

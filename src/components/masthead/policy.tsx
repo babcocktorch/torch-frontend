@@ -251,13 +251,13 @@ export default function Policy() {
     <div className="max-w-4xl mx-auto py-12 px-6">
       <ReactMarkdown
         components={{
-          h1: ({ className, ...props }) => (
+          h1: ({ ...props }) => (
             <h1
               className="text-3xl sm:text-4xl font-miller font-bold mb-4 text-foreground"
               {...props}
             />
           ),
-          h2: ({ className, children, ...props }) => {
+          h2: ({ children, ...props }) => {
             const text = String(children);
             let id = undefined;
             if (text.includes("ACCURACY")) id = "corrections";
@@ -275,38 +275,38 @@ export default function Policy() {
               </h2>
             );
           },
-          h3: ({ className, ...props }) => (
+          h3: ({ ...props }) => (
             <h3
               className="text-lg sm:text-xl font-semibold mt-6 mb-3 text-foreground"
               {...props}
             />
           ),
-          p: ({ className, ...props }) => (
+          p: ({ ...props }) => (
             <p
               className="mb-6 text-foreground/85 leading-relaxed text-base sm:text-lg"
               {...props}
             />
           ),
-          ul: ({ className, ...props }) => (
+          ul: ({ ...props }) => (
             <ul
               className="list-disc pl-6 mb-6 text-foreground/85 space-y-2 text-base sm:text-lg"
               {...props}
             />
           ),
-          li: ({ className, ...props }) => <li {...props} />,
-          a: ({ className, ...props }) => (
+          li: ({ ...props }) => <li {...props} />,
+          a: ({ ...props }) => (
             <a className="text-gold hover:underline font-medium" {...props} />
           ),
-          strong: ({ className, ...props }) => (
+          strong: ({ ...props }) => (
             <strong
               className="font-semibold text-foreground text-lg mb-1 block"
               {...props}
             />
           ),
-          em: ({ className, ...props }) => (
+          em: ({ ...props }) => (
             <em className="text-foreground/80 italic" {...props} />
           ),
-          hr: ({ className, ...props }) => (
+          hr: ({ ...props }) => (
             <hr className="my-10 border-border" {...props} />
           ),
         }}

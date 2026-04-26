@@ -75,47 +75,47 @@ export default function AboutTheTorch() {
     <div className="max-w-4xl mx-auto py-12 px-6">
       <ReactMarkdown
         components={{
-          h1: ({ className, ...props }) => (
+          h1: ({ ...props }) => (
             <h1
               className="text-3xl sm:text-4xl font-miller font-bold mb-2 text-foreground"
               {...props}
             />
           ),
-          h2: ({ className, ...props }) => (
+          h2: ({ ...props }) => (
             <h2
               className="text-xl sm:text-2xl font-miller font-bold mt-10 mb-2 text-gold tracking-wide uppercase"
               {...props}
             />
           ),
-          h3: ({ className, ...props }) => (
+          h3: ({ ...props }) => (
             <h3
               className="text-lg sm:text-xl font-semibold mt-6 mb-3 text-foreground"
               {...props}
             />
           ),
-          p: ({ className, ...props }) => (
+          p: ({ ...props }) => (
             <p
               className="mb-6 text-foreground/85 leading-relaxed text-base sm:text-lg"
               {...props}
             />
           ),
-          ul: ({ className, ...props }) => (
+          ul: ({ ...props }) => (
             <ul
               className="list-disc pl-6 mb-6 text-foreground/85 space-y-2"
               {...props}
             />
           ),
-          li: ({ className, ...props }) => <li {...props} />,
-          a: ({ className, ...props }) => (
+          li: ({ ...props }) => <li {...props} />,
+          a: ({ ...props }) => (
             <a className="text-gold hover:underline font-medium" {...props} />
           ),
-          strong: ({ className, ...props }) => (
+          strong: ({ ...props }) => (
             <strong
               className="font-semibold text-foreground block mb-2"
               {...props}
             />
           ),
-          hr: ({ className, ...props }) => (
+          hr: ({ ...props }) => (
             <hr className="my-10 border-border" {...props} />
           ),
         }}
