@@ -334,6 +334,29 @@ export const getAuthor = async (slug: string) => {
   }
 };
 
+/**
+ * Get all authors from Sanity (for sitemap generation)
+ * Only returns authors that have slugs defined.
+ */
+export const getAllAuthors = async (): Promise<AuthorType[]> => {
+  const allAuthorsQuery = groq`
+  *[_type == "Author" && defined(slug.current)] {
+    _id,
+    name,
+    "slug": slug.current,
+    image
+  }
+`;
+
+  try {
+    const authors = await sanityClient.fetch(allAuthorsQuery);
+    return authors as AuthorType[];
+  } catch (error) {
+    console.error("Failed to fetch all authors:", error);
+    return [];
+  }
+};
+
 export const getAuthorPosts = async (authorName: string) => {
   const authorPostsQuery = groq`
   *[_type == "Post" && isPublished == true && author->name == $authorName] | order(date desc) {
