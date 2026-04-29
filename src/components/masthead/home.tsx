@@ -140,28 +140,25 @@ const BoardSection = ({ title, members, isAdvisory }: BoardSectionProps) => {
   if (isAdvisory && featuredMember) {
     return (
       <section className="mb-12">
-        <div className="flex flex-col md:flex-row items-start gap-6">
-          {/* Featured member on left - larger card */}
-          <div className="w-full md:w-1/3">
-            <MemberCard member={featuredMember} />
-          </div>
-
-          {/* Right side: title, line, and grid */}
-          <div className="flex-1">
-            {/* Section header with line */}
-            <div className="flex items-center mb-4">
-              <h2 className="text-xl font-medium whitespace-nowrap">{title}</h2>
-            </div>
-            <div className="h-0.5 bg-gold flex-1 mb-4" />
-
-            {/* Other members - 2 column grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {gridMembers.map((member) => (
-                <MemberCard key={member._id} member={member} />
-              ))}
-            </div>
-          </div>
+        {/* Section header with line */}
+        <div className="flex items-center mb-4">
+          <h2 className="text-xl font-medium whitespace-nowrap">{title}</h2>
         </div>
+        <div className="h-0.5 bg-gold flex-1 mb-8" />
+
+        {/* Featured member — full width, centered, prominent */}
+        <div className="max-w-sm mx-auto mb-10">
+          <MemberCard member={featuredMember} />
+        </div>
+
+        {/* Other members in a uniform grid */}
+        {gridMembers.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {gridMembers.map((member) => (
+              <MemberCard key={member._id} member={member} />
+            ))}
+          </div>
+        )}
       </section>
     );
   }
