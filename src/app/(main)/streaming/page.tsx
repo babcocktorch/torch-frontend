@@ -211,7 +211,7 @@ const StreamingPage = () => {
 
             {/* Offline State */}
             {status === "offline" && (
-              <div className="relative z-10 flex flex-col items-center gap-8 text-center select-none p-6 md:p-12">
+              <div className="relative z-10 flex flex-col items-center gap-3 sm:gap-5 md:gap-8 text-center select-none p-4 sm:p-6 md:p-12">
                 {/* Background glow */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                   <div className="w-[150%] h-[150%] rounded-full bg-gold/5 blur-3xl opacity-40" />
@@ -223,25 +223,25 @@ const StreamingPage = () => {
                   alt="The Babcock Torch"
                   width={80}
                   height={80}
-                  className="w-16 h-16 md:w-20 md:h-20 opacity-40"
+                  className="w-10 h-10 sm:w-14 sm:h-14 md:w-20 md:h-20 opacity-40"
                 />
 
                 {/* Heading */}
-                <div className="flex flex-col gap-3">
-                  <h2 className="text-2xl md:text-4xl font-miller text-white font-semibold">
+                <div className="flex flex-col gap-1.5 sm:gap-3">
+                  <h2 className="text-xl sm:text-2xl md:text-4xl font-miller text-white font-semibold">
                     No Live Broadcast
                   </h2>
-                  <div className="flex items-center justify-center gap-4">
-                    <div className="h-px w-12 bg-white/20" />
-                    <p className="text-xs text-white/40 font-miller uppercase tracking-widest">
+                  <div className="flex items-center justify-center gap-2 sm:gap-4">
+                    <div className="h-px w-8 sm:w-12 bg-white/20" />
+                    <p className="text-[10px] sm:text-xs text-white/40 font-miller uppercase tracking-widest">
                       Currently Offline
                     </p>
-                    <div className="h-px w-12 bg-white/20" />
+                    <div className="h-px w-8 sm:w-12 bg-white/20" />
                   </div>
                 </div>
 
                 {/* Message */}
-                <p className="text-white/60 text-sm md:text-base max-w-md leading-relaxed">
+                <p className="text-white/60 text-xs sm:text-sm md:text-base max-w-md leading-relaxed">
                   There&apos;s nothing streaming right now. Check back soon or
                   tap the button below to see if we&apos;ve gone live.
                 </p>
@@ -251,7 +251,7 @@ const StreamingPage = () => {
                   onClick={handleCheckAgain}
                   disabled={cooldown > 0}
                   className={cn(
-                    "group flex items-center justify-center gap-2 px-6 py-3 rounded-sm font-medium transition-all",
+                    "group flex items-center justify-center gap-2 px-4 py-2 sm:px-6 sm:py-3 rounded-sm text-sm sm:text-base font-medium transition-all",
                     cooldown > 0
                       ? "bg-white/10 text-white/40 cursor-not-allowed"
                       : "bg-gold text-white hover:bg-gold/90 hover:gap-3",
