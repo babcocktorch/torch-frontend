@@ -1,6 +1,6 @@
 import { BASE_URL, IMAGES, PAGES } from "@/lib/constants";
 import { Metadata } from "next";
-import TorchAIPageContent from "./content";
+// import TorchAIPageContent from "./content";
 
 export const dynamic = "force-dynamic";
 
@@ -31,7 +31,8 @@ export const metadata: Metadata = {
 };
 
 const AskTheTorchAIPage = () => {
-  return <TorchAIPageContent />;
+  return <></>;
+  // return <TorchAIPageContent />;
 };
 
 export default AskTheTorchAIPage;
