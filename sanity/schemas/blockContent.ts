@@ -42,17 +42,14 @@ export default defineType({
         // Annotations can be any object structure – e.g. a link or a footnote.
         annotations: [
           {
-            title: 'URL',
-            name: 'link',
-            type: 'object',
-            fields: [
-              {
-                title: 'URL',
-                name: 'href',
-                type: 'url',
-              },
-            ],
-          },
+  title: 'URL',
+  name: 'href',
+  type: 'url',
+  validation: Rule =>
+    Rule.uri({
+      scheme: ['http', 'https', 'mailto']
+    }),
+}
         ],
       },
     }),
