@@ -130,6 +130,29 @@ const ptComponents = {
       <p className="mb-4 leading-7 text-foreground">{children}</p>
     ),
   },
+  marks: {
+    link: ({
+      children,
+      value,
+    }: {
+      children?: React.ReactNode;
+      value?: { href?: string };
+    }) => {
+      const href = value?.href || "#";
+      const isExternal = href.startsWith("http") || href.startsWith("mailto:");
+      return (
+        <a
+          href={href}
+          className="text-primary underline underline-offset-2 hover:text-primary/80 transition-colors"
+          {...(isExternal && !href.startsWith("mailto:")
+            ? { target: "_blank", rel: "noreferrer noopener" }
+            : {})}
+        >
+          {children}
+        </a>
+      );
+    },
+  },
 };
 
 const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
