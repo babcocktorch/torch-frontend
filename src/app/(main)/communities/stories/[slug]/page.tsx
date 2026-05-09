@@ -99,6 +99,29 @@ const ptComponents = {
       <p className="mb-4 leading-7 text-foreground">{children}</p>
     ),
   },
+  marks: {
+    link: ({
+      children,
+      value,
+    }: {
+      children?: React.ReactNode;
+      value?: { href?: string };
+    }) => {
+      const href = value?.href || "#";
+      const isExternal = href.startsWith("http") || href.startsWith("mailto:");
+      return (
+        <a
+          href={href}
+          className="text-primary underline underline-offset-2 hover:text-primary/80 transition-colors"
+          {...(isExternal && !href.startsWith("mailto:")
+            ? { target: "_blank", rel: "noreferrer noopener" }
+            : {})}
+        >
+          {children}
+        </a>
+      );
+    },
+  },
 };
 
 const ImpactStoryPage = async ({
@@ -156,7 +179,7 @@ const ImpactStoryPage = async ({
         </div>
 
         {/* Title */}
-        <h1 className="font-miller font-semibold tracking-tight text-3xl sm:text-4xl lg:text-5xl lg:leading-[3.5rem] mb-4">
+        <h1 className="font-miller font-semibold tracking-tight text-3xl sm:text-4xl lg:text-5xl lg:leading-14 mb-4">
           {story.title}
         </h1>
 
