@@ -95,7 +95,7 @@ const Home = ({ posts, editorsPickSlugs }: HomeProps) => {
           <div className="border-b border-border/50 flex flex-col md:flex-row md:items-center justify-between mb-8 pb-1">
             <Link
               href={PAGES.top_stories}
-              className="flex items-center justify-start gap-1 font-semibold hover:gap-1.5 cursor-pointer transition-all border-b-2 border-gold pb-1 md:pb-2 -mb-[2px] md:-mb-[5px]"
+              className="flex items-center justify-start gap-1 font-semibold hover:gap-1.5 cursor-pointer transition-all border-b-2 border-gold pb-1 md:pb-2 -mb-0.5 md:-mb-1.25"
             >
               <span className="text-sm lg:text-base">More Top Stories</span>
               <IoIosArrowForward className="text-muted-foreground ml-1 text-sm" />
@@ -115,7 +115,7 @@ const Home = ({ posts, editorsPickSlugs }: HomeProps) => {
         <section className="w-full">
           <div className="border-b border-border/50 flex flex-col md:flex-row md:items-center justify-between mb-8 pb-1">
             <Link href={`${PAGES.communities}?tab=impact-stories`}>
-              <h6 className="flex items-center justify-start gap-1 font-semibold hover:gap-1.5 cursor-pointer transition-all border-b-2 border-gold pb-1 md:pb-2 -mb-[2px] md:-mb-[5px]">
+              <h6 className="flex items-center justify-start gap-1 font-semibold hover:gap-1.5 cursor-pointer transition-all border-b-2 border-gold pb-1 md:pb-2 -mb-0.5 md:-mb-1.25">
                 <span className="text-sm lg:text-base">Impact Stories</span>
                 <IoIosArrowForward className="text-muted-foreground ml-1 text-sm" />
               </h6>
