@@ -67,22 +67,9 @@ export default function MostControversial({
 
               <div className="p-5 flex flex-col flex-1">
                 <div className="flex items-center text-xs text-muted-foreground mb-3 gap-2">
-                  <span>{formatDate(opinion.date)}</span>
-                  <span>•</span>
                   <span>
-                    By{" "}
-                    {opinion.author.slug ? (
-                      <Link
-                        href={PAGES.author(opinion.author.slug)}
-                        className="font-medium text-foreground hover:text-gold transition-colors"
-                      >
-                        {opinion.author.name}
-                      </Link>
-                    ) : (
-                      <span className="font-medium text-foreground">
-                        {opinion.author.name}
-                      </span>
-                    )}
+                    {formatDate(opinion.date)} • By{" "}
+                    {opinion.authors.map((a) => a.name).join(", ")}
                   </span>
                 </div>
 
