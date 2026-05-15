@@ -26,7 +26,7 @@ const postQuery = groq`
     isPost,
     body,
     date,
-    author->{
+    authors[]->{
       name,
       "slug": slug.current,
       image
@@ -58,7 +58,7 @@ export const generateMetadata = async ({
     title: post.title,
     metadataBase: new URL(BASE_URL + url),
     description: post.description,
-    publisher: post.author?.name || "Unknown Author",
+    publisher: post.authors.map((a) => a.name).join(", ") || "Unknown Author",
     keywords: post.categories?.map((category: any) => category.title) || [],
     alternates: {
       canonical: BASE_URL + url,
@@ -72,7 +72,7 @@ export const generateMetadata = async ({
       description: post.description,
       type: "article",
       siteName: "The Babcock Torch",
-      authors: post.author?.name || "Unknown Author",
+      authors: post.authors.map((a) => a.name).join(", ") || "Unknown Author",
       tags: post.categories?.map((category: any) => category.title) || [],
       publishedTime: post.date,
     },
@@ -243,42 +243,47 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
         <aside className="flex flex-col lg:max-h-full h-max gap-y-6 sticky top-24 bottom-auto right-0 lg:pl-6 pl-0">
           <section className="border-b pb-6">
             <p className="text-muted-foreground text-sm">Written By</p>
-            <address className="flex items-center gap-x-3 mt-4 not-italic">
-              <div className="relative w-10 h-10">
-                <img
-                  src={
-                    post.author?.image
-                      ? urlFor(post.author.image).width(80).height(80).url()
-                      : `https://api.dicebear.com/9.x/lorelei-neutral/png?seed=${post.author?.name || "Unknown"}`
-                  }
-                  alt={post.author?.name || "Unknown Author"}
-                  width={40}
-                  height={40}
-                  className="rounded-full object-cover border"
-                />
-              </div>
-              <div rel="author">
-                {post.author?.slug ? (
-                  <Link href={PAGES.author(post.author.slug)}>
-                    <h3 className="font-medium text-lg tracking-tight hover:text-primary transition-colors cursor-pointer">
-                      {post.author.name}
+            {post.authors.map((a, i) => (
+              <address
+                className="flex items-center gap-x-3 mt-4 not-italic"
+                key={i}
+              >
+                <div className="relative w-10 h-10">
+                  <img
+                    src={
+                      a.image
+                        ? urlFor(a.image).width(80).height(80).url()
+                        : `https://api.dicebear.com/9.x/lorelei-neutral/png?seed=${a.name || "Unknown"}`
+                    }
+                    alt={a.name || "Unknown Author"}
+                    width={40}
+                    height={40}
+                    className="rounded-full object-cover border"
+                  />
+                </div>
+                <div rel="author">
+                  {a.slug ? (
+                    <Link href={PAGES.author(a.slug)}>
+                      <h3 className="font-medium tracking-tight hover:text-primary transition-colors cursor-pointer">
+                        {a.name}
+                      </h3>
+                    </Link>
+                  ) : (
+                    <h3 className="font-medium tracking-tight">
+                      {a.name || "Unknown Author"}
                     </h3>
-                  </Link>
-                ) : (
-                  <h3 className="font-medium text-lg tracking-tight">
-                    {post.author?.name || "Unknown Author"}
-                  </h3>
-                )}
-                {/* <a
+                  )}
+                  {/* <a
                     href={post.author.twitterUrl}
                     className="text-blue-500 text-sm"
                     rel="noreferrer noopener"
                     target="_blank"
-                  >
+                    >
                     {`@${post.author.twitterUrl.split("twitter.com/")[1]}`}
-                  </a> */}
-              </div>
-            </address>
+                    </a> */}
+                </div>
+              </address>
+            ))}
           </section>
 
           {post.categories && (
