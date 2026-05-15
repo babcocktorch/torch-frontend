@@ -18,11 +18,11 @@ export type PostType = {
   isPublished: boolean;
   featured: boolean;
   isPost: boolean;
-  author: {
+  authors: {
     name: string;
     slug?: string;
     image?: any;
-  };
+  }[];
   categories: {
     title: string;
     slug?: string;
