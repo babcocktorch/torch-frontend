@@ -48,7 +48,7 @@ const EditorsPick = ({
             <p className="text-sm text-muted-foreground">
               By{" "}
               <span className="font-medium text-foreground">
-                {featuredPost.author.name}
+                {featuredPost.authors.map((a) => a.name).join(", ")}
               </span>{" "}
               • {formatDate(featuredPost.date)}
             </p>
@@ -59,7 +59,7 @@ const EditorsPick = ({
         <div className="w-full lg:w-3/5">
           <Link
             href={postUrl}
-            className="block relative w-full h-full min-h-[250px]"
+            className="block relative w-full h-full min-h-62.5"
           >
             {featuredPost.mainImage ? (
               <Image
