@@ -69,7 +69,7 @@ const AuthorPage = async ({
     return notFound();
   }
 
-  const posts = await getAuthorPosts(author.name);
+  const posts = await getAuthorPosts(author.slug);
 
   const authorImageUrl = author.image
     ? urlFor(author.image).width(400).height(400).url()
