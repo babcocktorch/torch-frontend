@@ -38,8 +38,10 @@ const Article = ({ post }: PostProps) => {
         </Link>
         <p className="text-sm text-muted-foreground">
           By{" "}
-          <span className="font-medium text-primary">{post.author.name}</span> •{" "}
-          {formatDate(post.date)}
+          <span className="font-medium text-primary">
+            {post.authors.map((a) => a.name).join(", ")}
+          </span>{" "}
+          • {formatDate(post.date)}
         </p>
       </div>
 
