@@ -134,7 +134,7 @@ export const getPosts = async (): Promise<{
       title,
       "slug": slug.current
     },
-    author->{
+    authors[]->{
       name
     }
   }
@@ -183,7 +183,7 @@ export const getOpinions = async (): Promise<{
       title,
       "slug": slug.current
     },
-    author->{
+    authors[]->{
       name
     }
   }
@@ -239,7 +239,7 @@ export const searchPosts = async (searchTerm: string): Promise<PostType[]> => {
       title,
       "slug": slug.current
     },
-    author->{
+    authors[]->{
       name
     }
   }
@@ -286,7 +286,7 @@ export const getPostsByTag = async (tagSlug: string): Promise<PostType[]> => {
       title,
       "slug": slug.current
     },
-    author->{
+    authors[]->{
       name
     }
   }
@@ -357,9 +357,9 @@ export const getAllAuthors = async (): Promise<AuthorType[]> => {
   }
 };
 
-export const getAuthorPosts = async (authorName: string) => {
+export const getAuthorPosts = async (authorSlug: string) => {
   const authorPostsQuery = groq`
-  *[_type == "Post" && isPublished == true && author->name == $authorName] | order(date desc) {
+  *[_type == "Post" && isPublished == true && $authorSlug in authors[]->slug.current] | order(date desc) {
     _id,
     title,
     "slug": slug.current,
@@ -372,7 +372,7 @@ export const getAuthorPosts = async (authorName: string) => {
     categories[]->{
       title
     },
-    author->{
+    authors[]->{
       name,
       "slug": slug.current
     }
@@ -381,13 +381,12 @@ export const getAuthorPosts = async (authorName: string) => {
 
   try {
     const postsData = await sanityClient.fetch(authorPostsQuery, {
-      authorName,
+      authorSlug, // 👈 Match the parameter
     });
 
     return postsData as PostType[];
   } catch (error) {
     console.error("Failed to fetch author posts:", error);
-
     return [];
   }
 };
@@ -417,17 +416,23 @@ export const getOpinionAuthors = async (): Promise<OpinionAuthor[]> => {
   const authorMap = new Map<string, OpinionAuthor>();
 
   for (const opinion of opinions) {
-    const authorName = opinion.author.name;
-    const existing = authorMap.get(authorName);
+    const authorNames = opinion.authors.map((a) => ({
+      name: a.name,
+      slug: a.slug,
+    }));
 
-    if (existing) {
-      existing.opinionCount += 1;
-    } else {
-      authorMap.set(authorName, {
-        name: authorName,
-        slug: opinion.author.slug || null,
-        opinionCount: 1,
-      });
+    for (const authorName of authorNames) {
+      const existing = authorMap.get(authorName.name);
+
+      if (existing) {
+        existing.opinionCount += 1;
+      } else {
+        authorMap.set(authorName.name, {
+          name: authorName.name,
+          slug: authorName.slug || null,
+          opinionCount: 1,
+        });
+      }
     }
   }
 
