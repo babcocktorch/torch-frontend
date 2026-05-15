@@ -8,16 +8,17 @@ import { PAGES } from "@/lib/constants";
 export const ImpactStoryCard = ({ post }: { post: PostType }) => {
   const postUrl = post.slug === "#" ? "#" : PAGES.post(post.slug);
   const categoryLabel = post.categories?.[0]?.title || "News";
-  const authorName = post.author?.name || "The Torch";
+  const authorNames = post.authors.map((a) => a.name).join(", ") || "The Torch";
   const categorySlug = post.categories?.[0]?.slug || "news";
   const categoryUrl = PAGES.tag(categorySlug);
 
   return (
-    <div
-      className="group flex flex-col h-full lg:border-r lg:border-border/50 lg:pr-6 lg:last:border-r-0 lg:last:pr-0"
-    >
+    <div className="group flex flex-col h-full lg:border-r lg:border-border/50 lg:pr-6 lg:last:border-r-0 lg:last:pr-0">
       {/* Image */}
-      <Link href={postUrl} className="relative w-full aspect-16/10 overflow-hidden bg-muted mb-4 block z-0">
+      <Link
+        href={postUrl}
+        className="relative w-full aspect-16/10 overflow-hidden bg-muted mb-4 block z-0"
+      >
         {post.mainImage ? (
           <Image
             src={urlFor(post.mainImage)
@@ -38,7 +39,7 @@ export const ImpactStoryCard = ({ post }: { post: PostType }) => {
 
       {/* Content */}
       <div className="flex flex-col flex-1">
-        <Link 
+        <Link
           href={categoryUrl}
           className="text-gold text-[10px] sm:text-xs font-bold uppercase tracking-widest block mb-2 hover:underline w-fit relative z-10"
         >
@@ -52,7 +53,7 @@ export const ImpactStoryCard = ({ post }: { post: PostType }) => {
 
         {/* Footer */}
         <div className="mt-auto text-[11px] text-muted-foreground font-medium uppercase tracking-wide pt-2 border-t border-border/30">
-          <span className="text-foreground font-bold">{authorName}</span>
+          <span className="text-foreground font-bold">{authorNames}</span>
           <span className="mx-1.5 opacity-50">•</span>
           <span>{formatDate(post.date)}</span>
         </div>
