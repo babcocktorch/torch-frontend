@@ -135,7 +135,7 @@ const SearchContent = () => {
                               <p className="text-sm text-muted-foreground">
                                 By{" "}
                                 <span className="font-primary font-medium">
-                                  {post.author.name}
+                                  {post.authors.map((a) => a.name).join(", ")}
                                 </span>
                               </p>
                             </div>
@@ -184,7 +184,9 @@ const SearchContent = () => {
                               <p className="text-sm text-muted-foreground">
                                 By{" "}
                                 <span className="font-primary font-medium">
-                                  {opinion.author.name}
+                                  {opinion.authors
+                                    .map((o) => o.name)
+                                    .join(", ")}
                                 </span>
                               </p>
                             </div>
