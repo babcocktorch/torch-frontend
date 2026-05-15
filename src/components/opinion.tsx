@@ -8,7 +8,9 @@ const Opinion = ({ post }: PostProps) => {
   return (
     <Link href={opinionUrl}>
       <div className="pb-6 border-b">
-        <p className="text-muted-foreground text-sm mb-2">{post.author.name}</p>
+        <p className="text-muted-foreground text-sm mb-2">
+          {post.authors.map((a) => a.name).join(", ")}
+        </p>
         <h4 className="font-miller text-base lg:text-lg">{post.title}</h4>
       </div>
     </Link>
