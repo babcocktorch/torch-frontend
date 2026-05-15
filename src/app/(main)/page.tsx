@@ -35,23 +35,23 @@ const HomePage = async () => {
   const { posts, editorsPickSlugs } = await getPosts();
 
   // Create dummy posts for layout testing by duplicating existing news posts
-  const newsPosts = posts.filter((p) => p.isPost);
-  let dummyPosts = [...posts];
+  // const newsPosts = posts.filter((p) => p.isPost);
+  // let dummyPosts = [...posts];
 
-  // Keep duplicating news posts until we have enough to fill all grids (needs ~14 news posts total)
-  while (
-    newsPosts.length > 0 &&
-    dummyPosts.filter((p) => p.isPost).length < 16
-  ) {
-    const clonedPosts = newsPosts.map((post, index) => ({
-      ...post,
-      _id: `${post._id}-clone-${dummyPosts.length}-${index}`,
-      slug: `${post.slug}-clone-${dummyPosts.length}-${index}`,
-    }));
-    dummyPosts = [...dummyPosts, ...clonedPosts];
-  }
+  // // Keep duplicating news posts until we have enough to fill all grids (needs ~14 news posts total)
+  // while (
+  //   newsPosts.length > 0 &&
+  //   dummyPosts.filter((p) => p.isPost).length < 16
+  // ) {
+  //   const clonedPosts = newsPosts.map((post, index) => ({
+  //     ...post,
+  //     _id: `${post._id}-clone-${dummyPosts.length}-${index}`,
+  //     slug: `${post.slug}-clone-${dummyPosts.length}-${index}`,
+  //   }));
+  //   dummyPosts = [...dummyPosts, ...clonedPosts];
+  // }
 
-  return <Home posts={dummyPosts} editorsPickSlugs={editorsPickSlugs} />;
+  return <Home posts={posts} editorsPickSlugs={editorsPickSlugs} />;
 };
 
 export default HomePage;
