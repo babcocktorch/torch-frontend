@@ -35,12 +35,12 @@ const OpinionsSidebar = ({ opinions, authors }: OpinionsSidebarProps) => {
             return (
               <Link key={opinion._id} href={url} className="group">
                 <article className="py-2 border-b border-border last:border-b-0">
-                  <p className="text-xs text-muted-foreground mb-1">
-                    {opinion.author.name}
+                  <p className="text-sm text-muted-foreground mb-1">
+                    {opinion.authors.map((a) => a.name).join(", ")}
                   </p>
                   <h4
                     className={cn(
-                      "text-sm font-medium group-hover:text-gold transition-colors leading-snug",
+                      "font-medium group-hover:text-gold transition-colors leading-snug",
                       miller.className,
                     )}
                   >
@@ -70,7 +70,7 @@ const OpinionsSidebar = ({ opinions, authors }: OpinionsSidebarProps) => {
                   </span>
                   <h4
                     className={cn(
-                      "text-sm font-medium group-hover:text-gold transition-colors leading-snug",
+                      "font-medium group-hover:text-gold transition-colors leading-snug",
                       miller.className,
                     )}
                   >
