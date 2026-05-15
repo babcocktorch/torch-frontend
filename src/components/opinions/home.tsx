@@ -250,7 +250,7 @@ const OpinionsHome = ({
                                 <React.Fragment key={opinion._id}>
                                   <Link href={opinionUrl}>
                                     <article className="w-full flex flex-col md:flex-row items-start gap-4 py-6 cursor-pointer group">
-                                      <p className="text-sm text-muted-foreground whitespace-nowrap pt-1 min-w-[100px]">
+                                      <p className="text-sm text-muted-foreground whitespace-nowrap pt-1 min-w-25">
                                         {formatDate(opinion.date)}
                                       </p>
 
@@ -269,7 +269,9 @@ const OpinionsHome = ({
                                         <p className="text-sm text-muted-foreground">
                                           By{" "}
                                           <span className="font-medium text-foreground">
-                                            {opinion.author.name}
+                                            {opinion.authors
+                                              .map((a) => a.name)
+                                              .join(", ")}
                                           </span>
                                         </p>
                                       </div>
