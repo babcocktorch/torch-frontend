@@ -20,18 +20,24 @@ const FeaturedPosts = async ({ slug }: { slug: string }) => {
               href={PAGES.post(post.slug)}
               className="flex flex-col gap-4 p-3 rounded-lg border"
             >
-              <Image
-                src={urlFor(post.mainImage)
-                  .width(400)
-                  .fit("max")
-                  .auto("format")
-                  .url()}
-                width={400}
-                height={230}
-                alt={post.mainImage.alt || "Post Image"}
-                loading="lazy"
-                className="w-full h-auto rounded-sm"
-              />
+              {post.mainImage ? (
+                <Image
+                  src={urlFor(post.mainImage)
+                    .width(400)
+                    .fit("max")
+                    .auto("format")
+                    .url()}
+                  width={400}
+                  height={230}
+                  alt={post.mainImage.alt || "Post Image"}
+                  loading="lazy"
+                  className="w-full h-auto rounded-sm"
+                />
+              ) : (
+                <div className="w-full h-[230px] bg-linear-to-br from-gold/20 to-gold/5 rounded-sm flex items-center justify-center">
+                  <span className="text-gold/40 text-4xl font-miller">T</span>
+                </div>
+              )}
               <div className="max-w-lg">
                 <h2
                   className={cn("text-lg font-medium mb-4", miller.className)}
