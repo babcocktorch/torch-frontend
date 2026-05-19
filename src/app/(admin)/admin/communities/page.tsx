@@ -93,10 +93,9 @@ const COMMUNITY_CATEGORIES = [
   "Media",
   "Health",
   "Business",
+  "Premier Council",
   "Other",
 ] as const;
-
-const NONE_VALUE = "__none__";
 
 // ============================================
 // Extended form state type (includes all fields)
@@ -293,26 +292,38 @@ function CommunityForm({
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="category">Category</Label>
-          <Select
-            value={formData.category || NONE_VALUE}
-            onValueChange={(v) =>
-              setFormData({ ...formData, category: v === NONE_VALUE ? "" : v })
-            }
-          >
-            <SelectTrigger id="category">
-              <SelectValue placeholder="Select category" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value={NONE_VALUE}>None</SelectItem>
-              {COMMUNITY_CATEGORIES.map((cat) => (
-                <SelectItem key={cat} value={cat}>
+        <div className="space-y-2 col-span-2">
+          <Label>Categories / Tags</Label>
+          <div className="flex flex-wrap gap-2 mt-2">
+            {COMMUNITY_CATEGORIES.map((cat) => {
+              const currentTags = formData.category
+                ? formData.category
+                    .split(",")
+                    .map((t) => t.trim())
+                    .filter(Boolean)
+                : [];
+              const isSelected = currentTags.includes(cat);
+
+              return (
+                <Badge
+                  key={cat}
+                  variant={isSelected ? "default" : "outline"}
+                  className="cursor-pointer hover:bg-primary/80"
+                  onClick={() => {
+                    if (isSelected) {
+                      const newTags = currentTags.filter((t) => t !== cat);
+                      setFormData({ ...formData, category: newTags.join(",") });
+                    } else {
+                      const newTags = [...currentTags, cat];
+                      setFormData({ ...formData, category: newTags.join(",") });
+                    }
+                  }}
+                >
                   {cat}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+                </Badge>
+              );
+            })}
+          </div>
         </div>
 
         <div className="space-y-2">
@@ -677,7 +688,17 @@ export default function AdminCommunitiesPage() {
                     </TableCell>
                     <TableCell>
                       {community.category ? (
-                        <Badge variant="secondary">{community.category}</Badge>
+                        <div className="flex flex-wrap gap-1">
+                          {community.category.split(",").map((tag) => (
+                            <Badge
+                              key={tag.trim()}
+                              variant="secondary"
+                              className="whitespace-nowrap"
+                            >
+                              {tag.trim()}
+                            </Badge>
+                          ))}
+                        </div>
                       ) : (
                         <span className="text-muted-foreground text-sm">—</span>
                       )}
