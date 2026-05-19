@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
 import { IMAGES, PAGES } from "@/lib/constants";
-import { Users, Mail, Search, X, Filter } from "lucide-react";
+import { Users, Mail, Search, RotateCcw } from "lucide-react";
 import React, { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import ContributorCTA from "@/components/general/contributor-cta";
@@ -24,6 +24,7 @@ import {
 
 const COMMUNITIES_NAV_TABS = [
   { id: "home", label: "Home" },
+  { id: "premier-council", label: "Premier Council" },
   { id: "featured-communities", label: "Featured Communities" },
   { id: "discover-communities", label: "Discover Communities" },
   { id: "impact-stories", label: "Impact Stories" },
@@ -44,9 +45,14 @@ const CommunitiesHome = ({
 
   // Derive unique categories from the communities data
   const categories = useMemo(() => {
-    const cats = communities
-      .map((c) => c.category)
-      .filter((c): c is string => !!c);
+    const cats = communities.flatMap((c) =>
+      c.category
+        ? c.category
+            .split(",")
+            .map((t) => t.trim())
+            .filter(Boolean)
+        : [],
+    );
     return [...new Set(cats)].sort();
   }, [communities]);
 
@@ -60,12 +66,27 @@ const CommunitiesHome = ({
           ?.toLowerCase()
           .includes(searchQuery.toLowerCase());
 
+      const communityTags = community.category
+        ? community.category.split(",").map((t) => t.trim())
+        : [];
       const matchesCategory =
-        categoryFilter === "all" || community.category === categoryFilter;
+        categoryFilter === "all" || communityTags.includes(categoryFilter);
 
       return matchesSearch && matchesCategory;
     });
   }, [communities, searchQuery, categoryFilter]);
+
+  const premierCouncilCommunities = useMemo(() => {
+    return filteredCommunities.filter(
+      (c) => c.category && c.category.includes("Premier Council"),
+    );
+  }, [filteredCommunities]);
+
+  const featuredCommunities = useMemo(() => {
+    return filteredCommunities.filter(
+      (c) => !c.category || !c.category.includes("Premier Council"),
+    );
+  }, [filteredCommunities]);
 
   const hasActiveFilters = searchQuery !== "" || categoryFilter !== "all";
 
@@ -197,49 +218,57 @@ const CommunitiesHome = ({
         <div className="px-6 max-w-7xl mx-auto">
           {/* Search & Filter Bar */}
           {communities.length > 0 && (
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-8">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center bg-muted/30 border border-border rounded-lg p-1 mb-8">
               {/* Category filter */}
               {categories.length > 0 && (
-                <Select
-                  value={categoryFilter}
-                  onValueChange={setCategoryFilter}
-                >
-                  <SelectTrigger className="w-full sm:w-45">
-                    <Filter className="w-4 h-4 mr-2 text-muted-foreground shrink-0" />
-                    <SelectValue placeholder="Category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Categories</SelectItem>
-                    {categories.map((cat) => (
-                      <SelectItem key={cat} value={cat}>
-                        {cat}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <div className="shrink-0 sm:w-48">
+                  <Select
+                    value={categoryFilter}
+                    onValueChange={setCategoryFilter}
+                  >
+                    <SelectTrigger className="w-full border-0 bg-transparent shadow-none focus:ring-0 h-10">
+                      <SelectValue placeholder="Category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Categories</SelectItem>
+                      {categories.map((cat) => (
+                        <SelectItem key={cat} value={cat}>
+                          {cat}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+
+              {categories.length > 0 && (
+                <div className="hidden sm:block w-px h-6 bg-border/60 mx-1" />
               )}
 
               {/* Search */}
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <div className="relative flex-1 flex items-center">
+                <Search className="absolute left-3 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder="Search communities..."
+                  placeholder="Search by name or keyword"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
+                  className="pl-10 border-0 bg-transparent shadow-none focus-visible:ring-0 h-10"
                 />
               </div>
 
               {/* Reset filters */}
               {hasActiveFilters && (
-                <Button
-                  variant="ghost"
-                  onClick={resetFilters}
-                  className="shrink-0"
-                >
-                  <X className="w-4 h-4 mr-2" />
-                  Reset
-                </Button>
+                <>
+                  <div className="hidden sm:block w-px h-6 bg-border/60 mx-1" />
+                  <Button
+                    variant="ghost"
+                    onClick={resetFilters}
+                    className="shrink-0 h-10 px-4 hover:bg-muted/60"
+                  >
+                    Reset Filters
+                    <RotateCcw className="w-4 h-4 ml-2" />
+                  </Button>
+                </>
               )}
             </div>
           )}
@@ -270,10 +299,44 @@ const CommunitiesHome = ({
               </Button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredCommunities.map((community) => (
-                <CommunityCard key={community.id} community={community} />
-              ))}
+            <div className="space-y-12">
+              {(activeTab === "home" || activeTab === "premier-council") &&
+                premierCouncilCommunities.length > 0 && (
+                  <div id="premier-council">
+                    <h2 className="text-2xl font-bold font-miller mb-6 text-gold">
+                      Premier Council
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {premierCouncilCommunities.map((community) => (
+                        <CommunityCard
+                          key={community.id}
+                          community={community}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+              {(activeTab === "home" ||
+                activeTab === "featured-communities" ||
+                activeTab === "discover-communities") &&
+                featuredCommunities.length > 0 && (
+                  <div id="featured-communities">
+                    {premierCouncilCommunities.length > 0 && (
+                      <h2 className="text-2xl font-bold font-miller mb-6">
+                        Featured Communities
+                      </h2>
+                    )}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {featuredCommunities.map((community) => (
+                        <CommunityCard
+                          key={community.id}
+                          community={community}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
             </div>
           )}
 
@@ -361,12 +424,28 @@ const CommunityCard = ({ community }: { community: Community }) => {
         {/* Category + Member count row */}
         <div className="flex items-center justify-between mt-auto pt-2">
           {community.category && (
-            <Badge
-              variant="secondary"
-              className="text-xs font-medium rounded-full px-3"
-            >
-              {community.category}
-            </Badge>
+            <div className="flex flex-wrap gap-1">
+              {community.category
+                .split(",")
+                .slice(0, 2)
+                .map((tag) => (
+                  <Badge
+                    key={tag.trim()}
+                    variant="secondary"
+                    className="text-xs font-medium rounded-full px-3"
+                  >
+                    {tag.trim()}
+                  </Badge>
+                ))}
+              {community.category.split(",").length > 2 && (
+                <Badge
+                  variant="secondary"
+                  className="text-xs font-medium rounded-full px-2"
+                >
+                  +{community.category.split(",").length - 2}
+                </Badge>
+              )}
+            </div>
           )}
 
           <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
