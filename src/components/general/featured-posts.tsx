@@ -34,7 +34,7 @@ const FeaturedPosts = async ({ slug }: { slug: string }) => {
                   className="w-full h-auto rounded-sm"
                 />
               ) : (
-                <div className="w-full h-[230px] bg-linear-to-br from-gold/20 to-gold/5 rounded-sm flex items-center justify-center">
+                <div className="w-full h-57.5 bg-linear-to-br from-gold/20 to-gold/5 rounded-sm flex items-center justify-center">
                   <span className="text-gold/40 text-4xl font-miller">T</span>
                 </div>
               )}
