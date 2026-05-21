@@ -26,7 +26,7 @@ declare global {
 
 const StreamingPage = () => {
   const theme = useAtomValue(app_theme);
-  const [status, setStatus] = useState<BroadcastStatus>("loading");
+  const [status, setStatus] = useState<BroadcastStatus>("offline");
   const [cooldown, setCooldown] = useState(0);
   const playerRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -171,7 +171,7 @@ const StreamingPage = () => {
         </div>
 
         {/* Player / Status Area */}
-        <div className="w-full flex flex-col gap-6 lg:h-[600px]">
+        <div className="w-full flex flex-col gap-6 lg:h-150">
           <div className="w-full h-full bg-zinc-950 dark:bg-black border border-border/50 rounded-xl overflow-hidden relative flex flex-col items-center justify-center aspect-video lg:aspect-auto">
             {/* YouTube Player Container — always in the DOM, visibility toggled */}
             <div
@@ -233,9 +233,15 @@ const StreamingPage = () => {
                   </h2>
                   <div className="flex items-center justify-center gap-2 sm:gap-4">
                     <div className="h-px w-8 sm:w-12 bg-white/20" />
-                    <p className="text-[10px] sm:text-xs text-white/40 font-miller uppercase tracking-widest">
-                      Currently Offline
-                    </p>
+                    <div className="flex items-center gap-1.5 sm:gap-2">
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
+                      </span>
+                      <p className="text-[10px] sm:text-xs text-white/40 font-miller uppercase tracking-widest">
+                        Currently Offline
+                      </p>
+                    </div>
                     <div className="h-px w-8 sm:w-12 bg-white/20" />
                   </div>
                 </div>
