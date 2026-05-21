@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { BACKEND_BASE_URL, BACKEND_API_ROUTES } from "@/lib/constants";
 import { cookies } from "next/headers";
 
-export async function GET() {
+export const GET = async () => {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("torch-admin-token")?.value;
@@ -36,4 +36,4 @@ export async function GET() {
       { status: 500 },
     );
   }
-}
+};
