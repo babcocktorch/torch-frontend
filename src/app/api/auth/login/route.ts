@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { BACKEND_BASE_URL, BACKEND_API_ROUTES } from "@/lib/constants";
 import { cookies } from "next/headers";
 
-export async function POST(request: Request) {
+export const POST = async (request: Request) => {
   try {
     const body = await request.json();
 
@@ -38,4 +38,4 @@ export async function POST(request: Request) {
       { status: 500 },
     );
   }
-}
+};
