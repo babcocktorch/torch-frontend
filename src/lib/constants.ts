@@ -10,7 +10,7 @@ import { FaXTwitter } from "react-icons/fa6";
 export const BASE_URL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
-    : "https://babcocktorch.com";
+    : "https://www.babcocktorch.com";
 
 export const BACKEND_BASE_URL = "https://api.babcocktorch.com";
 
@@ -148,6 +148,13 @@ export const CREDENTIALS = {
   clickup_list_id: process.env.CLICKUP_LIST_ID || "",
 
   weather_api_key: process.env.WEATHER_API_KEY || "",
+
+  resend_api_key: process.env.RESEND_API_KEY || "",
+
+  qstash_url: process.env.QSTASH_URL || "",
+  qstash_token: process.env.QSTASH_TOKEN || "",
+  qstash_current_signing_key: process.env.QSTASH_CURRENT_SIGNING_KEY!,
+  qstash_next_signing_key: process.env.QSTASH_NEXT_SIGNING_KEY!,
 };
 
 export const MAJOR_CATEGORIES = [
