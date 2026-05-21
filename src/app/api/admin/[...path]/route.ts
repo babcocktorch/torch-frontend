@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { BACKEND_BASE_URL } from "@/lib/constants";
 import { cookies } from "next/headers";
 
-async function proxyRequest(
+const proxyRequest = async (
   request: NextRequest,
   { params }: { params: Promise<{ path: string[] }> },
-) {
+) => {
   try {
     const { path } = await params;
     const pathString = path.join("/");
@@ -64,7 +64,7 @@ async function proxyRequest(
       { status: 500 },
     );
   }
-}
+};
 
 export const GET = proxyRequest;
 export const POST = proxyRequest;
