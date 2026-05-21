@@ -133,11 +133,7 @@ type BoardSectionProps = {
 const BoardSection = ({ title, members, isAdvisory }: BoardSectionProps) => {
   if (members.length === 0) return null;
 
-  // For Advisory Board: first member is featured, rest are in grid
-  const featuredMember = isAdvisory ? members[0] : null;
-  const gridMembers = isAdvisory ? members.slice(1) : members;
-
-  if (isAdvisory && featuredMember) {
+  if (isAdvisory) {
     return (
       <section className="mb-12">
         {/* Section header with line */}
@@ -147,14 +143,14 @@ const BoardSection = ({ title, members, isAdvisory }: BoardSectionProps) => {
         <div className="h-0.5 bg-gold flex-1 mb-8" />
 
         {/* Featured member — full width, centered, prominent */}
-        <div className="max-w-sm mx-auto mb-10">
+        {/* <div className="max-w-sm mx-auto mb-10">
           <MemberCard member={featuredMember} />
-        </div>
+        </div> */}
 
         {/* Other members in a uniform grid */}
-        {gridMembers.length > 0 && (
+        {members.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {gridMembers.map((member) => (
+            {members.map((member) => (
               <MemberCard key={member._id} member={member} />
             ))}
           </div>
