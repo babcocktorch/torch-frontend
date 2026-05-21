@@ -10,8 +10,9 @@ import { cn } from "@/lib/utils";
 import { miller } from "@/lib/fonts";
 import Link from "next/link";
 import IdeaSubmission from "./general/idea-submission";
+import SubscribeModal from "./general/subscribe-modal";
 import { useEffect, useRef, useState } from "react";
-import { FaYoutube } from "react-icons/fa";
+import { Mail } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { getWeather } from "@/lib/requests";
 
@@ -242,17 +243,16 @@ const Header = () => {
         {pathname === PAGES.home && (
           <div className="w-full border-t">
             <div className="w-full max-w-5xl mx-auto px-6 py-4 flex items-center justify-evenly gap-8">
-              <Link
-                href="https://www.youtube.com/@babcocktorch"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 hover:opacity-80 transition-opacity"
-              >
-                <FaYoutube className="w-7 h-auto text-gold dark:text-white" />
-                <span className="font-medium text-sm">
-                  Subscribe to The Torch
-                </span>
-              </Link>
+              <SubscribeModal
+                trigger={
+                  <button className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer">
+                    <Mail className="w-6 h-auto text-gold dark:text-white" />
+                    <span className="font-medium text-sm">
+                      Subscribe to The Torch
+                    </span>
+                  </button>
+                }
+              />
 
               <IdeaSubmission
                 trigger={
