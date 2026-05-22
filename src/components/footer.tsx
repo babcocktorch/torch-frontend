@@ -10,9 +10,15 @@ import { Button } from "./ui/button";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import IdeaSubmission from "./general/idea-submission";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 const Footer = () => {
   const theme = useAtomValue(app_theme);
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // const logo =
   //   theme === "dark"
@@ -22,10 +28,47 @@ const Footer = () => {
   const logo =
     theme === "dark" ? IMAGES.logos.osgard_white : IMAGES.logos.osgard_gold;
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement newsletter subscription
-    console.log("Subscribe:", email);
+    const trimmed = email.trim();
+
+    if (!trimmed) {
+      toast.error("Please enter your email address.");
+      return;
+    }
+
+    if (!EMAIL_REGEX.test(trimmed)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: trimmed }),
+      });
+
+      if (res.status === 409) {
+        toast.info("You're already subscribed!");
+        setEmail("");
+        return;
+      }
+
+      if (!res.ok) {
+        toast.error("Something went wrong. Please try again.");
+        return;
+      }
+
+      toast.success("You're subscribed! Welcome to The Torch.");
+      setEmail("");
+    } catch {
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -246,8 +289,12 @@ const Footer = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
-              <Button className="bg-gold text-white hover:bg-gold/90">
-                Subscribe
+              <Button className="bg-gold text-white hover:bg-gold/90" disabled={loading}>
+                {loading ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  "Subscribe"
+                )}
               </Button>
             </form>
           </div>
