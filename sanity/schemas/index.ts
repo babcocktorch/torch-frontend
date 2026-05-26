@@ -5,6 +5,7 @@ import author from "./author";
 import masthead from "./masthead";
 import mastheadGuard from "./mastheadGuard";
 import impactStory from "./impactStory";
+import galleryAlbum from "./galleryAlbum";
 
 export const schemaTypes = [
   post,
@@ -14,4 +15,5 @@ export const schemaTypes = [
   masthead,
   mastheadGuard,
   impactStory,
+  galleryAlbum,
 ];
