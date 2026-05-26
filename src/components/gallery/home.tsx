@@ -13,125 +13,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-// ——— Album Data (placeholder — swap with CMS/API later) ———
-
-type GalleryAlbum = {
-  id: string;
-  title: string;
-  description: string;
-  category: string;
-  date: string;
-  photoCount: number;
-  coverUrl: string;
-  externalUrl: string;
-};
-
-const GALLERY_ALBUMS: GalleryAlbum[] = [
-  {
-    id: "1",
-    title: "Founders Day 2025",
-    description:
-      "Celebrating the legacy and vision of Babcock University's founders.",
-    category: "Events",
-    date: "November 2025",
-    photoCount: 84,
-    coverUrl:
-      "https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=600&h=400&fit=crop",
-    externalUrl: "https://photos.google.com",
-  },
-  {
-    id: "2",
-    title: "Homecoming Weekend",
-    description: "Alumni reunions, performances, and campus-wide celebrations.",
-    category: "Events",
-    date: "March 2025",
-    photoCount: 127,
-    coverUrl:
-      "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=400&fit=crop",
-    externalUrl: "https://photos.google.com",
-  },
-  {
-    id: "3",
-    title: "Campus Life — Spring Semester",
-    description: "Day-to-day moments across halls, lecture rooms, and gardens.",
-    category: "Campus Life",
-    date: "January — April 2025",
-    photoCount: 213,
-    coverUrl:
-      "https://images.unsplash.com/photo-1562774053-701939374585?w=600&h=400&fit=crop",
-    externalUrl: "https://photos.google.com",
-  },
-  {
-    id: "4",
-    title: "Interhouse Sports 2025",
-    description: "Track events, basketball finals, and football showdowns.",
-    category: "Sports",
-    date: "February 2025",
-    photoCount: 96,
-    coverUrl:
-      "https://images.unsplash.com/photo-1461896836934-bd45ba8c6e5f?w=600&h=400&fit=crop",
-    externalUrl: "https://photos.google.com",
-  },
-  {
-    id: "5",
-    title: "GDG Babcock Hackathon",
-    description:
-      "48 hours of code, creativity, and collaboration at the dev meetup.",
-    category: "Communities",
-    date: "April 2025",
-    photoCount: 65,
-    coverUrl:
-      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&h=400&fit=crop",
-    externalUrl: "https://photos.google.com",
-  },
-  {
-    id: "6",
-    title: "Graduation Ceremony — Class of 2025",
-    description: "Cap, gown, and memories that last forever.",
-    category: "Events",
-    date: "July 2025",
-    photoCount: 342,
-    coverUrl:
-      "https://images.unsplash.com/photo-1627556704290-2b1f5853ff78?w=600&h=400&fit=crop",
-    externalUrl: "https://photos.google.com",
-  },
-  {
-    id: "7",
-    title: "BUCC Tech Week",
-    description:
-      "Workshops, panels, and networking from Babcock's biggest tech community.",
-    category: "Communities",
-    date: "March 2025",
-    photoCount: 48,
-    coverUrl:
-      "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600&h=400&fit=crop",
-    externalUrl: "https://photos.google.com",
-  },
-  {
-    id: "8",
-    title: "Chapel Week — Spiritual Emphasis",
-    description: "Music, messages, and moments of reflection.",
-    category: "Campus Life",
-    date: "October 2025",
-    photoCount: 55,
-    coverUrl:
-      "https://images.unsplash.com/photo-1507692049790-de58290a4334?w=600&h=400&fit=crop",
-    externalUrl: "https://photos.google.com",
-  },
-];
+import { GalleryAlbum } from "@/lib/types";
+import { urlFor } from "@/lib/sanity.client";
 
 const CATEGORIES = ["All", "Events", "Campus Life", "Sports", "Communities"];
 
 // ——— Component ———
 
-const GalleryContent = () => {
+const GalleryContent = ({ albums }: { albums: GalleryAlbum[] }) => {
   const [categoryFilter, setCategoryFilter] = useState("All");
 
   const filteredAlbums = useMemo(() => {
-    if (categoryFilter === "All") return GALLERY_ALBUMS;
-    return GALLERY_ALBUMS.filter((a) => a.category === categoryFilter);
-  }, [categoryFilter]);
+    if (categoryFilter === "All") return albums || [];
+    return (albums || []).filter((a) => a.category === categoryFilter);
+  }, [categoryFilter, albums]);
 
   return (
     <main className="w-full mb-8">
@@ -228,7 +123,7 @@ const GalleryContent = () => {
         <div className="flex items-center gap-3 mb-8">
           <Filter className="w-4 h-4 text-muted-foreground shrink-0" />
           <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-45">
               <SelectValue placeholder="Filter by category" />
             </SelectTrigger>
             <SelectContent>
@@ -263,7 +158,7 @@ const GalleryContent = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filteredAlbums.map((album) => (
-              <AlbumCard key={album.id} album={album} />
+              <AlbumCard key={album._id} album={album} />
             ))}
           </div>
         )}
@@ -275,6 +170,13 @@ const GalleryContent = () => {
 // ——— Album Card ———
 
 const AlbumCard = ({ album }: { album: GalleryAlbum }) => {
+  const imageUrl = album.coverImage ? urlFor(album.coverImage).url() : "";
+  const dateObj = album.date ? new Date(album.date) : new Date();
+  const formattedDate = new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    year: "numeric",
+  }).format(dateObj);
+
   return (
     <a
       href={album.externalUrl}
@@ -284,11 +186,13 @@ const AlbumCard = ({ album }: { album: GalleryAlbum }) => {
     >
       {/* Cover image */}
       <div className="relative w-full aspect-3/2 bg-muted overflow-hidden">
-        <img
-          src={album.coverUrl}
-          alt={album.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-        />
+        {imageUrl && (
+          <img
+            src={imageUrl}
+            alt={album.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        )}
 
         {/* Photo count badge */}
         <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm text-white text-xs font-medium px-2.5 py-1 rounded-full flex items-center gap-1.5">
@@ -320,7 +224,7 @@ const AlbumCard = ({ album }: { album: GalleryAlbum }) => {
         <div className="flex items-center justify-between mt-1">
           <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
             <Calendar className="w-3 h-3" />
-            {album.date}
+            {formattedDate}
           </div>
           <Badge variant="secondary" className="text-[10px]">
             {album.category}
