@@ -245,3 +245,15 @@ export type ImpactStoryType = {
   isPublished: boolean;
   featured: boolean;
 };
+
+// Gallery types
+export type GalleryAlbum = {
+  _id: string;
+  title: string;
+  description?: string;
+  category: string;
+  date: string;
+  photoCount?: number;
+  coverImage?: any;
+  externalUrl: string;
+};
