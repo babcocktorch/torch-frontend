@@ -14,6 +14,7 @@ import {
   ImpactStoryType,
   OpinionAuthor,
   PostType,
+  GalleryAlbum,
 } from "./types";
 
 export const submitIdea = async (details: FormData) => {
@@ -915,5 +916,32 @@ export const getImpactStory = async (
   } catch (error) {
     console.error(`Failed to fetch impact story ${slug}:`, error);
     return null;
+  }
+};
+
+// ============================================
+// Gallery Functions
+// ============================================
+
+export const getGalleryAlbums = async (): Promise<GalleryAlbum[]> => {
+  const query = groq`
+  *[_type == "galleryAlbum"] | order(date desc) {
+    _id,
+    title,
+    description,
+    category,
+    date,
+    photoCount,
+    coverImage,
+    externalUrl
+  }
+`;
+
+  try {
+    const albums = await sanityClient.fetch(query);
+    return albums as GalleryAlbum[];
+  } catch (error) {
+    console.error("Failed to fetch gallery albums:", error);
+    return [];
   }
 };
