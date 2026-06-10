@@ -951,24 +951,49 @@ export const getGalleryAlbums = async (): Promise<GalleryAlbum[]> => {
 // ============================================
 import { CommentData } from "./types";
 
-export const getComments = async (slug: string): Promise<CommentData[]> => {
+export const getComments = async (
+  slug: string,
+  page: number = 1,
+  limit: number = 10
+): Promise<{ comments: CommentData[]; totalComments: number; hasMore: boolean }> => {
   try {
     const response = await fetch(
-      BACKEND_BASE_URL + BACKEND_API_ROUTES.public.comments(slug),
+      `${BACKEND_BASE_URL}${BACKEND_API_ROUTES.public.comments(slug)}?page=${page}&limit=${limit}`,
       { next: { revalidate: 10 } }
     );
-    if (!response.ok) return [];
+    if (!response.ok) return { comments: [], totalComments: 0, hasMore: false };
     const result = await response.json();
-    return result.data?.comments || [];
+    return result.data || { comments: [], totalComments: 0, hasMore: false };
   } catch (error) {
     console.error("Failed to fetch comments:", error);
-    return [];
+    return { comments: [], totalComments: 0, hasMore: false };
+  }
+};
+
+export const getReplies = async (
+  slug: string,
+  parentId: string,
+  page: number = 1,
+  limit: number = 10
+): Promise<{ replies: CommentData[]; totalReplies: number; hasMore: boolean }> => {
+  try {
+    const response = await fetch(
+      `${BACKEND_BASE_URL}${BACKEND_API_ROUTES.public.comments(slug)}/replies/${parentId}?page=${page}&limit=${limit}`,
+      { next: { revalidate: 10 } }
+    );
+    if (!response.ok) return { replies: [], totalReplies: 0, hasMore: false };
+    const result = await response.json();
+    return result.data || { replies: [], totalReplies: 0, hasMore: false };
+  } catch (error) {
+    console.error("Failed to fetch replies:", error);
+    return { replies: [], totalReplies: 0, hasMore: false };
   }
 };
 
 export const submitComment = async (
   slug: string,
-  body: string
+  body: string,
+  parentId?: string
 ): Promise<{ success: boolean; error?: string }> => {
   try {
     const response = await fetch(
@@ -976,7 +1001,7 @@ export const submitComment = async (
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ body }),
+        body: JSON.stringify({ body, parentId }),
       }
     );
 
