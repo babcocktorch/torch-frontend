@@ -257,3 +257,16 @@ export type GalleryAlbum = {
   coverImage?: any;
   externalUrl: string;
 };
+
+// Comment types
+export type CommentData = {
+  id: string;
+  articleId: string;
+  body: string;
+  isApproved: boolean;
+  createdAt: string;
+  article?: {
+    title: string;
+    slug: string;
+  };
+};
