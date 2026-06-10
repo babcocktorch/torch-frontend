@@ -14,6 +14,7 @@ import {
   Home,
   Users,
   Inbox,
+  MessageSquare,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -37,6 +38,11 @@ const navItems = [
     title: "Submissions",
     href: ADMIN_PAGES.submissions,
     icon: Inbox,
+  },
+  {
+    title: "Comments",
+    href: ADMIN_PAGES.comments,
+    icon: MessageSquare,
   },
 ];
 
