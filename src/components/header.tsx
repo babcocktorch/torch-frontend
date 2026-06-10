@@ -319,7 +319,7 @@ const Header = () => {
       </div>
 
       {/* Spacer to push content down below the fixed small header on mobile/tablet */}
-      <div className="h-[90px] sm:h-[120px] lg:hidden" />
+      <div className="h-22.5 sm:h-30 lg:hidden" />
     </>
   );
 };
