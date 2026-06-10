@@ -343,3 +343,51 @@ export async function getArticleStats(token: string, id: string) {
     token,
   );
 }
+
+// ============================================
+// Comment Admin Functions
+// ============================================
+
+import { CommentData } from "./types";
+
+/**
+ * Get all comments
+ */
+export async function getAdminComments(token: string) {
+  return authFetch<{ comments: CommentData[] }>(
+    BACKEND_API_ROUTES.admin.comments,
+    token,
+  );
+}
+
+/**
+ * Update comment status (approve or reject)
+ */
+export async function updateCommentStatus(
+  token: string,
+  id: string,
+  isApproved: boolean,
+) {
+  return authFetch<{ message: string; comment: CommentData }>(
+    BACKEND_API_ROUTES.admin.commentStatus(id),
+    token,
+    {
+      method: "PATCH",
+      body: JSON.stringify({ isApproved }),
+    },
+  );
+}
+
+/**
+ * Delete a comment
+ */
+export async function deleteComment(token: string, id: string) {
+  return authFetch<{ message: string }>(
+    BACKEND_API_ROUTES.admin.comment(id),
+    token,
+    {
+      method: "DELETE",
+    },
+  );
+}
+
