@@ -353,9 +353,9 @@ import { CommentData } from "./types";
 /**
  * Get all comments
  */
-export async function getAdminComments(token: string) {
-  return authFetch<{ comments: CommentData[] }>(
-    BACKEND_API_ROUTES.admin.comments,
+export async function getAdminComments(token: string, page: number = 1, limit: number = 20, status: string = 'all') {
+  return authFetch<{ comments: CommentData[]; total: number; page: number; totalPages: number }>(
+    `${BACKEND_API_ROUTES.admin.comments}?page=${page}&limit=${limit}&status=${status}`,
     token,
   );
 }
