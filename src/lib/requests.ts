@@ -945,3 +945,48 @@ export const getGalleryAlbums = async (): Promise<GalleryAlbum[]> => {
     return [];
   }
 };
+
+// ============================================
+// Comments Functions
+// ============================================
+import { CommentData } from "./types";
+
+export const getComments = async (slug: string): Promise<CommentData[]> => {
+  try {
+    const response = await fetch(
+      BACKEND_BASE_URL + BACKEND_API_ROUTES.public.comments(slug),
+      { next: { revalidate: 10 } }
+    );
+    if (!response.ok) return [];
+    const result = await response.json();
+    return result.data?.comments || [];
+  } catch (error) {
+    console.error("Failed to fetch comments:", error);
+    return [];
+  }
+};
+
+export const submitComment = async (
+  slug: string,
+  body: string
+): Promise<{ success: boolean; error?: string }> => {
+  try {
+    const response = await fetch(
+      BACKEND_BASE_URL + BACKEND_API_ROUTES.public.comments(slug),
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ body }),
+      }
+    );
+
+    const result = await response.json();
+    if (!response.ok) {
+      return { success: false, error: result.message || "Failed to submit comment" };
+    }
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to submit comment:", error);
+    return { success: false, error: "Network error" };
+  }
+};
