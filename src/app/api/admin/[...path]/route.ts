@@ -28,6 +28,7 @@ const proxyRequest = async (
     headers.delete("cookie");
     headers.delete("content-length");
     headers.delete("connection");
+    headers.delete("transfer-encoding");
 
     const reqBody =
       request.method !== "GET" && request.method !== "HEAD"
