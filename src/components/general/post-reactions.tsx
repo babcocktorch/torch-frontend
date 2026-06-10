@@ -109,9 +109,9 @@ const PostReactions = ({ slug, className }: PostReactionsProps) => {
             onClick={() => handleReaction("upvote")}
             disabled={isSubmitting}
             className={cn(
-              "flex items-center gap-2 px-6 py-2.5 rounded-md transition-all flex-1 justify-center font-medium text-sm border",
+              "flex items-center gap-2 px-6 py-2.5 rounded-md cursor-pointer transition-all flex-1 justify-center font-medium text-sm border",
               userReaction === "upvote"
-                ? "bg-emerald-100 dark:bg-emerald-950 border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300"
+                ? "bg-gold/20 border-gold/50 text-gold dark:bg-gold/10 dark:text-gold"
                 : "bg-secondary hover:bg-muted text-foreground border-border",
               isSubmitting && "opacity-50 cursor-not-allowed",
             )}
@@ -128,9 +128,9 @@ const PostReactions = ({ slug, className }: PostReactionsProps) => {
             onClick={() => handleReaction("downvote")}
             disabled={isSubmitting}
             className={cn(
-              "flex items-center gap-2 px-6 py-2.5 rounded-md transition-all flex-1 justify-center font-medium text-sm border",
+              "flex items-center gap-2 px-6 py-2.5 rounded-md cursor-pointer transition-all flex-1 justify-center font-medium text-sm border",
               userReaction === "downvote"
-                ? "bg-rose-100 dark:bg-rose-950 border-rose-300 dark:border-rose-800 text-rose-700 dark:text-rose-300"
+                ? "bg-muted border-muted-foreground/30 text-muted-foreground dark:bg-muted/50 dark:border-muted-foreground/20 dark:text-muted-foreground"
                 : "bg-secondary hover:bg-muted text-foreground border-border",
               isSubmitting && "opacity-50 cursor-not-allowed",
             )}
@@ -154,24 +154,26 @@ const PostReactions = ({ slug, className }: PostReactionsProps) => {
           <div className="relative h-12 bg-muted rounded-md overflow-hidden flex border">
             {/* Agree Section */}
             <div
-              className="relative bg-emerald-200 dark:bg-emerald-900/50 transition-all duration-500 ease-out flex items-center justify-start px-4"
+              className="relative bg-gold/30 dark:bg-gold/20 transition-all duration-500 ease-out flex items-center justify-start px-4"
               style={{ width: `${agreePercentage}%` }}
             >
               {agreePercentage > 15 && (
-                <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-300 font-medium">
-                  <BiSolidLike className="text-base" />
-                  <span className="text-sm">{agreePercentage.toFixed(0)}%</span>
+                <div className="flex items-center gap-2 text-gold-foreground font-medium">
+                  <BiSolidLike className="text-base text-gold" />
+                  <span className="text-sm text-foreground">
+                    {agreePercentage.toFixed(0)}%
+                  </span>
                 </div>
               )}
             </div>
 
             {/* Disagree Section */}
             <div
-              className="relative bg-rose-200 dark:bg-rose-900/50 transition-all duration-500 ease-out flex items-center justify-end px-4"
+              className="relative bg-muted/80 dark:bg-muted transition-all duration-500 ease-out flex items-center justify-end px-4"
               style={{ width: `${disagreePercentage}%` }}
             >
               {disagreePercentage > 15 && (
-                <div className="flex items-center gap-2 text-rose-700 dark:text-rose-300 font-medium">
+                <div className="flex items-center gap-2 text-muted-foreground font-medium">
                   <span className="text-sm">
                     {disagreePercentage.toFixed(0)}%
                   </span>
@@ -189,12 +191,12 @@ const PostReactions = ({ slug, className }: PostReactionsProps) => {
           {/* Detailed Count */}
           <div className="flex justify-between text-sm text-muted-foreground">
             <span className="flex items-center gap-1.5">
-              <BiSolidLike className="text-base text-emerald-600 dark:text-emerald-400" />
+              <BiSolidLike className="text-base text-gold" />
               {upvoteCount.toLocaleString()}
             </span>
             <span className="flex items-center gap-1.5">
               {downvoteCount.toLocaleString()}
-              <BiSolidDislike className="text-base text-rose-600 dark:text-rose-400" />
+              <BiSolidDislike className="text-base text-muted-foreground" />
             </span>
           </div>
         </div>
