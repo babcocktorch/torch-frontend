@@ -12,7 +12,10 @@ export const BASE_URL =
     ? "http://localhost:3000"
     : "https://www.babcocktorch.com";
 
-export const BACKEND_BASE_URL = "https://api.babcocktorch.com";
+export const BACKEND_BASE_URL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3002"
+    : "https://api.babcocktorch.com";
 
 export const THEME_KEY = "the-babcock-torch-theme";
 
@@ -201,6 +204,7 @@ export const ADMIN_PAGES = {
   articles: "/admin/articles",
   communities: "/admin/communities",
   submissions: "/admin/submissions",
+  comments: "/admin/comments",
 };
 
 export const BACKEND_API_ROUTES = {
@@ -228,6 +232,10 @@ export const BACKEND_API_ROUTES = {
     submissions: "/api/v2/admin/submissions",
     submission: (id: string) => `/api/v2/admin/submissions/${id}`,
     submissionStatus: (id: string) => `/api/v2/admin/submissions/${id}/status`,
+    // Comment management
+    comments: "/api/v2/admin/comments",
+    commentStatus: (id: string) => `/api/v2/admin/comments/${id}/status`,
+    comment: (id: string) => `/api/v2/admin/comments/${id}`,
   },
   // Public article endpoints
   public: {
@@ -240,6 +248,8 @@ export const BACKEND_API_ROUTES = {
     // Public community endpoints
     communities: "/api/v2/communities",
     community: (slug: string) => `/api/v2/communities/${slug}`,
+    // Comments
+    comments: (slug: string) => `/api/v2/comments/${slug}`,
   },
   // Public submission endpoint
   submissions: {
