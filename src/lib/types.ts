@@ -262,6 +262,7 @@ export type GalleryAlbum = {
 export type CommentData = {
   id: string;
   articleId: string;
+  parentId?: string | null;
   body: string;
   isApproved: boolean;
   createdAt: string;
@@ -269,4 +270,10 @@ export type CommentData = {
     title: string;
     slug: string;
   };
+  parent?: {
+    body: string;
+  } | null;
+  replies?: CommentData[];
+  replyCount?: number;
+  hasMoreReplies?: boolean; // Used purely on frontend state to know if more exist
 };
