@@ -13,6 +13,7 @@ import SharePost from "@/components/general/share-post";
 import FeaturedPosts from "@/components/general/featured-posts";
 import PostReactions from "@/components/general/post-reactions";
 import ReadTracker from "@/components/general/read-tracker";
+import { Comments } from "@/components/general/comments";
 import Image from "next/image";
 import Link from "next/link";
 import { isArticlePublic } from "@/lib/requests";
@@ -235,6 +236,7 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
           )}
 
           {!post.isPost && <PostReactions slug={slug} />}
+          {!post.isPost && <Comments slug={slug} />}
 
           {/* Silent read tracking */}
           <ReadTracker slug={slug} />
