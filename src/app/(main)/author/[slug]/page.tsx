@@ -145,7 +145,7 @@ const AuthorPage = async ({
 
                           <div className="flex flex-col gap-2">
                             <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                              {post.isPost ? (
+                              {post.articleType !== "Opinion" ? (
                                 <span className="px-2 py-0.5 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded">
                                   Article
                                 </span>
