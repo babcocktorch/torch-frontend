@@ -140,7 +140,7 @@ export const PAGES = {
   tag: (slug: string) => `/tags/${slug}`,
   post: (slug: string) => `/p/${slug}`,
   author: (slug: string) => `/author/${slug}`,
-  impactStory: (slug: string) => `/communities/stories/${slug}`,
+  impactStory: (slug: string) => `/p/${slug}`,
 };
 
 export const CREDENTIALS = {
