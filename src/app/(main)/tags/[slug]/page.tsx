@@ -56,8 +56,8 @@ const TagPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
   const results = await getPostsByTag(slug);
 
-  const posts = results.filter((post) => post.isPost);
-  const opinions = results.filter((post) => !post.isPost);
+  const posts = results.filter((post) => post.articleType !== "Opinion");
+  const opinions = results.filter((post) => post.articleType === "Opinion");
 
   return (
     <main className="max-w-4xl mx-auto px-6 my-8 w-full min-h-screen">
