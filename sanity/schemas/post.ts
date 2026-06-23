@@ -33,10 +33,34 @@ export default defineType({
       // ],
     }),
     defineField({
-      name: "isPost",
-      title: "Post or Opinion?",
-      type: "boolean",
-      description: "Tick this if this is an actual post and not an opinion",
+      name: "articleType",
+      title: "Article Type",
+      type: "string",
+      options: {
+        list: [
+          { title: "Post", value: "Post" },
+          { title: "Opinion", value: "Opinion" },
+          { title: "Impact Story", value: "Impact Story" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "Post",
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "communitySlug",
+      title: "Community Slug",
+      type: "string",
+      description:
+        "The slug of the community this story belongs to. Only relevant for Impact Stories.",
+      hidden: ({ document }) => document?.articleType !== "Impact Story",
+    }),
+    defineField({
+      name: "communityName",
+      title: "Community Name",
+      type: "string",
+      description: "Display name of the community. Only relevant for Impact Stories.",
+      hidden: ({ document }) => document?.articleType !== "Impact Story",
     }),
     // defineField({
     //   name: "canonicalLink",
@@ -108,19 +132,20 @@ export default defineType({
       isPublished: "isPublished",
       date: "date",
       media: "mainImage",
-      isPost: "isPost",
+      articleType: "articleType",
+      communityName: "communityName",
     },
     prepare: (selection) => {
-      const { isPublished, date, isPost } = selection;
+      const { isPublished, date, articleType, communityName } = selection;
 
-      const type = isPost ? "Post" : "Opinion";
+      const type = articleType || "Post";
+      const community = (type === "Impact Story" && communityName) ? ` • ${communityName}` : "";
 
       return {
         ...selection,
-        ...date,
         subtitle: isPublished
-          ? `${new Date(date).toDateString()} • ${type}`
-          : `Draft • ${type}`,
+          ? `${new Date(date).toDateString()} • ${type}${community}`
+          : `Draft • ${type}${community}`,
       };
     },
   },
