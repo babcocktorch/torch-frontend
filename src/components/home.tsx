@@ -18,8 +18,8 @@ type HomeProps = {
 
 const Home = ({ posts, editorsPickSlugs }: HomeProps) => {
   // Separate news posts and opinions
-  const newsPosts = posts.filter((post) => post.isPost);
-  const opinions = posts.filter((post) => !post.isPost);
+  const newsPosts = posts.filter((post) => post.articleType !== "Opinion");
+  const opinions = posts.filter((post) => post.articleType === "Opinion");
 
   // Find editor's picks from backend (slugs are already sorted newest-first)
   // Fall back to first post if no picks are set
