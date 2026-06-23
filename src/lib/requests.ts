@@ -121,7 +121,7 @@ export const getPosts = async (): Promise<{
   editorsPickSlugs: string[];
 }> => {
   const postsQuery = groq`
-  *[_type == "Post" && isPublished == true] | order(date desc) {
+  *[_type == "Post" && isPublished == true && (articleType == "Post" || !defined(articleType))] | order(date desc) {
     _id,
     title,
     "slug": slug.current,
@@ -130,7 +130,7 @@ export const getPosts = async (): Promise<{
     date,
     isPublished,
     featured,
-    isPost,
+    articleType,
     categories[]->{
       title,
       "slug": slug.current
@@ -170,7 +170,7 @@ export const getOpinions = async (): Promise<{
   featuredOpinionSlug: string | null;
 }> => {
   const opinionsQuery = groq`
-  *[_type == "Post" && isPublished == true && (isPost == false || !defined(isPost))] | order(date desc) {
+  *[_type == "Post" && isPublished == true && articleType == "Opinion"] | order(date desc) {
     _id,
     title,
     "slug": slug.current,
@@ -179,7 +179,7 @@ export const getOpinions = async (): Promise<{
     date,
     isPublished,
     featured,
-    isPost,
+    articleType,
     categories[]->{
       title,
       "slug": slug.current
@@ -235,7 +235,7 @@ export const searchPosts = async (searchTerm: string): Promise<PostType[]> => {
     date,
     isPublished,
     featured,
-    isPost,
+    articleType,
     categories[]->{
       title,
       "slug": slug.current
@@ -282,7 +282,7 @@ export const getPostsByTag = async (tagSlug: string): Promise<PostType[]> => {
     date,
     isPublished,
     featured,
-    isPost,
+    articleType,
     categories[]->{
       title,
       "slug": slug.current
@@ -369,7 +369,7 @@ export const getAuthorPosts = async (authorSlug: string) => {
     date,
     isPublished,
     featured,
-    isPost,
+    articleType,
     categories[]->{
       title
     },
@@ -850,14 +850,15 @@ const IMPACT_STORY_PROJECTION = `{
   communityName,
   date,
   mainImage,
-  author->{
+  authors[]->{
     name,
     "slug": slug.current,
     image
   },
   body,
   isPublished,
-  featured
+  featured,
+  articleType
 }`;
 
 /**
@@ -866,7 +867,7 @@ const IMPACT_STORY_PROJECTION = `{
  */
 export const getImpactStories = async (): Promise<ImpactStoryType[]> => {
   const query = groq`
-  *[_type == "impactStory" && isPublished == true] | order(featured desc, date desc) ${IMPACT_STORY_PROJECTION}
+  *[_type == "Post" && articleType == "Impact Story" && isPublished == true] | order(featured desc, date desc) ${IMPACT_STORY_PROJECTION}
 `;
 
   try {
@@ -885,7 +886,7 @@ export const getImpactStoriesByCommunity = async (
   communitySlug: string,
 ): Promise<ImpactStoryType[]> => {
   const query = groq`
-  *[_type == "impactStory" && isPublished == true && communitySlug == $communitySlug] | order(featured desc, date desc) ${IMPACT_STORY_PROJECTION}
+  *[_type == "Post" && articleType == "Impact Story" && isPublished == true && communitySlug == $communitySlug] | order(featured desc, date desc) ${IMPACT_STORY_PROJECTION}
 `;
 
   try {
@@ -907,7 +908,7 @@ export const getImpactStory = async (
   slug: string,
 ): Promise<ImpactStoryType | null> => {
   const query = groq`
-  *[_type == "impactStory" && slug.current == $slug][0] ${IMPACT_STORY_PROJECTION}
+  *[_type == "Post" && articleType == "Impact Story" && slug.current == $slug][0] ${IMPACT_STORY_PROJECTION}
 `;
 
   try {
