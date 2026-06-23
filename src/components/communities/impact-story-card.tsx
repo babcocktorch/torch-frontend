@@ -64,9 +64,9 @@ const ImpactStoryCard = ({ story }: { story: ImpactStoryType }) => {
 
           {/* Footer: Author + Date */}
           <div className="flex items-center justify-between mt-auto pt-3 text-sm text-muted-foreground">
-            {story.author?.name && (
+            {story.authors && story.authors.length > 0 && (
               <span className="font-medium text-foreground truncate max-w-[60%]">
-                {story.author.name}
+                {story.authors.map((a) => a.name).join(", ")}
               </span>
             )}
             {story.date && (
