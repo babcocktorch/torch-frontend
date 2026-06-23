@@ -21,8 +21,8 @@ const SearchContent = () => {
   const [results, setResults] = useState<PostType[]>([]);
   const [isSearching, setIsSearching] = useState(false);
 
-  const posts = results.filter((post) => post.isPost);
-  const opinions = results.filter((post) => !post.isPost);
+  const posts = results.filter((post) => post.articleType !== "Opinion");
+  const opinions = results.filter((post) => post.articleType === "Opinion");
   const hasSearched = queryTerm.trim().length > 0;
 
   const performSearch = async (term: string) => {
