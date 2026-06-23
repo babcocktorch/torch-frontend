@@ -125,7 +125,7 @@ export default function AdminArticlesPage() {
 
   const handleSetEditorsPick = async (article: AdminArticle) => {
     if (!token) return;
-    if (!article.isPost) {
+    if (article.type.toLowerCase() !== "post") {
       toast.error("Only posts can be set as Editor's Pick");
       return;
     }
@@ -160,7 +160,7 @@ export default function AdminArticlesPage() {
 
   const handleSetFeaturedOpinion = async (article: AdminArticle) => {
     if (!token) return;
-    if (article.isPost) {
+    if (article.type.toLowerCase() === "post") {
       toast.error("Only opinions can be set as Featured Opinion");
       return;
     }
@@ -216,10 +216,10 @@ export default function AdminArticlesPage() {
         matchesFilter = article.visibility === "private";
         break;
       case "posts":
-        matchesFilter = article.isPost;
+        matchesFilter = article.type.toLowerCase() === "post";
         break;
       case "opinions":
-        matchesFilter = !article.isPost;
+        matchesFilter = article.type.toLowerCase() === "opinion";
         break;
     }
 
@@ -360,8 +360,8 @@ export default function AdminArticlesPage() {
                       {article.author}
                     </TableCell>
                     <TableCell>
-                      <Badge variant="outline">
-                        {article.isPost ? "Post" : "Opinion"}
+                      <Badge variant="outline" className="capitalize">
+                        {article.type}
                       </Badge>
                     </TableCell>
                     <TableCell>
@@ -421,7 +421,7 @@ export default function AdminArticlesPage() {
                               </>
                             )}
                           </DropdownMenuItem>
-                          {article.isPost && !article.isEditorsPick && (
+                          {article.type.toLowerCase() === "post" && !article.isEditorsPick && (
                             <DropdownMenuItem
                               onClick={() => handleSetEditorsPick(article)}
                             >
@@ -429,7 +429,7 @@ export default function AdminArticlesPage() {
                               Set as Editor&apos;s Pick
                             </DropdownMenuItem>
                           )}
-                          {article.isPost && article.isEditorsPick && (
+                          {article.type.toLowerCase() === "post" && article.isEditorsPick && (
                             <DropdownMenuItem
                               onClick={() => handleRemoveEditorsPick(article)}
                             >
@@ -437,7 +437,7 @@ export default function AdminArticlesPage() {
                               Remove from Editor&apos;s Pick
                             </DropdownMenuItem>
                           )}
-                          {!article.isPost && !article.isFeaturedOpinion && (
+                          {article.type.toLowerCase() === "opinion" && !article.isFeaturedOpinion && (
                             <DropdownMenuItem
                               onClick={() => handleSetFeaturedOpinion(article)}
                             >
@@ -445,7 +445,7 @@ export default function AdminArticlesPage() {
                               Set as Featured Opinion
                             </DropdownMenuItem>
                           )}
-                          {!article.isPost && article.isFeaturedOpinion && (
+                          {article.type.toLowerCase() === "opinion" && article.isFeaturedOpinion && (
                             <DropdownMenuItem
                               onClick={() =>
                                 handleRemoveFeaturedOpinion(article)
