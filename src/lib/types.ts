@@ -17,7 +17,9 @@ export type PostType = {
   date: string;
   isPublished: boolean;
   featured: boolean;
-  isPost: boolean;
+  articleType: "Post" | "Opinion" | "Impact Story";
+  communitySlug?: string;
+  communityName?: string;
   authors: {
     name: string;
     slug?: string;
@@ -73,7 +75,6 @@ export type AdminArticle = {
   slug: string;
   author: string;
   type: string;
-  isPost: boolean;
   visibility: "public" | "private";
   isEditorsPick: boolean;
   isFeaturedOpinion: boolean;
@@ -236,14 +237,15 @@ export type ImpactStoryType = {
   communityName?: string;
   date: string;
   mainImage?: any;
-  author?: {
+  authors: {
     name: string;
     slug?: string;
     image?: any;
-  };
+  }[];
   body?: PortableTextBlock[];
   isPublished: boolean;
   featured: boolean;
+  articleType: "Post" | "Opinion" | "Impact Story";
 };
 
 // Gallery types
