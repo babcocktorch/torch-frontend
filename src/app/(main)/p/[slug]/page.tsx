@@ -17,6 +17,8 @@ import { Comments } from "@/components/general/comments";
 import Image from "next/image";
 import Link from "next/link";
 import { isArticlePublic } from "@/lib/requests";
+import { ptComponents } from "@/components/general/portable-text-components";
+import { Users } from "lucide-react";
 
 const postQuery = groq`
   *[_type == "Post" && isPublished == true && slug.current == $slug][0] {
@@ -24,7 +26,9 @@ const postQuery = groq`
     title,
     description,
     mainImage,
-    isPost,
+    articleType,
+    communitySlug,
+    communityName,
     body,
     date,
     authors[]->{
@@ -88,73 +92,6 @@ export const generateMetadata = async ({
   };
 };
 
-const ptComponents = {
-  types: {
-    image: ({ value }: { value: any }) => {
-      if (!value?.asset?._ref) {
-        return null;
-      }
-
-      return (
-        <div className="my-8">
-          <img
-            src={urlFor(value).width(1200).fit("max").auto("format").url()}
-            alt={value.alt || "Post Image"}
-            loading="lazy"
-            className="w-full h-auto rounded-sm"
-          />
-          {value.caption && (
-            <p className="text-sm text-muted-foreground mt-2 italic text-center">
-              {value.caption}
-            </p>
-          )}
-        </div>
-      );
-    },
-  },
-  block: {
-    h1: ({ children }: { children?: React.ReactNode }) => (
-      <h1 className="text-3xl font-bold mb-6 mt-8 leading-tight">{children}</h1>
-    ),
-    h2: ({ children }: { children?: React.ReactNode }) => (
-      <h2 className="text-2xl font-semibold mb-4 mt-6 leading-tight">
-        {children}
-      </h2>
-    ),
-    h3: ({ children }: { children?: React.ReactNode }) => (
-      <h3 className="text-xl font-semibold mb-3 mt-5 leading-tight">
-        {children}
-      </h3>
-    ),
-    normal: ({ children }: { children?: React.ReactNode }) => (
-      <p className="mb-4 leading-7 text-foreground">{children}</p>
-    ),
-  },
-  marks: {
-    link: ({
-      children,
-      value,
-    }: {
-      children?: React.ReactNode;
-      value?: { href?: string };
-    }) => {
-      const href = value?.href || "#";
-      const isExternal = href.startsWith("http") || href.startsWith("mailto:");
-      return (
-        <a
-          href={href}
-          className="text-primary underline underline-offset-2 hover:text-primary/80 transition-colors"
-          {...(isExternal && !href.startsWith("mailto:")
-            ? { target: "_blank", rel: "noreferrer noopener" }
-            : {})}
-        >
-          {children}
-        </a>
-      );
-    },
-  },
-};
-
 const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
 
@@ -182,6 +119,21 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
     <main className="w-full max-w-7xl mx-auto px-6 my-8">
       <article className="grid grid-cols-1 lg:grid-cols-[3fr_1fr] relative">
         <div className="min-h-full lg:border-r border-r-0 pb-4 lg:pr-6 px-0">
+          {/* Community Badge for Impact Stories */}
+          {post.articleType === "Impact Story" && post.communityName && (
+            <Link
+              href={
+                post.communitySlug
+                  ? PAGES.community(post.communitySlug)
+                  : PAGES.communities
+              }
+              className="inline-flex items-center gap-2 text-sm text-gold hover:underline mb-4 font-semibold"
+            >
+              <Users className="w-4 h-4" />
+              {post.communityName}
+            </Link>
+          )}
+
           <div className="flex items-center flex-wrap gap-4 text-muted-foreground">
             <div className="flex items-center gap-x-2 text-sm lg:text-base">
               <HiCalendar />
@@ -198,7 +150,7 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
             <h1 className="max-w-3xl font-miller font-semibold tracking-tight sm:text-5xl text-3xl lg:leading-[3.7rem]">
               {post.title}
             </h1>
-            {post.isPost && (
+            {post.articleType !== "Opinion" && (
               <p className="text-base text-muted-foreground leading-relaxed max-w-2xl mt-6">
                 {post.description}
               </p>
@@ -235,8 +187,8 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
             </div>
           )}
 
-          {!post.isPost && <PostReactions slug={slug} />}
-          {!post.isPost && <Comments slug={slug} />}
+          {post.articleType === "Opinion" && <PostReactions slug={slug} />}
+          {post.articleType === "Opinion" && <Comments slug={slug} />}
 
           {/* Silent read tracking */}
           <ReadTracker slug={slug} />
