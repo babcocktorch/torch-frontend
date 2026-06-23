@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 
 const TopStoriesPage = async () => {
   const { posts } = await getPosts();
-  const newsPosts = posts.filter((p) => p.isPost);
+  const newsPosts = posts.filter((p) => p.articleType !== "Opinion");
 
   return <TopStoriesContent posts={newsPosts} />;
 };
