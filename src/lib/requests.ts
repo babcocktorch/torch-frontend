@@ -121,7 +121,7 @@ export const getPosts = async (): Promise<{
   editorsPickSlugs: string[];
 }> => {
   const postsQuery = groq`
-  *[_type == "Post" && isPublished == true && (articleType == "Post" || !defined(articleType))] | order(date desc) {
+  *[_type == "Post" && isPublished == true && (articleType == "Post" || articleType == "Opinion" || !defined(articleType))] | order(date desc) {
     _id,
     title,
     "slug": slug.current,
@@ -955,12 +955,16 @@ import { CommentData } from "./types";
 export const getComments = async (
   slug: string,
   page: number = 1,
-  limit: number = 10
-): Promise<{ comments: CommentData[]; totalComments: number; hasMore: boolean }> => {
+  limit: number = 10,
+): Promise<{
+  comments: CommentData[];
+  totalComments: number;
+  hasMore: boolean;
+}> => {
   try {
     const response = await fetch(
       `${BACKEND_BASE_URL}${BACKEND_API_ROUTES.public.comments(slug)}?page=${page}&limit=${limit}`,
-      { next: { revalidate: 10 } }
+      { next: { revalidate: 10 } },
     );
     if (!response.ok) return { comments: [], totalComments: 0, hasMore: false };
     const result = await response.json();
@@ -975,12 +979,16 @@ export const getReplies = async (
   slug: string,
   parentId: string,
   page: number = 1,
-  limit: number = 10
-): Promise<{ replies: CommentData[]; totalReplies: number; hasMore: boolean }> => {
+  limit: number = 10,
+): Promise<{
+  replies: CommentData[];
+  totalReplies: number;
+  hasMore: boolean;
+}> => {
   try {
     const response = await fetch(
       `${BACKEND_BASE_URL}${BACKEND_API_ROUTES.public.comments(slug)}/replies/${parentId}?page=${page}&limit=${limit}`,
-      { next: { revalidate: 10 } }
+      { next: { revalidate: 10 } },
     );
     if (!response.ok) return { replies: [], totalReplies: 0, hasMore: false };
     const result = await response.json();
@@ -994,7 +1002,7 @@ export const getReplies = async (
 export const submitComment = async (
   slug: string,
   body: string,
-  parentId?: string
+  parentId?: string,
 ): Promise<{ success: boolean; error?: string }> => {
   try {
     const response = await fetch(
@@ -1003,12 +1011,15 @@ export const submitComment = async (
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ body, parentId }),
-      }
+      },
     );
 
     const result = await response.json();
     if (!response.ok) {
-      return { success: false, error: result.message || "Failed to submit comment" };
+      return {
+        success: false,
+        error: result.message || "Failed to submit comment",
+      };
     }
     return { success: true };
   } catch (error) {
