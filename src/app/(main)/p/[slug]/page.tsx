@@ -7,7 +7,7 @@ import { notFound } from "next/navigation";
 import { HiCalendar } from "react-icons/hi";
 import { BiSolidTime } from "react-icons/bi";
 import { Metadata } from "next";
-import { BASE_URL, PAGES } from "@/lib/constants";
+import { BASE_URL, IMAGES, PAGES } from "@/lib/constants";
 import { PostType } from "@/lib/types";
 import SharePost from "@/components/general/share-post";
 import FeaturedPosts from "@/components/general/featured-posts";
@@ -107,6 +107,8 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
   const words = toPlainText(post.body || []);
 
+  const isBimun = post.categories?.some((c: any) => c.slug === "bimun26");
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",
@@ -117,6 +119,46 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
   return (
     <main className="w-full max-w-7xl mx-auto px-6 my-8">
+      {isBimun && (
+        <div className="relative w-full overflow-hidden rounded-2xl bg-slate-900 text-white mb-10 shadow-lg border border-[#3157CC]/30 group">
+          <div className="absolute inset-0 bg-linear-to-br from-[#3157CC]/40 via-transparent to-[#DC9814]/20 opacity-80 group-hover:opacity-100 transition-opacity duration-700"></div>
+
+          <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#3157CC] rounded-full mix-blend-screen filter blur-[3rem] opacity-50 animate-pulse"></div>
+          <div className="absolute top-1/2 -right-12 w-32 h-32 bg-[#FFDC61] rounded-full mix-blend-screen filter blur-[3rem] opacity-30"></div>
+
+          <div className="relative z-10 p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-6">
+              <div className="hidden md:flex shrink-0 w-16 h-16 rounded-full bg-white/5 backdrop-blur-md border border-white/20 items-center justify-center shadow-[0_0_15px_rgba(49,87,204,0.3)] overflow-hidden">
+                <Image
+                  src={IMAGES.bimun_logo.src}
+                  alt="BIMUN Logo"
+                  width={64}
+                  height={64}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="w-2 h-2 rounded-full bg-[#FFDC61] animate-pulse shadow-[0_0_8px_#FFDC61]"></span>
+                  <span className="text-xs font-bold tracking-[0.2em] text-slate-300 uppercase">
+                    International Press
+                  </span>
+                </div>
+                <h2 className="text-2xl md:text-3xl font-miller font-semibold tracking-tight text-white">
+                  BIMUN26 Special Coverage
+                </h2>
+              </div>
+            </div>
+
+            {/* <div className="flex gap-2 w-full md:w-auto opacity-80">
+              <div className="h-1.5 flex-1 md:w-8 bg-[#3157CC] rounded-full"></div>
+              <div className="h-1.5 flex-1 md:w-8 bg-[#FFDC61] rounded-full"></div>
+              <div className="h-1.5 flex-1 md:w-8 bg-[#DC9814] rounded-full"></div>
+              <div className="h-1.5 flex-1 md:w-8 bg-white/80 rounded-full"></div>
+            </div> */}
+          </div>
+        </div>
+      )}
       <article className="grid grid-cols-1 lg:grid-cols-[3fr_1fr] relative">
         <div className="min-h-full lg:border-r border-r-0 pb-4 lg:pr-6 px-0">
           {/* Community Badge for Impact Stories */}
@@ -187,6 +229,43 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
             </div>
           )}
 
+          {isBimun && (
+            <div className="mt-12 relative overflow-hidden rounded-2xl bg-linear-to-br from-[#3157CC]/5 to-[#3157CC]/10 dark:from-[#3157CC]/10 dark:to-transparent border border-[#3157CC]/20 p-6 md:p-8 shadow-sm backdrop-blur-sm group hover:shadow-md transition-all duration-500">
+              <div className="absolute top-0 right-0 p-32 bg-[#3157CC]/5 rounded-full blur-3xl -z-10 group-hover:bg-[#3157CC]/10 transition-colors duration-500"></div>
+
+              <div className="relative z-10 flex flex-col sm:flex-row gap-6 items-start sm:items-center">
+                <div className="shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-[#3157CC]/10 border border-[#3157CC]/20 group-hover:bg-[#3157CC] group-hover:text-white text-[#3157CC] transition-colors duration-500 shadow-sm">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 16v-4" />
+                    <path d="M12 8h.01" />
+                  </svg>
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-[#3157CC] dark:text-[#5c82fb] uppercase tracking-widest mb-2">
+                    BIMUN26 Disclosure
+                  </h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    This article was produced by a delegate of the International
+                    Press Committee at BIMUN26, simulating international press
+                    coverage. It does not represent the named press organization
+                    or the editorial voice of The Babcock Torch.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
           {post.articleType === "Opinion" && <PostReactions slug={slug} />}
           {post.articleType === "Opinion" && <Comments slug={slug} />}
 
@@ -253,7 +332,11 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
                       category.slug ||
                         category.title.toLowerCase().replace(/\s+/g, "-"),
                     )}
-                    className="text-sm px-2.5 py-1 rounded-full font-medium border hover:bg-muted transition-colors"
+                    className={cn(
+                      "text-sm px-2.5 py-1 rounded-full font-medium border hover:bg-muted transition-colors",
+                      category.slug === "bimun26" &&
+                        "bg-[#3157CC] text-white border-[#3157CC] hover:bg-[#3157CC]/90",
+                    )}
                   >
                     {category.title}
                   </Link>
