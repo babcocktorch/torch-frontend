@@ -117,6 +117,11 @@ export const IMAGES = {
     width: 4032,
     height: 3024,
   },
+  bimun_logo: {
+    src: "/images/bimun_logo.jpg",
+    width: 600,
+    height: 480,
+  },
 };
 
 export const PAGES = {
