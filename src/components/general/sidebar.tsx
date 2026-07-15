@@ -8,6 +8,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { MAJOR_CATEGORIES } from "@/lib/constants";
+import { cn } from "@/lib/utils";
 import { Search } from "lucide-react";
 import { Input } from "../ui/input";
 import IdeaSubmission from "./idea-submission";
@@ -61,11 +62,14 @@ const Sidebar = () => {
             </Button>
           </div>
 
-          {MAJOR_CATEGORIES.map((c, i) => (
+          {MAJOR_CATEGORIES.filter((c) => !c.expiresAt || c.expiresAt > new Date()).map((c, i) => (
             <Link href={c.href} key={i}>
               <Button
                 key={i}
-                className="w-full justify-start bg-transparent hover:bg-muted text-black dark:text-white"
+                className={cn(
+                  "w-full justify-start bg-transparent hover:bg-muted text-black dark:text-white",
+                  c.name === "BIMUN26" && "text-[#3157CC] dark:text-[#5c82fb] font-semibold"
+                )}
               >
                 {c.name}
               </Button>
