@@ -89,6 +89,10 @@ const Header = () => {
   // Show small header when large header is off screen OR on small screens
   const showSmallHeader = !isLargeHeaderVisible || !isLargeScreen;
 
+  const activeCategories = MAJOR_CATEGORIES.filter(
+    (c) => !c.expiresAt || c.expiresAt > new Date()
+  );
+
   return (
     <>
       {/* Small Header - slides down from top when needed */}
@@ -154,7 +158,7 @@ const Header = () => {
         {/* Navigation Menu */}
         <nav className="w-full border-t overflow-x-auto scrollbar-hide flex whitespace-nowrap">
           <div className="flex items-center justify-start md:justify-center px-2 py-0.5 flex-1 min-w-max">
-            {MAJOR_CATEGORIES.map((category, i) => (
+            {activeCategories.map((category, i) => (
               <Link href={category.href} key={i}>
                 <div
                   className={cn(
@@ -162,6 +166,7 @@ const Header = () => {
                     pathname === category.href
                       ? "border-primary font-semibold"
                       : "text-muted-foreground hover:text-foreground",
+                    category.name === "BIMUN26" && "text-[#3157CC] dark:text-[#5c82fb] font-semibold",
                   )}
                 >
                   {category.name}
@@ -223,7 +228,7 @@ const Header = () => {
         {/* Navigation Menu */}
         <nav className="w-full">
           <div className="w-full border-b max-w-7xl mx-auto px-6 flex items-center justify-center">
-            {MAJOR_CATEGORIES.map((category, i) => (
+            {activeCategories.map((category, i) => (
               <Link href={category.href} key={i}>
                 <div
                   className={cn(
@@ -231,6 +236,7 @@ const Header = () => {
                     pathname === category.href
                       ? "border-primary font-semibold"
                       : "",
+                    category.name === "BIMUN26" && "text-[#3157CC] dark:text-[#5c82fb] font-semibold",
                   )}
                 >
                   {category.name}
