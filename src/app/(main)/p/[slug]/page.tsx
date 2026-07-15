@@ -139,7 +139,6 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
               </div>
               <div>
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="w-2 h-2 rounded-full bg-[#FFDC61] animate-pulse shadow-[0_0_8px_#FFDC61]"></span>
                   <span className="text-xs font-bold tracking-[0.2em] text-slate-300 uppercase">
                     International Press
                   </span>
@@ -230,39 +229,13 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
           )}
 
           {isBimun && (
-            <div className="mt-12 relative overflow-hidden rounded-2xl bg-linear-to-br from-[#3157CC]/5 to-[#3157CC]/10 dark:from-[#3157CC]/10 dark:to-transparent border border-[#3157CC]/20 p-6 md:p-8 shadow-sm backdrop-blur-sm group hover:shadow-md transition-all duration-500">
-              <div className="absolute top-0 right-0 p-32 bg-[#3157CC]/5 rounded-full blur-3xl -z-10 group-hover:bg-[#3157CC]/10 transition-colors duration-500"></div>
-
-              <div className="relative z-10 flex flex-col sm:flex-row gap-6 items-start sm:items-center">
-                <div className="shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-[#3157CC]/10 border border-[#3157CC]/20 group-hover:bg-[#3157CC] group-hover:text-white text-[#3157CC] transition-colors duration-500 shadow-sm">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="M12 16v-4" />
-                    <path d="M12 8h.01" />
-                  </svg>
-                </div>
-                <div>
-                  <h4 className="text-sm font-bold text-[#3157CC] dark:text-[#5c82fb] uppercase tracking-widest mb-2">
-                    BIMUN26 Disclosure
-                  </h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    This article was produced by a delegate of the International
-                    Press Committee at BIMUN26, simulating international press
-                    coverage. It does not represent the named press organization
-                    or the editorial voice of The Babcock Torch.
-                  </p>
-                </div>
-              </div>
+            <div className="mt-10 border-t pt-6">
+              <p className="text-xs text-muted-foreground/70 leading-relaxed italic">
+                This article was produced by a delegate of the International
+                Press Committee at BIMUN26, simulating international press
+                coverage. It does not represent the named press organization or
+                the editorial voice of The Babcock Torch.
+              </p>
             </div>
           )}
 
