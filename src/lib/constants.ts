@@ -168,6 +168,11 @@ export const CREDENTIALS = {
 export const MAJOR_CATEGORIES = [
   // { name: "Torch AI", href: PAGES.ask_the_torch_ai },
   { name: "News", href: PAGES.home },
+  {
+    name: "BIMUN26",
+    href: PAGES.tag("bimun26"),
+    expiresAt: new Date("2026-08-07T00:00:00+01:00"),
+  },
   { name: "Opinions", href: PAGES.opinions },
   // { name: "Blogs", href: PAGES.blogs },
   { name: "Communities", href: PAGES.communities },
