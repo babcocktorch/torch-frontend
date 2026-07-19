@@ -127,8 +127,8 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
           <div className="absolute top-1/2 -right-12 w-32 h-32 bg-[#FFDC61] rounded-full mix-blend-screen filter blur-[3rem] opacity-30"></div>
 
           <div className="relative z-10 p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-6">
-              <div className="hidden md:flex shrink-0 w-16 h-16 rounded-full bg-white/5 backdrop-blur-md border border-white/20 items-center justify-center shadow-[0_0_15px_rgba(49,87,204,0.3)] overflow-hidden">
+            <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 text-center sm:text-left">
+              <div className="flex shrink-0 w-14 h-14 md:w-16 md:h-16 rounded-full bg-white/5 backdrop-blur-md border border-white/20 items-center justify-center shadow-[0_0_15px_rgba(49,87,204,0.3)] overflow-hidden">
                 <Image
                   src={IMAGES.bimun_logo.src}
                   alt="BIMUN Logo"
@@ -138,12 +138,12 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
                 />
               </div>
               <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xs font-bold tracking-[0.2em] text-slate-300 uppercase">
+                <div className="flex items-center justify-center sm:justify-start gap-2 mb-2">
+                  <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] text-slate-300 uppercase">
                     International Press
                   </span>
                 </div>
-                <h2 className="text-2xl md:text-3xl font-miller font-semibold tracking-tight text-white">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-miller font-semibold tracking-tight text-white">
                   BIMUN26 Special Coverage
                 </h2>
               </div>
