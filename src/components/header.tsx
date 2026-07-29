@@ -90,7 +90,7 @@ const Header = () => {
   const showSmallHeader = !isLargeHeaderVisible || !isLargeScreen;
 
   const activeCategories = MAJOR_CATEGORIES.filter(
-    (c) => !c.expiresAt || c.expiresAt > new Date()
+    (c) => !c.expiresAt || c.expiresAt > new Date(),
   );
 
   return (
@@ -166,7 +166,8 @@ const Header = () => {
                     pathname === category.href
                       ? "border-primary font-semibold"
                       : "text-muted-foreground hover:text-foreground",
-                    category.name === "BIMUN26" && "text-[#3157CC] dark:text-[#5c82fb] font-semibold",
+                    category.name === "BIMUN26 IPC" &&
+                      "text-[#3157CC] dark:text-[#5c82fb] font-semibold",
                   )}
                 >
                   {category.name}
@@ -236,7 +237,8 @@ const Header = () => {
                     pathname === category.href
                       ? "border-primary font-semibold"
                       : "",
-                    category.name === "BIMUN26" && "text-[#3157CC] dark:text-[#5c82fb] font-semibold",
+                    category.name === "BIMUN26 IPC" &&
+                      "text-[#3157CC] dark:text-[#5c82fb] font-semibold",
                   )}
                 >
                   {category.name}
