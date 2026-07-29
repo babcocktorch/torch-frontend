@@ -169,7 +169,7 @@ export const MAJOR_CATEGORIES = [
   // { name: "Torch AI", href: PAGES.ask_the_torch_ai },
   { name: "News", href: PAGES.home },
   {
-    name: "BIMUN26",
+    name: "BIMUN26 IPC",
     href: PAGES.tag("bimun26"),
     expiresAt: new Date("2026-08-07T00:00:00+01:00"),
   },
