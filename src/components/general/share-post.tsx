@@ -5,15 +5,23 @@ import { SharePostProps } from "@/lib/types";
 import { BiLogoWhatsapp } from "react-icons/bi";
 import { FaXTwitter } from "react-icons/fa6";
 
-const SharePost = ({ title, slug, description }: SharePostProps) => {
+const SharePost = ({ title, slug, description, isSimulation }: SharePostProps) => {
   const post = BASE_URL + PAGES.post(slug);
+
+  const twitterPrefix = isSimulation
+    ? `BIMUN26 International Press Committee simulation —`
+    : `Check out this post from @babcocktorch:`;
+
+  const whatsappPrefix = isSimulation
+    ? `BIMUN26 International Press Committee simulation —`
+    : `Check out this post from The Babcock Torch:`;
 
   const options = [
     {
       icon: FaXTwitter,
       name: "Twitter",
       shareUrl: `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-        `Check out this post from @babcocktorch:\n\n"${title}"\n\n${post}`
+        `${twitterPrefix}\n\n"${title}"\n\n${post}`
       )}`,
     },
     // {
@@ -38,7 +46,7 @@ const SharePost = ({ title, slug, description }: SharePostProps) => {
       icon: BiLogoWhatsapp,
       name: "WhatsApp",
       shareUrl: `https://api.whatsapp.com/send?text=${encodeURIComponent(
-        `Check out this post from The Babcock Torch:\n\n"${title}"\n${description}\n\n${post}`
+        `${whatsappPrefix}\n\n"${title}"\n${description}\n\n${post}`
       )}`,
     },
   ];
