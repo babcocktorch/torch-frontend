@@ -170,7 +170,7 @@ export const MAJOR_CATEGORIES = [
   { name: "News", href: PAGES.home },
   {
     name: "BIMUN26 IPC",
-    href: PAGES.tag("bimun26"),
+    href: PAGES.tag("bimun27-ipc"),
     expiresAt: new Date("2026-08-07T00:00:00+01:00"),
   },
   { name: "Opinions", href: PAGES.opinions },
