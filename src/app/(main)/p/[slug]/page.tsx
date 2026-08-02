@@ -59,10 +59,20 @@ export const generateMetadata = async ({
 
   const url = PAGES.post(post.slug);
 
+  const isSimulation = post.categories?.some(
+    (c: any) => c.slug === "bimun27-ipc" || c.slug === "bimun26-ipc"
+  );
+  const descriptionPrefix = isSimulation
+    ? "BIMUN26 International Press Committee simulation — "
+    : "";
+  const metaDescription = post.description
+    ? `${descriptionPrefix}${post.description}`
+    : descriptionPrefix.trim();
+
   return {
     title: post.title,
     metadataBase: new URL(BASE_URL + url),
-    description: post.description,
+    description: metaDescription,
     publisher: post.authors.map((a) => a.name).join(", ") || "Unknown Author",
     keywords: post.categories?.map((category: any) => category.title) || [],
     alternates: {
@@ -74,7 +84,7 @@ export const generateMetadata = async ({
         : "",
       url: BASE_URL + url,
       title: post.title,
-      description: post.description,
+      description: metaDescription,
       type: "article",
       siteName: "The Babcock Torch",
       authors: post.authors.map((a) => a.name).join(", ") || "Unknown Author",
@@ -83,7 +93,7 @@ export const generateMetadata = async ({
     },
     twitter: {
       title: post.title,
-      description: post.description,
+      description: metaDescription,
       images: post.mainImage
         ? urlFor(post.mainImage).width(1200).height(630).url()
         : "",
@@ -107,7 +117,16 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
   const words = toPlainText(post.body || []);
 
-  const isBimun = post.categories?.some((c: any) => c.slug === "bimun26");
+  const isSimulation = post.categories?.some(
+    (c: any) => c.slug === "bimun27-ipc" || c.slug === "bimun26-ipc"
+  );
+
+  const isBimun = post.categories?.some(
+    (c: any) =>
+      c.slug === "bimun26" ||
+      c.slug === "bimun27-ipc" ||
+      c.slug === "bimun26-ipc"
+  );
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
@@ -307,7 +326,9 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
                     )}
                     className={cn(
                       "text-sm px-2.5 py-1 rounded-full font-medium border hover:bg-muted transition-colors",
-                      category.slug === "bimun26" &&
+                      (category.slug === "bimun26" ||
+                        category.slug === "bimun27-ipc" ||
+                        category.slug === "bimun26-ipc") &&
                         "bg-[#3157CC] text-white border-[#3157CC] hover:bg-[#3157CC]/90",
                     )}
                   >
@@ -323,6 +344,7 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
             slug={post.slug}
             description={post.description}
             date={post.date}
+            isSimulation={isSimulation}
           />
 
           <section className="border-b pb-6">
