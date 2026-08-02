@@ -75,6 +75,11 @@ const AuthorPage = async ({
     ? urlFor(author.image).width(400).height(400).url()
     : `https://api.dicebear.com/9.x/lorelei-neutral/png?seed=${author.name}`;
 
+  const isIPC =
+    slug === "international-press-committee" ||
+    slug === "ipc" ||
+    author.name?.toLowerCase().includes("international press committee");
+
   return (
     <main className="w-full max-w-4xl mx-auto px-6 my-8">
       <div className="grid grid-cols-1 gap-8">
@@ -90,10 +95,26 @@ const AuthorPage = async ({
             />
           </div>
 
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col items-center gap-4">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold font-miller">
               {author.name}
             </h1>
+
+            {isIPC && (
+              <div className="mt-2 p-4 sm:p-6 rounded-2xl bg-slate-900 text-white text-left max-w-2xl border border-[#3157CC]/30 shadow-md">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-[10px] font-bold tracking-[0.2em] text-[#FFDC61] uppercase">
+                    BIMUN26 IPC Simulation
+                  </span>
+                </div>
+                <h2 className="text-base sm:text-lg font-semibold mb-2 font-miller text-white">
+                  About the International Press Committee (IPC)
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  Articles published under this profile were produced by delegates of the International Press Committee at BIMUN26, simulating international press coverage. The work published here does not represent the official stance of the named press organizations or the editorial voice of <em>The Babcock Torch</em>.
+                </p>
+              </div>
+            )}
 
             {author.bio && author.bio.length > 0 && (
               <div className="text-muted-foreground max-w-2xl prose prose-sm">
