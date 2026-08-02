@@ -47,6 +47,7 @@ export type SharePostProps = {
   slug: string;
   description: string;
   date: string;
+  isSimulation?: boolean;
 };
 
 export type ComingSoonProps = {
