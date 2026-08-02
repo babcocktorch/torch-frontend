@@ -61,7 +61,7 @@ const TagPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
   return (
     <main className="max-w-4xl mx-auto px-6 my-8 w-full min-h-screen">
-      <div className="mb-12">
+      <div className="mb-8">
         <p className="text-muted-foreground uppercase tracking-widest text-sm font-semibold mb-2">
           Tag Archive
         </p>
@@ -69,6 +69,34 @@ const TagPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
           {tagTitle}
         </h1>
       </div>
+
+      {(slug === "bimun27-ipc" || slug === "bimun26-ipc") && (
+        <div className="mb-10 p-4 sm:p-5 rounded-xl bg-[#3157CC]/10 border border-[#3157CC]/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-sm">
+          <p className="text-muted-foreground">
+            Looking for <strong className="text-foreground">The Torch&apos;s independent coverage</strong> of BIMUN26?
+          </p>
+          <Link
+            href={PAGES.tag("bimun26")}
+            className="inline-flex items-center gap-1 font-semibold text-[#3157CC] dark:text-[#5c82fb] hover:underline shrink-0"
+          >
+            View independent coverage &rarr;
+          </Link>
+        </div>
+      )}
+
+      {slug === "bimun26" && (
+        <div className="mb-10 p-4 sm:p-5 rounded-xl bg-[#3157CC]/10 border border-[#3157CC]/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-sm">
+          <p className="text-muted-foreground">
+            Looking for the <strong className="text-foreground">BIMUN26 International Press Committee</strong> simulation coverage?
+          </p>
+          <Link
+            href={PAGES.tag("bimun27-ipc")}
+            className="inline-flex items-center gap-1 font-semibold text-[#3157CC] dark:text-[#5c82fb] hover:underline shrink-0"
+          >
+            View IPC simulation coverage &rarr;
+          </Link>
+        </div>
+      )}
 
       {results.length === 0 && (
         <p className="font-miller text-xl md:text-2xl font-medium w-full text-center text-muted-foreground py-12">
