@@ -70,7 +70,7 @@ const TagPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
         </h1>
       </div>
 
-      {(slug === "bimun27-ipc" || slug === "bimun26-ipc") && (
+      {(slug === "bimun26-ipc") && (
         <div className="mb-10 p-4 sm:p-5 rounded-xl bg-[#3157CC]/10 border border-[#3157CC]/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-sm">
           <p className="text-muted-foreground">
             Looking for <strong className="text-foreground">The Torch&apos;s independent coverage</strong> of BIMUN26?
@@ -90,7 +90,7 @@ const TagPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
             Looking for the <strong className="text-foreground">BIMUN26 International Press Committee</strong> simulation coverage?
           </p>
           <Link
-            href={PAGES.tag("bimun27-ipc")}
+            href={PAGES.tag("bimun26-ipc")}
             className="inline-flex items-center gap-1 font-semibold text-[#3157CC] dark:text-[#5c82fb] hover:underline shrink-0"
           >
             View IPC simulation coverage &rarr;
