@@ -121,13 +121,6 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
     (c: any) => c.slug === "bimun27-ipc" || c.slug === "bimun26-ipc"
   );
 
-  const isBimun = post.categories?.some(
-    (c: any) =>
-      c.slug === "bimun26" ||
-      c.slug === "bimun27-ipc" ||
-      c.slug === "bimun26-ipc"
-  );
-
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",
@@ -138,7 +131,7 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
   return (
     <main className="w-full max-w-7xl mx-auto px-6 my-8">
-      {isBimun && (
+      {isSimulation && (
         <div className="relative w-full overflow-hidden rounded-2xl bg-slate-900 text-white mb-10 shadow-lg border border-[#3157CC]/30 group">
           <div className="absolute inset-0 bg-linear-to-br from-[#3157CC]/40 via-transparent to-[#DC9814]/20 opacity-80 group-hover:opacity-100 transition-opacity duration-700"></div>
 
@@ -247,7 +240,7 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
             </div>
           )}
 
-          {isBimun && (
+          {isSimulation && (
             <div className="mt-10 border-t pt-6">
               <p className="text-xs text-muted-foreground/70 leading-relaxed italic">
                 This article was produced by a delegate of the International
