@@ -70,7 +70,7 @@ const TagPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
         </h1>
       </div>
 
-      {(slug === "bimun26-ipc") && (
+      {(slug === "bimun26-ipc" || slug === "bimun27-ipc") && (
         <div className="mb-10 p-4 sm:p-5 rounded-xl bg-[#3157CC]/10 border border-[#3157CC]/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-sm">
           <p className="text-muted-foreground">
             Looking for <strong className="text-foreground">The Torch&apos;s independent coverage</strong> of BIMUN26?
