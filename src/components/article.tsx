@@ -52,6 +52,7 @@ const Article = ({ post }: PostProps) => {
               src={urlFor(post.mainImage)
                 .width(500)
                 .height(400)
+                .quality(90)
                 .fit("crop")
                 .url()}
               alt={post.title}
