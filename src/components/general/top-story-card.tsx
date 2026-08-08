@@ -34,6 +34,7 @@ export const TopStoryCard = ({ post }: { post: PostType }) => {
       >
         {post.mainImage ? (
           <Image
+            quality={90}
             src={urlFor(post.mainImage)
               .width(200)
               .height(150)
