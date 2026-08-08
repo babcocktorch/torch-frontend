@@ -14,7 +14,7 @@ export const TopStoryCard = ({ post }: { post: PostType }) => {
     <div className="group flex items-start gap-4">
       {/* Left side: content */}
       <div className="flex-1 min-w-0 pr-1">
-        <Link 
+        <Link
           href={categoryUrl}
           className="text-gold text-[10px] sm:text-xs font-bold uppercase tracking-widest block mb-1 truncate hover:underline w-fit relative z-10"
         >
@@ -28,12 +28,16 @@ export const TopStoryCard = ({ post }: { post: PostType }) => {
       </div>
 
       {/* Right side: image */}
-      <Link href={postUrl} className="w-24 h-20 lg:w-28 lg:h-20 shrink-0 relative overflow-hidden bg-muted block z-0">
+      <Link
+        href={postUrl}
+        className="w-24 h-20 lg:w-28 lg:h-20 shrink-0 relative overflow-hidden bg-muted block z-0"
+      >
         {post.mainImage ? (
           <Image
             src={urlFor(post.mainImage)
               .width(200)
               .height(150)
+              .quality(90)
               .fit("crop")
               .url()}
             alt={post.title}
