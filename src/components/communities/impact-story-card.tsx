@@ -18,6 +18,7 @@ const ImpactStoryCard = ({ story }: { story: ImpactStoryType }) => {
               src={urlFor(story.mainImage)
                 .width(600)
                 .height(375)
+                .quality(90)
                 .fit("crop")
                 .url()}
               alt={story.title}
