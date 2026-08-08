@@ -416,6 +416,7 @@ const MastheadHome = ({ guards, members }: MastheadHomeProps) => {
                       <div className="aspect-4/3 bg-muted rounded-sm relative overflow-hidden">
                         {activeGuard.editorImage && (
                           <Image
+                            quality={90}
                             src={urlFor(activeGuard.editorImage)
                               .width(600)
                               .height(450)
