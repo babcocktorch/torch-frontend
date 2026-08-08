@@ -21,11 +21,11 @@ export const ImpactStoryCard = ({ post }: { post: PostType }) => {
       >
         {post.mainImage ? (
           <Image
-            quality={90}
+            quality={100}
             src={urlFor(post.mainImage)
               .width(400)
               .height(250)
-              .quality(90)
+              .quality(100)
               .fit("crop")
               .url()}
             alt={post.title}
