@@ -60,7 +60,7 @@ export const generateMetadata = async ({
   const url = PAGES.post(post.slug);
 
   const isSimulation = post.categories?.some(
-    (c: any) => c.slug === "bimun27-ipc" || c.slug === "bimun26-ipc"
+    (c: any) => c.slug === "bimun27-ipc" || c.slug === "bimun26-ipc",
   );
   const descriptionPrefix = isSimulation
     ? "BIMUN26 International Press Committee simulation — "
@@ -80,7 +80,7 @@ export const generateMetadata = async ({
     },
     openGraph: {
       images: post.mainImage
-        ? urlFor(post.mainImage).width(1200).height(630).url()
+        ? urlFor(post.mainImage).width(1200).height(630).quality(90).url()
         : "",
       url: BASE_URL + url,
       title: post.title,
@@ -95,7 +95,7 @@ export const generateMetadata = async ({
       title: post.title,
       description: metaDescription,
       images: post.mainImage
-        ? urlFor(post.mainImage).width(1200).height(630).url()
+        ? urlFor(post.mainImage).width(1200).height(630).quality(90).url()
         : "",
       card: "summary_large_image",
     },
@@ -118,7 +118,7 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const words = toPlainText(post.body || []);
 
   const isSimulation = post.categories?.some(
-    (c: any) => c.slug === "bimun27-ipc" || c.slug === "bimun26-ipc"
+    (c: any) => c.slug === "bimun27-ipc" || c.slug === "bimun26-ipc",
   );
 
   const formatDate = (dateString: string) => {
@@ -216,6 +216,7 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
                 <Image
                   src={urlFor(post.mainImage)
                     .width(1200)
+                    .quality(90)
                     .fit("max")
                     .auto("format")
                     .url()}
@@ -270,7 +271,7 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
                   <img
                     src={
                       a.image
-                        ? urlFor(a.image).width(80).height(80).url()
+                        ? urlFor(a.image).width(80).height(80).quality(90).url()
                         : `https://api.dicebear.com/9.x/lorelei-neutral/png?seed=${a.name || "Unknown"}`
                     }
                     alt={a.name || "Unknown Author"}
