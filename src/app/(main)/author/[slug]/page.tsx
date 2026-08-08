@@ -29,7 +29,7 @@ export const generateMetadata = async ({
   }
 
   const authorImageUrl = author.image
-    ? urlFor(author.image).width(800).height(800).url()
+    ? urlFor(author.image).width(800).height(800).quality(90).url()
     : `https://api.dicebear.com/9.x/lorelei-neutral/png?seed=${author.name}`;
 
   return {
@@ -72,7 +72,7 @@ const AuthorPage = async ({
   const posts = await getAuthorPosts(author.slug);
 
   const authorImageUrl = author.image
-    ? urlFor(author.image).width(400).height(400).url()
+    ? urlFor(author.image).width(400).height(400).quality(90).url()
     : `https://api.dicebear.com/9.x/lorelei-neutral/png?seed=${author.name}`;
 
   const isIPC =
@@ -111,7 +111,12 @@ const AuthorPage = async ({
                   About the International Press Committee (IPC)
                 </h2>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  Articles published under this profile were produced by delegates of the International Press Committee at BIMUN26, simulating international press coverage. The work published here does not represent the official stance of the named press organizations or the editorial voice of <em>The Babcock Torch</em>.
+                  Articles published under this profile were produced by
+                  delegates of the International Press Committee at BIMUN26,
+                  simulating international press coverage. The work published
+                  here does not represent the official stance of the named press
+                  organizations or the editorial voice of{" "}
+                  <em>The Babcock Torch</em>.
                 </p>
               </div>
             )}
