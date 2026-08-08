@@ -15,6 +15,7 @@ const ImpactStoryCard = ({ story }: { story: ImpactStoryType }) => {
         <div className="relative w-full aspect-16/10 bg-muted">
           {story.mainImage ? (
             <Image
+              quality={90}
               src={urlFor(story.mainImage)
                 .width(600)
                 .height(375)
