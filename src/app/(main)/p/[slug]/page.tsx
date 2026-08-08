@@ -214,6 +214,7 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
             {post.mainImage && (
               <div className="mx-auto my-4">
                 <Image
+                  quality={90}
                   src={urlFor(post.mainImage)
                     .width(1200)
                     .quality(90)
