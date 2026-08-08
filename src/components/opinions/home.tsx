@@ -205,11 +205,11 @@ const OpinionsHome = ({
                                 <div className="relative w-full aspect-4/3 sm:aspect-16/10 overflow-hidden">
                                   {featuredOpinion.mainImage ? (
                                     <Image
-                                      quality={90}
+                                      quality={100}
                                       src={urlFor(featuredOpinion.mainImage)
                                         .width(800)
                                         .height(500)
-                                        .quality(90)
+                                        .quality(100)
                                         .fit("crop")
                                         .url()}
                                       alt={featuredOpinion.title}
