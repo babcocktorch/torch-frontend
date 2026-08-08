@@ -49,6 +49,7 @@ export default function MostRead({ opinions }: { opinions: PostType[] }) {
               >
                 {opinion.mainImage ? (
                   <Image
+                    quality={90}
                     src={urlFor(opinion.mainImage)
                       .width(600)
                       .height(400)
