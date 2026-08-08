@@ -49,6 +49,7 @@ const Article = ({ post }: PostProps) => {
         <Link href={postUrl} className="block relative">
           {post.mainImage ? (
             <Image
+              quality={90}
               src={urlFor(post.mainImage)
                 .width(500)
                 .height(400)
