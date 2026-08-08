@@ -42,7 +42,7 @@ type MemberCardProps = {
 
 const MemberCard = ({ member }: MemberCardProps) => {
   const imageUrl = member.image
-    ? urlFor(member.image).width(400).height(500).url()
+    ? urlFor(member.image).width(400).height(500).quality(90).url()
     : null;
 
   const hasSocials = member.xUrl || member.linkedinUrl;
@@ -419,6 +419,7 @@ const MastheadHome = ({ guards, members }: MastheadHomeProps) => {
                             src={urlFor(activeGuard.editorImage)
                               .width(600)
                               .height(450)
+                              .quality(90)
                               .url()}
                             alt="Editor"
                             fill
