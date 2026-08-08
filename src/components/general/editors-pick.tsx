@@ -63,11 +63,11 @@ const EditorsPick = ({
           >
             {featuredPost.mainImage ? (
               <Image
-                quality={90}
+                quality={100}
                 src={urlFor(featuredPost.mainImage)
                   .width(800)
                   .height(600)
-                  .quality(90)
+                  .quality(100)
                   .fit("crop")
                   .url()}
                 alt={featuredPost.title}
@@ -101,11 +101,11 @@ const EditorsPick = ({
                 >
                   {pick.mainImage ? (
                     <Image
-                      quality={90}
+                      quality={100}
                       src={urlFor(pick.mainImage)
                         .width(500)
                         .height(312)
-                        .quality(90)
+                        .quality(100)
                         .fit("crop")
                         .url()}
                       alt={pick.title}
