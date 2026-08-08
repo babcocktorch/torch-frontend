@@ -11,7 +11,12 @@ export const ptComponents = {
       return (
         <div className="my-8">
           <img
-            src={urlFor(value).width(1200).fit("max").auto("format").url()}
+            src={urlFor(value)
+              .width(1200)
+              .quality(90)
+              .fit("max")
+              .auto("format")
+              .url()}
             alt={value.alt || "Post Image"}
             loading="lazy"
             className="w-full h-auto rounded-sm"
@@ -27,7 +32,9 @@ export const ptComponents = {
   },
   block: {
     h1: ({ children }: { children?: React.ReactNode }) => (
-      <h1 className="text-3xl font-bold mb-6 mt-8 leading-tight text-foreground">{children}</h1>
+      <h1 className="text-3xl font-bold mb-6 mt-8 leading-tight text-foreground">
+        {children}
+      </h1>
     ),
     h2: ({ children }: { children?: React.ReactNode }) => (
       <h2 className="text-2xl font-semibold mb-4 mt-6 leading-tight text-foreground">
@@ -55,10 +62,14 @@ export const ptComponents = {
   },
   list: {
     bullet: ({ children }: { children?: React.ReactNode }) => (
-      <ul className="list-disc pl-6 mb-4 space-y-1 text-foreground">{children}</ul>
+      <ul className="list-disc pl-6 mb-4 space-y-1 text-foreground">
+        {children}
+      </ul>
     ),
     number: ({ children }: { children?: React.ReactNode }) => (
-      <ol className="list-decimal pl-6 mb-4 space-y-1 text-foreground">{children}</ol>
+      <ol className="list-decimal pl-6 mb-4 space-y-1 text-foreground">
+        {children}
+      </ol>
     ),
   },
   listItem: {
