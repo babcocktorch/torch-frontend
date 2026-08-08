@@ -13,7 +13,7 @@ export const ptComponents = {
           <img
             src={urlFor(value)
               .width(1200)
-              .quality(90)
+              .quality(100)
               .fit("max")
               .auto("format")
               .url()}
