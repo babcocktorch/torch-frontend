@@ -208,6 +208,7 @@ const OpinionsHome = ({
                                       src={urlFor(featuredOpinion.mainImage)
                                         .width(800)
                                         .height(500)
+                                        .quality(90)
                                         .fit("crop")
                                         .url()}
                                       alt={featuredOpinion.title}
