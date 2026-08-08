@@ -63,6 +63,7 @@ const EditorsPick = ({
           >
             {featuredPost.mainImage ? (
               <Image
+                quality={90}
                 src={urlFor(featuredPost.mainImage)
                   .width(800)
                   .height(600)
@@ -100,6 +101,7 @@ const EditorsPick = ({
                 >
                   {pick.mainImage ? (
                     <Image
+                      quality={90}
                       src={urlFor(pick.mainImage)
                         .width(500)
                         .height(312)
