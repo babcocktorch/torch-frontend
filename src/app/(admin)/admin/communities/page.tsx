@@ -582,7 +582,7 @@ export default function AdminCommunitiesPage() {
               Add Community
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[550px]">
+          <DialogContent className="sm:max-w-137.5">
             <DialogHeader>
               <DialogTitle>Create Community</DialogTitle>
               <DialogDescription>
@@ -653,7 +653,7 @@ export default function AdminCommunitiesPage() {
                   <TableHead>Status</TableHead>
                   <TableHead>Submissions</TableHead>
                   <TableHead>Created</TableHead>
-                  <TableHead className="w-[50px]"></TableHead>
+                  <TableHead className="w-12.5"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -757,7 +757,7 @@ export default function AdminCommunitiesPage() {
 
       {/* Edit Dialog */}
       <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
-        <DialogContent className="sm:max-w-[550px]">
+        <DialogContent className="sm:max-w-137.5">
           <DialogHeader>
             <DialogTitle>Edit Community</DialogTitle>
             <DialogDescription>Update community information.</DialogDescription>
