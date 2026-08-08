@@ -80,7 +80,7 @@ export const generateMetadata = async ({
     },
     openGraph: {
       images: post.mainImage
-        ? urlFor(post.mainImage).width(1200).height(630).quality(90).url()
+        ? urlFor(post.mainImage).width(1200).height(630).quality(100).url()
         : "",
       url: BASE_URL + url,
       title: post.title,
@@ -95,7 +95,7 @@ export const generateMetadata = async ({
       title: post.title,
       description: metaDescription,
       images: post.mainImage
-        ? urlFor(post.mainImage).width(1200).height(630).quality(90).url()
+        ? urlFor(post.mainImage).width(1200).height(630).quality(100).url()
         : "",
       card: "summary_large_image",
     },
@@ -214,10 +214,10 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
             {post.mainImage && (
               <div className="mx-auto my-4">
                 <Image
-                  quality={90}
+                  quality={100}
                   src={urlFor(post.mainImage)
                     .width(1200)
-                    .quality(90)
+                    .quality(100)
                     .fit("max")
                     .auto("format")
                     .url()}
@@ -272,7 +272,11 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
                   <img
                     src={
                       a.image
-                        ? urlFor(a.image).width(80).height(80).quality(90).url()
+                        ? urlFor(a.image)
+                            .width(80)
+                            .height(80)
+                            .quality(100)
+                            .url()
                         : `https://api.dicebear.com/9.x/lorelei-neutral/png?seed=${a.name || "Unknown"}`
                     }
                     alt={a.name || "Unknown Author"}
