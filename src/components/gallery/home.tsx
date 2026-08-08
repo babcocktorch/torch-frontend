@@ -171,7 +171,7 @@ const GalleryContent = ({ albums }: { albums: GalleryAlbum[] }) => {
 
 const AlbumCard = ({ album }: { album: GalleryAlbum }) => {
   const imageUrl = album.coverImage
-    ? urlFor(album.coverImage).quality(90).url()
+    ? urlFor(album.coverImage).quality(100).url()
     : "";
   const dateObj = album.date ? new Date(album.date) : new Date();
   const formattedDate = new Intl.DateTimeFormat("en-US", {
