@@ -52,6 +52,7 @@ export default function MostControversial({
                     src={urlFor(opinion.mainImage)
                       .width(600)
                       .height(400)
+                      .quality(90)
                       .fit("crop")
                       .url()}
                     alt={opinion.title}
