@@ -22,6 +22,7 @@ const FeaturedPosts = async ({ slug }: { slug: string }) => {
             >
               {post.mainImage ? (
                 <Image
+                  quality={90}
                   src={urlFor(post.mainImage)
                     .width(400)
                     .quality(90)
