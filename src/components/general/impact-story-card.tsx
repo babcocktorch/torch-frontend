@@ -24,6 +24,7 @@ export const ImpactStoryCard = ({ post }: { post: PostType }) => {
             src={urlFor(post.mainImage)
               .width(400)
               .height(250)
+              .quality(90)
               .fit("crop")
               .url()}
             alt={post.title}
