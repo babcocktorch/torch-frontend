@@ -29,7 +29,7 @@ export const generateMetadata = async ({
   }
 
   const authorImageUrl = author.image
-    ? urlFor(author.image).width(800).height(800).quality(90).url()
+    ? urlFor(author.image).width(800).height(800).quality(100).url()
     : `https://api.dicebear.com/9.x/lorelei-neutral/png?seed=${author.name}`;
 
   return {
@@ -72,7 +72,7 @@ const AuthorPage = async ({
   const posts = await getAuthorPosts(author.slug);
 
   const authorImageUrl = author.image
-    ? urlFor(author.image).width(400).height(400).quality(90).url()
+    ? urlFor(author.image).width(400).height(400).quality(100).url()
     : `https://api.dicebear.com/9.x/lorelei-neutral/png?seed=${author.name}`;
 
   const isIPC =
