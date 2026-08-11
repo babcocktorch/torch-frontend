@@ -10,13 +10,13 @@ interface OpinionsSidebarProps {
 }
 
 const OpinionsSidebar = ({ opinions, authors }: OpinionsSidebarProps) => {
-  // Most Controversial: For now, use random selection as placeholder
-  // Will be replaced with actual vote data when backend is ready
-  const mostControversial = opinions.slice(0, 4);
+  const mostControversial = [...opinions]
+    .sort((a, b) => (b.controversialScore || 0) - (a.controversialScore || 0))
+    .slice(0, 4);
 
-  // Most Read: For now, use most recent as placeholder
-  // Will be replaced with actual view count data when backend is ready
-  const mostRead = opinions.slice(0, 5);
+  const mostRead = [...opinions]
+    .sort((a, b) => (b.readCount || 0) - (a.readCount || 0))
+    .slice(0, 5);
 
   // Opinionists: Authors sorted by opinion count (already sorted from API)
   const topOpinionists = authors.slice(0, 6);
