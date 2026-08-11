@@ -43,6 +43,16 @@ const fetchBackendPublicArticles = async (): Promise<{
   editorsPickSlugs: string[];
   featuredOpinionSlug: string | null;
   readCounts: Record<string, number>;
+  controversialStats: Record<
+    string,
+    {
+      upvotes: number;
+      downvotes: number;
+      agreePct: number;
+      disagreePct: number;
+      controversialScore: number;
+    }
+  >;
 }> => {
   try {
     const response = await fetch(
@@ -57,6 +67,7 @@ const fetchBackendPublicArticles = async (): Promise<{
         editorsPickSlugs: [],
         featuredOpinionSlug: null,
         readCounts: {},
+        controversialStats: {},
       };
     }
 
@@ -65,10 +76,18 @@ const fetchBackendPublicArticles = async (): Promise<{
 
     const publicSlugs = new Set<string>();
     const readCounts: Record<string, number> = {};
+    const controversialStats: Record<string, any> = {};
 
     articles.forEach((a) => {
       publicSlugs.add(a.slug);
       readCounts[a.slug] = a.readCount || 0;
+      controversialStats[a.slug] = {
+        upvotes: a.upvotes ?? 0,
+        downvotes: a.downvotes ?? 0,
+        agreePct: a.agreePct ?? 50,
+        disagreePct: a.disagreePct ?? 50,
+        controversialScore: a.controversialScore ?? 0,
+      };
     });
 
     // Get all editor's picks, sorted by creation date descending (newest first)
@@ -88,6 +107,7 @@ const fetchBackendPublicArticles = async (): Promise<{
       editorsPickSlugs: editorsPicks,
       featuredOpinionSlug: featuredOpinion?.slug || null,
       readCounts,
+      controversialStats,
     };
   } catch (error) {
     console.error("Failed to fetch backend articles:", error);
@@ -96,6 +116,7 @@ const fetchBackendPublicArticles = async (): Promise<{
       editorsPickSlugs: [],
       featuredOpinionSlug: null,
       readCounts: {},
+      controversialStats: {},
     };
   }
 };
@@ -205,6 +226,7 @@ export const getOpinions = async (): Promise<{
       .map((opinion) => ({
         ...opinion,
         readCount: backendInfo.readCounts[opinion.slug] || 0,
+        ...(backendInfo.controversialStats[opinion.slug] || {}),
       }));
 
     return {
