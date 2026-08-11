@@ -12,8 +12,10 @@ export default function MostControversial({
 }: {
   opinions: PostType[];
 }) {
-  // Use the same mock selection logic as sidebar for now (first 5 posts)
-  const topControversial = opinions?.slice(0, 5) || [];
+  // Sort by controversialScore descending and take the top 5
+  const topControversial = [...(opinions || [])]
+    .sort((a, b) => (b.controversialScore || 0) - (a.controversialScore || 0))
+    .slice(0, 5);
 
   return (
     <div className="w-full max-w-7xl mx-auto px-6 py-8">
@@ -33,10 +35,12 @@ export default function MostControversial({
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {topControversial.map((opinion, idx) => {
-          // Mock controversial stat values (e.g., 55/45 split, 51/49) descending slightly
-          const agreePct = 50 + idx * 2;
-          const disagreePct = 100 - agreePct;
+        {topControversial.map((opinion) => {
+          // Use real controversial stat values from the backend
+          const agreePct = opinion.agreePct ?? 50;
+          const disagreePct = opinion.disagreePct ?? 50;
+          const upvotes = opinion.upvotes ?? 0;
+          const downvotes = opinion.downvotes ?? 0;
 
           return (
             <article
@@ -92,26 +96,26 @@ export default function MostControversial({
 
                 <div className="mt-auto pt-4 border-t">
                   <div className="flex items-center justify-between text-xs mb-1.5 font-medium">
-                    <span className="text-emerald-600 flex items-center gap-1">
+                    <span className="text-gold flex items-center gap-1">
                       <BiSolidLike /> Agree
                     </span>
-                    <span className="text-rose-600 flex items-center gap-1">
+                    <span className="text-muted-foreground flex items-center gap-1">
                       Disagree <BiSolidDislike />
                     </span>
                   </div>
                   <div className="h-2 w-full bg-muted rounded-full overflow-hidden flex">
                     <div
-                      className="bg-emerald-500 h-full transition-all duration-1000"
+                      className="bg-gold h-full transition-all duration-1000"
                       style={{ width: `${agreePct}%` }}
                     />
                     <div
-                      className="bg-rose-500 h-full transition-all duration-1000"
+                      className="bg-muted-foreground/30 h-full transition-all duration-1000"
                       style={{ width: `${disagreePct}%` }}
                     />
                   </div>
                   <div className="flex items-center justify-between text-xs mt-1.5 text-muted-foreground">
-                    <span>{agreePct}%</span>
-                    <span>{disagreePct}%</span>
+                    <span>{upvotes.toLocaleString()}</span>
+                    <span>{downvotes.toLocaleString()}</span>
                   </div>
                 </div>
               </div>
