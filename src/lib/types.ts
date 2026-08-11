@@ -31,6 +31,11 @@ export type PostType = {
   }[];
   body: PortableTextBlock[];
   readCount?: number;
+  upvotes?: number;
+  downvotes?: number;
+  agreePct?: number;
+  disagreePct?: number;
+  controversialScore?: number;
 };
 
 export type PostProps = {
